@@ -1,4 +1,4 @@
-# [samuel-friedman-name-project]
+# [temp-name-project]
 
 ## Database Schema Design
 
