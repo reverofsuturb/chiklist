@@ -12,14 +12,14 @@ const router = express.Router();
 
 //Handles validation errors that occur with the body of a request, attached to Log In Route
 const validateLogin = [
-  check('credential')
+  check("credential")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
-  check('password')
+    .withMessage("Please provide a valid email or username."),
+  check("password")
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
-  handleValidationErrors
+    .withMessage("Please provide a password."),
+  handleValidationErrors,
 ];
 
 //Log In Route
@@ -44,6 +44,8 @@ router.post("/", validateLogin, async (req, res, next) => {
   }
 
   const safeUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
     id: user.id,
     email: user.email,
     username: user.username,
@@ -61,6 +63,8 @@ router.get("/", (req, res) => {
   const { user } = req;
   if (user) {
     const safeUser = {
+      firstName: user.firstName,
+      lastName: user.lastName,
       id: user.id,
       email: user.email,
       username: user.username,
