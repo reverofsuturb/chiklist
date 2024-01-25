@@ -41,12 +41,27 @@ router.post("/", async (req, res, next) => {
   });
 });
 
+//Restore session user
+router.get("/", (req, res) => {
+  const { user } = req;
+  if (user) {
+    const safeUser = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    };
+    return res.json({
+      user: safeUser,
+    });
+  } else return res.json({ user: null });
+});
+
+
 //Log Out route; removes the token cookie and returns a JSON success message
+// _req denotes not being used
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
   return res.json({ message: "success" });
 });
-
-
 
 module.exports = router;
