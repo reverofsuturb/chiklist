@@ -1,4 +1,4 @@
-# [temp-name-project]
+# API Database Project
 
 ## Database Schema Design
 
