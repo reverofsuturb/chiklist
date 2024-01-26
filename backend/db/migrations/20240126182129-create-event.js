@@ -11,32 +11,41 @@ module.exports = {
       },
       venueId: {
         type: Sequelize.INTEGER,
+        allowNull: true,
         references: { model: "Venues", foreignKey: "id" },
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         refrences: { model: "Groups", foreignKey: "id" },
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(60),
+        allowNull: false,
       },
       description: {
         type: Sequelize.TEXT,
+        allowNull: false,
       },
       type: {
         type: Sequelize.ENUM,
+        allowNull: false,
       },
       capacity: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       price: {
         type: Sequelize.INTEGER,
+        allowNull: true
       },
       startDate: {
         type: Sequelize.DATE,
+        allowNull: false,
       },
       endDate: {
         type: Sequelize.DATE,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

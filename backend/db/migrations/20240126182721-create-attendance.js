@@ -11,6 +11,7 @@ module.exports = {
       },
       eventId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Events",
           key: "id",
@@ -18,9 +19,15 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
       },
       status: {
         type: Sequelize.ENUM,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

@@ -11,28 +11,35 @@ module.exports = {
       },
       organizerId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Users",
           foreignKey: "id",
         },
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(60),
+        allowNull: false,
       },
       about: {
-        type: Sequelize.TEXT,
+        type: Sequelize.TEXT(255),
+        allowNull: false,
       },
       type: {
         type: Sequelize.ENUM,
+        allowNull: false,
       },
       private: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       city: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

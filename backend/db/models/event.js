@@ -18,15 +18,42 @@ module.exports = (sequelize, DataTypes) => {
   }
   Event.init(
     {
-      venueId: DataTypes.INTEGER,
-      groupId: DataTypes.INTEGER,
-      name: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      type: DataTypes.ENUM,
-      capacity: DataTypes.INTEGER,
-      price: DataTypes.INTEGER,
-      startDate: DataTypes.DATE,
-      endDate: DataTypes.DATE,
+      venueId: { type: DataTypes.INTEGER, allowNull: true },
+      groupId: { type: DataTypes.INTEGER, allowNull: false },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: { len: [5, 60] },
+      },
+      description: { type: DataTypes.TEXT, allowNull: false },
+      type: {
+        type: DataTypes.ENUM,
+        allowNull: false,
+        validate: {
+          isIn: [["Online", "In person"]],
+        },
+      },
+      capacity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      price: { type: DataTypes.INTEGER, allowNull: true },
+      startDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
+          isAfter: this.createdAt,
+        },
+      },
+      endDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
+          isAfter: this.startDate,
+        },
+      },
     },
     {
       sequelize,

@@ -11,6 +11,7 @@ module.exports = {
       },
       eventId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Events",
           key: "id",
@@ -18,9 +19,11 @@ module.exports = {
       },
       url: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       preview: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

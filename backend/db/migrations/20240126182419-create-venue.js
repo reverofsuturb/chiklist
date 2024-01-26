@@ -11,6 +11,7 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Groups",
           primaryKey: "id",
@@ -18,18 +19,23 @@ module.exports = {
       },
       address: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       city: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       lat: {
         type: Sequelize.DECIMAL,
+        allowNull: true,
       },
       lng: {
         type: Sequelize.DECIMAL,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
