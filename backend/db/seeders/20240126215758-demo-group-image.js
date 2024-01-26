@@ -1,25 +1,53 @@
-'use strict';
+"use strict";
+
+const { GroupImage } = require("../models");
+
+let options = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA;
+}
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+  async up(queryInterface, Sequelize) {
+    await GroupImage.bulkCreate(
+      [
+        {
+          groupId: "1",
+          url: "image url 6",
+          preview: true,
+        },
+        {
+          groupId: "2",
+          url: "image url 7",
+          preview: true,
+        },
+        {
+          groupId: "3",
+          url: "image url 8",
+          preview: false,
+        },
+        {
+          groupId: "4",
+          url: "image url 9",
+          preview: false,
+        },
+        {
+          groupId: "5",
+          url: "image url 10",
+          preview: false,
+        },
+      ],
+      { validate: true }
+    );
   },
-
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
-  }
+  async down(queryInterface, Sequelize) {
+    options.tableName = "GroupImages";
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      url: {
+        [Op.substring]: "image url",
+      },
+    });
+  },
 };
