@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Event.hasMany(models.EventImage, { foreignKey: "eventId" });
-      Event.belongsToMany(models.Users, {
+      Event.belongsToMany(models.User, {
         through: models.Attendance,
         foreignKey: "eventId",
         otherKey: "userId",
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: { type: DataTypes.TEXT, allowNull: false },
       type: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isIn: [["Online", "In person"]],
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
-          isAfter: this.createdAt,
+          // isAfter: this.createdAt,
         },
       },
       endDate: {
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
-          isAfter: this.startDate,
+          // isAfter: this.startDate,
         },
       },
     },

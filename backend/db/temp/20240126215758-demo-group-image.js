@@ -1,13 +1,13 @@
 "use strict";
 
-const { GroupImage } = require("../models");
+const { GroupImage } = require("../../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
 
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await GroupImage.bulkCreate(

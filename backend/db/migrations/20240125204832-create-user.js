@@ -11,43 +11,43 @@ module.exports = {
       "Users",
       {
         id: {
+          type: Sequelize.INTEGER,
           allowNull: false,
           autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.INTEGER,
+          primaryKey: true
         },
         firstName: {
           type: Sequelize.STRING(20),
-          allowNull: false,
+          allowNull: false
         },
         lastName: {
           type: Sequelize.STRING(20),
-          allowNull: false,
+          allowNull: false
         },
         username: {
           type: Sequelize.STRING(30),
           allowNull: false,
-          unique: true,
+          unique: true
         },
         email: {
           type: Sequelize.STRING(256),
           allowNull: false,
-          unique: true,
+          unique: true
         },
         hashedPassword: {
           type: Sequelize.STRING.BINARY,
-          allowNull: false,
+          allowNull: false
         },
         createdAt: {
-          allowNull: false,
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
         },
         updatedAt: {
-          allowNull: false,
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-        },
+          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        }
       },
       options
     );

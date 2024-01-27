@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: { type: DataTypes.INTEGER, allowNull: false },
       groupId: { type: DataTypes.INTEGER, allowNull: false },
       status: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isIn: [["co-host", "organizer", "member", "pending"]],

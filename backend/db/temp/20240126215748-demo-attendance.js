@@ -1,13 +1,13 @@
 "use strict";
 
-const { Attendance } = require("../models");
+const { Attendance } = require("../../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
 
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await Attendance.bulkCreate(

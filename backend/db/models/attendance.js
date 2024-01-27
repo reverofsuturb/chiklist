@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       eventId: { type: DataTypes.INTEGER, allowNull: false },
       userId: { type: DataTypes.INTEGER, allowNull: false },
       status: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isIn: [["attending", "waitlist", "pending"]],

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "groupId",
         otherKey: "userId",
       });
-      Group.belongsToMany(models.Venues, {
+      Group.belongsToMany(models.Venue, {
         through: models.Event,
         foreignKey: "groupId",
         otherKey: "venueId",
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       type: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isIn: [["Online", "In person"]],
