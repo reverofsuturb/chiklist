@@ -17,12 +17,15 @@ module.exports = {
       venueId: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        references: { model: "Venues", foreignKey: "id" },
+        references: { model: "Venues", key: "id" },
       },
       groupId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        refrences: { model: "Groups", foreignKey: "id" },
+        // references: {
+        //   model: "Groups",
+        //   key: "id",
+        // },
       },
       name: {
         type: Sequelize.STRING(60),
@@ -41,7 +44,7 @@ module.exports = {
         allowNull: false,
       },
       price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL,
         allowNull: true
       },
       startDate: {

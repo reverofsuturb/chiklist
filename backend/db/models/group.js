@@ -15,12 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "groupId",
         otherKey: "userId",
       });
-      Group.belongsToMany(models.Venue, {
-        through: models.Event,
-        foreignKey: "groupId",
-        otherKey: "venueId",
-      });
-      Group.belongsTo(models.User, { foreignKey: "organizerId" });
+      Group.hasMany(models.Venue, { foreignKey: "groupId" });
+
+      //not in use
+      // Group.hasMany(models.Membership, { foreignKey: "groupId" })
+      // Group.belongsToMany(models.Venue, {
+      //   through: models.Event,
+      //   foreignKey: "groupId",
+      //   otherKey: "venueId",
+      // });
+      Group.belongsTo(models.User, {foreignKey: 'organizerId'});
     }
   }
   Group.init(

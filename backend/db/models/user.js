@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         otherKey: "groupId",
       });
-      User.belongsTo(models.Group, { foreignKey: "organizerId" });
+
+      User.hasMany(models.Group, { foreignKey: "organizerId" });
+      //not in use
+      // User.hasMany(models.Attendance, { foreignKey: "userId" });
+      // User.hasMany(models.Membership, { foreignKey: "userId" });
     }
   }
 
@@ -26,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [1, 20],
           isAlpha: true,
-        }
+        },
       },
       lastName: {
         type: DataTypes.STRING,
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [1, 20],
           isAlpha: true,
-        }
+        },
       },
       username: {
         type: DataTypes.STRING,
@@ -46,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
               throw new Error("Cannot be an email.");
             }
           },
-        }
+        },
       },
       email: {
         type: DataTypes.STRING,
@@ -54,15 +58,15 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [3, 256],
           isEmail: true,
-        }
+        },
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
           len: [60, 60],
-        }
-      }
+        },
+      },
     },
     {
       sequelize,

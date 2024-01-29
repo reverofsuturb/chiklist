@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: "Groups",
-          primaryKey: "id",
+          key: "id",
         },
       },
       address: {

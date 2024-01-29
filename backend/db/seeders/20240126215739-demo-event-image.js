@@ -1,40 +1,39 @@
 "use strict";
 
-const { GroupImage } = require("../../models");
+const { EventImage } = require("../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
 
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await GroupImage.bulkCreate(
+    await EventImage.bulkCreate(
       [
         {
-          groupId: "1",
-          url: "image url 6",
+          eventId: 1,
+          url: "image url 1",
           preview: true,
         },
         {
-          groupId: "2",
-          url: "image url 7",
+          eventId: 2,
+          url: "image url 2",
           preview: true,
         },
         {
-          groupId: "3",
-          url: "image url 8",
+          eventId: 3,
+          url: "image url 3",
           preview: false,
         },
         {
-          groupId: "4",
-          url: "image url 9",
+          eventId: 4,
+          url: "image url 4",
           preview: false,
         },
         {
-          groupId: "5",
-          url: "image url 10",
+          eventId: 5,
+          url: "image url 5",
           preview: false,
         },
       ],
@@ -42,7 +41,7 @@ module.exports = {
     );
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "GroupImages";
+    options.tableName = "EventImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       url: {

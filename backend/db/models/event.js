@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "eventId",
         otherKey: "userId",
       });
+      Event.belongsTo(models.Venue, { foreignKey: "venueId" });
+      Event.belongsTo(models.Group, { foreignKey: "groupId" });
+
+      // not in use
+      // Event.hasMany(models.Attendance, { foreignKey: "eventId" });
     }
   }
   Event.init(
@@ -37,21 +42,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      price: { type: DataTypes.INTEGER, allowNull: true },
+      price: { type: DataTypes.DECIMAL, allowNull: true },
       startDate: {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
-          // isAfter: this.createdAt,
+          // is: /"\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d"/g,
+          // isAfter: this.createdAt
         },
       },
       endDate: {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          is: /\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d/g,
-          // isAfter: this.startDate,
+          // is: /"\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d"/g,
+          // isAfter: this.createdAt
         },
       },
     },
