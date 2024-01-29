@@ -12,7 +12,7 @@ module.exports = {
     await Event.bulkCreate(
       [
         {
-          venueId: null,
+          venueId: 1,
           groupId: 1,
           name: "AVinterestingevent",
           description:
@@ -24,8 +24,8 @@ module.exports = {
           endDate: "2024-03-07 02:00:00",
         },
         {
-          venueId: null,
-          groupId: 3,
+          venueId: 2,
+          groupId: 2,
           name: "BXinterestingevent",
           description:
             "welcome to a beautiful mystery theatre where we are hosting this wonderful mystery event",
@@ -36,8 +36,8 @@ module.exports = {
           endDate: "2024-03-07 02:00:00",
         },
         {
-          venueId: null,
-          groupId: 2,
+          venueId: 3,
+          groupId: 3,
           name: "CDinterestingevent",
           description:
             "welcome to a beautiful mystery theatre where we are hosting this wonderful mystery event",
@@ -48,8 +48,8 @@ module.exports = {
           endDate: "2024-03-07 02:00:00",
         },
         {
-          venueId: null,
-          groupId: 5,
+          venueId: 4,
+          groupId: 4,
           name: "EFinterestingevent",
           description:
             "welcome to a beautiful mystery theatre where we are hosting this wonderful mystery event",
@@ -60,8 +60,8 @@ module.exports = {
           endDate: "2024-03-07 02:00:00",
         },
         {
-          venueId: null,
-          groupId: 4,
+          venueId: 5,
+          groupId: 5,
           name: "GHinterestingevent",
           description:
             "welcome to a beautiful mystery theatre where we are hosting this wonderful mystery event",
