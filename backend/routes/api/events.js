@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
 const requireAuth = require("../../utils/auth");
+const { Op } = require("sequelize");
 
 const {
   Group,
@@ -17,7 +17,30 @@ const {
 //Get all Events
 
 router.get("/", async (req, res) => {
+  let { page, size, name, type, startDate } = req.query;
+
+  page ? (page = parseInt(page)) : (page = 1);
+  size ? (size = parseInt(size)) : (size = 20);
+  if (isNaN(page)) {
+    page = 1;
+  }
+  if (isNaN(size)) {
+    size = 20;
+  }
+  let pagination = {
+    limit: size,
+    offset: size * (page - 1),
+  };
+
+  let where = {};
+  name ? (where.name = { [Op.substring]: name }) : where.name;
+  type ? (where.type = { [Op.substring]: type }) : where.type;
+  startDate
+    ? (where.startDate = { [Op.substring]: startDate })
+    : where.startDate;
+
   const getAllEvents = await Event.findAll({
+    where,
     attributes: [
       "id",
       "groupId",
@@ -33,6 +56,7 @@ router.get("/", async (req, res) => {
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
+    ...pagination,
   });
 
   res.json(getAllEvents);
