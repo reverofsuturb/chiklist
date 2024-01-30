@@ -38,6 +38,18 @@ router.get("/", async (req, res) => {
   res.json(getAllEvents);
 });
 
+// Get all Attendees of an Event specified by its id
+
+router.get("/:eventId/attendees", async (req, res) => {
+  const getAttendees = await Attendance.findAll({
+    where: { eventId: req.params.eventId },
+    attributes: ["status"],
+    include: { model: User, attributes: ["firstName", "lastName"] },
+  });
+
+  res.json(getAttendees);
+});
+
 //Get details of an Event specified by its id
 
 router.get("/:eventId", async (req, res) => {
@@ -62,6 +74,19 @@ router.get("/:eventId", async (req, res) => {
   res.json(getEventById);
 });
 
+//Request to Attend an Event based on the Event's id
+
+router.post("/:eventId/attendance", async (req, res) => {
+  const { user } = req;
+  const requestAttendance = await Attendance.create({
+    eventId: req.params.eventId,
+    userId: user.id,
+    status: "pending",
+  });
+
+  res.json(requestAttendance);
+});
+
 //Add an Image to an Event based on the Event's id
 
 router.post("/:eventId/images", async (req, res) => {
@@ -73,6 +98,18 @@ router.post("/:eventId/images", async (req, res) => {
   });
 
   res.json(createEventImageById);
+});
+
+//Change the status of an attendance for an event specified by id
+
+router.put("/:eventId/attendance", async (req, res) => {
+  const { userId, status } = req.body;
+  const changeAttendStatus = await Attendance.findOne({
+    where: { eventId: req.params.eventId, userId },
+  });
+  status ? (changeAttendStatus.status = status) : changeAttendStatus.status;
+  changeAttendStatus.save();
+  res.json(changeAttendStatus);
 });
 
 //Edit an Event specified by its id
@@ -103,6 +140,16 @@ router.put("/:eventId", async (req, res) => {
   await editEvent.save();
 
   res.json(editEvent);
+});
+
+//Delete attendance to an event specified by id
+
+router.delete("/:eventId/attendance/:userId", async (req, res) => {
+  const deleteAttendance = await Attendance.findOne({
+    where: { eventId: req.params.eventId, userId: req.params.userId },
+  });
+  await deleteAttendance.destroy();
+  res.json({ message: "Successfully deleted attendance from event" });
 });
 
 //Delete an Event specified by its id
