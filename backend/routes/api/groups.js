@@ -13,6 +13,8 @@ const {
   Attendance,
 } = require("../../db/models");
 
+//Get all Groups
+
 router.get("/", async (req, res) => {
   const where = {};
   const numMembers = await Membership.count({
@@ -38,6 +40,8 @@ router.get("/", async (req, res) => {
   res.json(getAllGroups);
 });
 
+//Get all Groups joined or organized by the Current User
+
 router.get("/current", async (req, res) => {
   const { user } = req;
   console.log(user);
@@ -48,6 +52,8 @@ router.get("/current", async (req, res) => {
 
   res.json(getCurrentUserGroups);
 });
+
+//Get all Events of a Group specified by its id
 
 router.get("/:groupId/events", async (req, res) => {
   const getEventsByGroupId = await Event.findAll({
@@ -71,6 +77,8 @@ router.get("/:groupId/events", async (req, res) => {
   res.json({ getEventsByGroupId });
 });
 
+//Get All Venues for a Group specified by its id
+
 router.get("/:groupId/venues", async (req, res) => {
   const getVenueByGroupId = await Venue.findAll({
     where: { groupId: req.params.groupId },
@@ -78,12 +86,40 @@ router.get("/:groupId/venues", async (req, res) => {
   res.json(getVenueByGroupId);
 });
 
+//Get details of a Group from an id
+
 router.get("/:groupId", async (req, res) => {
   const getGroupById = await Group.findByPk(req.params.groupId, {
     include: [{ model: GroupImage }, { model: Membership }, { model: Venue }],
   });
   res.json(getGroupById);
 });
+
+//Get all Members of a Group specified by its id
+
+router.get("/:groupId/members", async (req, res) => {
+  const getMembersByGroupId = await Membership.findAll({
+    where: { groupId: req.params.groupId },
+    attributes: ["status"],
+    include: { model: User, attributes: ["firstName", "lastName"] },
+  });
+  res.json(getMembersByGroupId);
+});
+
+//Request a Membership for a Group based on the Group's id
+
+router.post("/:groupId/membership", async (req, res) => {
+  const { user } = req;
+  const requestMembership = await Membership.create({
+    groupId: req.params.groupId,
+    userId: user.id,
+    status: "pending",
+  });
+
+  res.json(requestMembership);
+});
+
+//Create an Event for a Group specified by its id
 
 router.post("/:groupId/events", async (req, res) => {
   const {
@@ -111,6 +147,8 @@ router.post("/:groupId/events", async (req, res) => {
   res.json(createEventByGroupId);
 });
 
+//Add an Image to a Group based on the Group's id
+
 router.post("/:groupId/images", async (req, res) => {
   const { url, preview } = req.body;
   const createGroupImage = await GroupImage.create({
@@ -120,6 +158,8 @@ router.post("/:groupId/images", async (req, res) => {
   });
   res.json(createGroupImage);
 });
+
+//Create a new Venue for a Group specified by its id
 
 router.post("/:groupId/venues", async (req, res) => {
   const { address, city, state, lat, lng } = req.body;
@@ -134,6 +174,8 @@ router.post("/:groupId/venues", async (req, res) => {
 
   res.json(createVenuebyGroupId);
 });
+
+//Create a Group
 
 router.post("/", async (req, res) => {
   const { user } = req;
@@ -151,6 +193,21 @@ router.post("/", async (req, res) => {
   res.json(createGroup);
 });
 
+//Change the status of a membership for a group specified by id
+
+router.put("/:groupId/membership", async (req, res) => {
+  const { memberId, status } = req.body;
+  const changeMemberStatus = await Membership.findOne({
+    where: { groupId: req.params.groupId, userId: memberId },
+  });
+
+  status ? (changeMemberStatus.status = status) : changeMemberStatus.status;
+  await changeMemberStatus.save();
+  res.json(changeMemberStatus);
+});
+
+//Edit a Group
+
 router.put("/:groupId", async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
   const editGroup = await Group.findByPk(req.params.groupId);
@@ -165,6 +222,18 @@ router.put("/:groupId", async (req, res) => {
   await editGroup.save();
   res.json(editGroup);
 });
+
+//Delete membership to a group specified by id
+
+router.delete("/:groupId/membership/:memberId", async (req, res) => {
+  const deleteMember = await Membership.findOne({
+    where: { groupId: req.params.groupId, userId: req.params.memberId },
+  });
+  await deleteMember.destroy();
+  res.json({ message: "Successfully deleted membership from group" });
+});
+
+//Delete a Group
 
 router.delete("/:groupId", async (req, res) => {
   const deleteGroup = await Group.findByPk(req.params.groupId);

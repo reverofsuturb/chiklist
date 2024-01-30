@@ -14,6 +14,8 @@ const {
   Attendance,
 } = require("../../db/models");
 
+//Edit a Venue specified by its id
+
 router.put("/:venueId", async (req, res) => {
   const { address, city, state, lat, lng } = req.body;
   const editVenue = await Venue.findOne({ where: { id: req.params.venueId } });

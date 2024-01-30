@@ -14,6 +14,8 @@ const {
   Attendance,
 } = require("../../db/models");
 
+//Get all Events
+
 router.get("/", async (req, res) => {
   const getAllEvents = await Event.findAll({
     attributes: [
@@ -35,6 +37,8 @@ router.get("/", async (req, res) => {
 
   res.json(getAllEvents);
 });
+
+//Get details of an Event specified by its id
 
 router.get("/:eventId", async (req, res) => {
   const getEventById = await Event.findByPk(req.params.eventId, {
@@ -58,6 +62,8 @@ router.get("/:eventId", async (req, res) => {
   res.json(getEventById);
 });
 
+//Add an Image to an Event based on the Event's id
+
 router.post("/:eventId/images", async (req, res) => {
   const { url, preview } = req.body;
   const createEventImageById = await EventImage.create({
@@ -68,6 +74,8 @@ router.post("/:eventId/images", async (req, res) => {
 
   res.json(createEventImageById);
 });
+
+//Edit an Event specified by its id
 
 router.put("/:eventId", async (req, res) => {
   const {
@@ -96,6 +104,8 @@ router.put("/:eventId", async (req, res) => {
 
   res.json(editEvent);
 });
+
+//Delete an Event specified by its id
 
 router.delete("/:eventId", async (req, res) => {
   const deleteEvent = await Event.findByPk(req.params.eventId);
