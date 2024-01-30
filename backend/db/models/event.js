@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsTo(models.Group, { foreignKey: "groupId" });
 
       // not in use
-      // Event.hasMany(models.Attendance, { foreignKey: "eventId" });
+      Event.hasMany(models.Attendance, { foreignKey: "eventId" });
     }
   }
   Event.init(

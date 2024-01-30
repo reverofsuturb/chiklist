@@ -10,9 +10,8 @@ const {
   User,
   Venue,
   EventImage,
-  Attendance
+  Attendance,
 } = require("../../db/models");
-
 
 router.get("/", async (req, res) => {
   const where = {};
@@ -50,6 +49,28 @@ router.get("/current", async (req, res) => {
   res.json(getCurrentUserGroups);
 });
 
+router.get("/:groupId/events", async (req, res) => {
+  const getEventsByGroupId = await Event.findAll({
+    where: { groupId: req.params.groupId },
+    attributes: [
+      "id",
+      "groupId",
+      "venueId",
+      "name",
+      "type",
+      "startDate",
+      "endDate",
+    ],
+    include: [
+      { model: Attendance },
+      { model: EventImage, attributes: [["preview", "previewImage"]] },
+      { model: Group, attributes: ["id", "name", "city", "state"] },
+      { model: Venue, attributes: ["id", "city", "state"] },
+    ],
+  });
+  res.json({ getEventsByGroupId });
+});
+
 router.get("/:groupId/venues", async (req, res) => {
   const getVenueByGroupId = await Venue.findAll({
     where: { groupId: req.params.groupId },
@@ -62,6 +83,32 @@ router.get("/:groupId", async (req, res) => {
     include: [{ model: GroupImage }, { model: Membership }, { model: Venue }],
   });
   res.json(getGroupById);
+});
+
+router.post("/:groupId/events", async (req, res) => {
+  const {
+    venueId,
+    name,
+    type,
+    capacity,
+    price,
+    description,
+    startDate,
+    endDate,
+  } = req.body;
+  const createEventByGroupId = await Event.create({
+    venueId,
+    groupId: req.params.groupId,
+    name,
+    type,
+    capacity,
+    price,
+    description,
+    startDate,
+    endDate,
+  });
+
+  res.json(createEventByGroupId);
 });
 
 router.post("/:groupId/images", async (req, res) => {

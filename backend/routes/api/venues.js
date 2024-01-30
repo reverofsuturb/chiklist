@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const requireAuth = require("../../utils/auth");
 
 const {
@@ -27,5 +28,7 @@ router.put("/:venueId", async (req, res) => {
 
   res.json(editVenue);
 });
+
+
 
 module.exports = router;
