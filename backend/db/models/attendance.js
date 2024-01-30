@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
 
 
       //not in use
-      // Attendance.belongsTo(models.Event, { foreignKey: "eventId" });
-      // Attendance.belongsTo(models.User, { foreignKey: "userId" });
+      Attendance.belongsTo(models.Event, { foreignKey: "eventId" });
+      Attendance.belongsTo(models.User, { foreignKey: "userId" });
     }
   }
   Attendance.init(
