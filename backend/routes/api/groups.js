@@ -2,37 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth");
 
-const { check } = require("express-validator");
-const { handleValidationErrors } = require("../../utils/validation");
-
-//Create a Group Validation Error Handling Middleware
-const validateGroup = [
-  check("name")
-    .exists({ checkFalsy: true })
-    .isLength({ max: 60 })
-    .withMessage("Name must be 60 characters or less"),
-  check("about")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 50 })
-    .withMessage("About must be 50 characters or more"),
-  check("type")
-    .exists({ checkFalsy: true })
-    .isIn(["Online", "In person"])
-    .withMessage("Type must be 'Online' or 'In person'"),
-  check("private")
-    .exists({ checkFalsy: true })
-    .isBoolean()
-    .withMessage("Private must be a boolean"),
-  check("city")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("City is required"),
-  check("state")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("State is required"),
+const {
   handleValidationErrors,
-];
+  validateGroup,
+  validateVenue,
+} = require("../../utils/validation");
 
 const {
   Group,
@@ -156,11 +130,31 @@ router.get("/:groupId/events", async (req, res) => {
 
 //Get All Venues for a Group specified by its id
 
-router.get("/:groupId/venues", async (req, res) => {
-  const getVenueByGroupId = await Venue.findAll({
-    where: { groupId: req.params.groupId },
+router.get("/:groupId/venues", requireAuth, async (req, res) => {
+  const { user } = req;
+  const getGroupById = await Group.findByPk(req.params.groupId);
+  const memberCheck = await Membership.findOne({
+    where: { userId: user.id, groupId: req.params.groupId },
   });
-  res.json(getVenueByGroupId);
+  if (!getGroupById) {
+    return res.status(404).json({ message: "Group couldn't be found" });
+  }
+
+  if (
+    memberCheck
+      ? memberCheck.status == "co-host"
+      : false || getGroupById.organizerId == user.id
+  ) {
+    const getVenueByGroupId = await getGroupById.getVenues();
+    const response = [];
+    getVenueByGroupId.forEach((venue) => response.push(venue.toJSON()));
+    res.json({ Venues: response });
+  } else {
+    res.json({
+      message:
+        "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
+    });
+  }
 });
 
 //Get details of a Group from an id
@@ -240,12 +234,17 @@ router.post("/:groupId/events", async (req, res) => {
 //Add an Image to a Group based on the Group's id
 
 router.post("/:groupId/images", requireAuth, async (req, res) => {
+  const { user } = req;
   const { url, preview } = req.body;
 
   const checkGroup = await Group.findByPk(req.params.groupId);
-
   if (!checkGroup) {
     return res.status(404).json({ message: "Group couldn't be found" });
+  }
+  if (checkGroup.organizerId !== user.id) {
+    return res
+      .status(403)
+      .json({ message: "Current User must be the organizer for the group" });
   }
 
   const createGroupImage = await checkGroup.createGroupImage({
@@ -271,19 +270,40 @@ router.post("/:groupId/membership", async (req, res) => {
 
 //Create a new Venue for a Group specified by its id
 
-router.post("/:groupId/venues", async (req, res) => {
-  const { address, city, state, lat, lng } = req.body;
-  const createVenuebyGroupId = await Venue.create({
-    groupId: req.params.groupId,
-    address,
-    city,
-    state,
-    lat,
-    lng,
-  });
-
-  res.json(createVenuebyGroupId);
-});
+router.post(
+  "/:groupId/venues",
+  [requireAuth, validateVenue],
+  async (req, res) => {
+    const { user } = req;
+    const { address, city, state, lat, lng } = req.body;
+    const getGroupById = await Group.findByPk(req.params.groupId);
+    if (!getGroupById) {
+      return res.json({ message: "Group couldn't be found" });
+    }
+    const memberCheck = await Membership.findOne({
+      where: { userId: user.id, groupId: req.params.groupId },
+    });
+    if (
+      memberCheck
+        ? memberCheck.status == "co-host"
+        : false || getGroupById.organizerId == user.id
+    ) {
+      const createVenueByGroupId = await getGroupById.createVenue({
+        address,
+        city,
+        state,
+        lat,
+        lng,
+      });
+      res.json(createVenueByGroupId);
+    } else {
+      res.json({
+        message:
+          "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
+      });
+    }
+  }
+);
 
 //Create a Group
 
@@ -319,11 +339,18 @@ router.put("/:groupId/membership", async (req, res) => {
 //Edit a Group
 
 router.put("/:groupId", [requireAuth, validateGroup], async (req, res) => {
+  const { user } = req;
   const { name, about, type, private, city, state } = req.body;
 
   const editGroup = await Group.findByPk(req.params.groupId);
+
   if (!editGroup) {
     return res.status(404).json({ message: "Group couldn't be found" });
+  }
+  if (editGroup.organizerId !== user.id) {
+    return res
+      .status(403)
+      .json({ message: "Current User must be the organizer for the group" });
   }
   name ? (editGroup.name = name) : editGroup.name;
   about ? (editGroup.about = about) : editGroup.about;
@@ -350,9 +377,15 @@ router.delete("/:groupId/membership/:memberId", async (req, res) => {
 //Delete a Group
 
 router.delete("/:groupId", requireAuth, async (req, res) => {
+  const { user } = req;
   const deleteGroup = await Group.findByPk(req.params.groupId);
   if (!deleteGroup) {
     return res.status(404).json({ message: "Group couldn't be found" });
+  }
+  if (deleteGroup.organizerId !== user.id) {
+    return res
+      .status(403)
+      .json({ message: "Current User must be the organizer for the group" });
   }
   await deleteGroup.destroy();
   res.json({ message: "Successfully deleted" });
