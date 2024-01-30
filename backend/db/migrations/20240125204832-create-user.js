@@ -14,40 +14,40 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false,
           autoIncrement: true,
-          primaryKey: true
+          primaryKey: true,
         },
         firstName: {
           type: Sequelize.STRING(20),
-          allowNull: false
+          allowNull: false,
         },
         lastName: {
           type: Sequelize.STRING(20),
-          allowNull: false
+          allowNull: false,
         },
         username: {
           type: Sequelize.STRING(30),
           allowNull: false,
-          unique: true
+          unique: true,
         },
         email: {
           type: Sequelize.STRING(256),
           allowNull: false,
-          unique: true
+          unique: true,
         },
         hashedPassword: {
           type: Sequelize.STRING.BINARY,
-          allowNull: false
+          allowNull: false,
         },
         createdAt: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updatedAt: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-        }
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
       },
       options
     );
