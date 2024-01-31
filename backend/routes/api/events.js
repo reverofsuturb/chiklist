@@ -3,6 +3,8 @@ const router = express.Router();
 const requireAuth = require("../../utils/auth");
 const { Op } = require("sequelize");
 
+const { validateEvent } = require("../../utils/validation");
+
 const {
   Group,
   Event,
@@ -39,6 +41,17 @@ router.get("/", async (req, res) => {
     ? (where.startDate = { [Op.substring]: startDate })
     : where.startDate;
 
+  const numAttending = await Attendance.count({
+    group: "eventId",
+  });
+  const getAllEventImages = await EventImage.findAll({ group: "eventId" });
+  const getAllEventsGroupVenue = await Event.findAll({
+    include: [
+      { model: Group, attributes: ["id", "name", "city", "state"] },
+      { model: Venue, attributes: ["id", "city", "state"] },
+    ],
+    group: "event.id",
+  });
   const getAllEvents = await Event.findAll({
     where,
     attributes: [
@@ -50,16 +63,23 @@ router.get("/", async (req, res) => {
       "startDate",
       "endDate",
     ],
-    include: [
-      { model: Attendance },
-      { model: EventImage, attributes: [["preview", "previewImage"]] },
-      { model: Group, attributes: ["id", "name", "city", "state"] },
-      { model: Venue, attributes: ["id", "city", "state"] },
-    ],
+
     ...pagination,
   });
 
-  res.json(getAllEvents);
+  const response = [];
+  getAllEvents.forEach((event) => response.push(event.toJSON()));
+
+  let i = 0;
+  while (i < response.length) {
+    response[i].numAttending = numAttending[i].count;
+    response[i].previewImage = getAllEventImages[i].url;
+    response[i].Group = getAllEventsGroupVenue[i].Group;
+    response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    i++;
+  }
+
+  res.json({ Events: response });
 });
 
 // Get all Attendees of an Event specified by its id
@@ -83,19 +103,39 @@ router.get("/:eventId", async (req, res) => {
       "groupId",
       "venueId",
       "name",
+      "description",
       "type",
+      "capacity",
+      "price",
       "startDate",
       "endDate",
     ],
+  });
+  if (!getEventById) {
+    return res.status(404).json({ message: "Event couldn't be found" });
+  }
+  const numAttending = await Attendance.count({
+    where: { eventId: req.params.eventId },
+  });
+  const getEventImageById = await EventImage.findOne({
+    where: { eventId: req.params.eventId },
+    attributes: ["id", "url", "preview"],
+  });
+  const getEventsGroupVenueById = await Event.findByPk(req.params.eventId, {
     include: [
-      { model: Attendance },
-      { model: EventImage, attributes: [["preview", "previewImage"]] },
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
   });
 
-  res.json(getEventById);
+  const response = getEventById.toJSON();
+
+  response.numAttending = numAttending;
+  response.Group = getEventsGroupVenueById.Group;
+  response.Venue = getEventsGroupVenueById.Venue;
+  response.EventImages = getEventImageById;
+
+  res.json(response);
 });
 
 //Request to Attend an Event based on the Event's id

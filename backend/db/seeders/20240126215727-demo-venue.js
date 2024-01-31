@@ -50,7 +50,9 @@ module.exports = {
         lat: 95.2345,
         lng: 145.1337,
       },
-    ]);
+    ],
+    options,
+    { validate: true });
   },
 
   async down(queryInterface, Sequelize) {

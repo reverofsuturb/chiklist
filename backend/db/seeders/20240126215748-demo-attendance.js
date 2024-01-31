@@ -36,7 +36,7 @@ module.exports = {
           userId: 4,
           status: "attending",
         },
-      ],
+      ], options,
       { validate: true }
     );
   },

@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
   const numMembers = await Membership.count({
     group: "groupId",
   });
-  const getAllGroupImages = await GroupImage.findAll({ group: "groupId" });
+  const getAllGroupImages = await GroupImage.findAll({ group: ["groupId", "id"] });
 
   const getAllGroups = await Group.findAll({
     attributes: [
@@ -69,7 +69,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
-    group: "groupId",
+    group: [["groupId"],["id"]]
   });
 
   const getAllUserGroups = await Group.findAll({
@@ -107,8 +107,23 @@ router.get("/current", requireAuth, async (req, res) => {
 //Get all Events of a Group specified by its id
 
 router.get("/:groupId/events", async (req, res) => {
-  const getEventsByGroupId = await Event.findAll({
-    where: { groupId: req.params.groupId },
+  const getGroupById = await Group.findByPk(req.params.groupId);
+  if (!getGroupById) {
+    return res.status(404).json({ message: "Group couldn't be found" });
+  }
+  const numAttending = await Attendance.count({
+    group: "eventId",
+  });
+  const getAllEventImages = await EventImage.findAll({ group: "eventId" });
+  const getAllEventsGroupVenue = await Event.findAll({
+    include: [
+      { model: Group, attributes: ["id", "name", "city", "state"] },
+      { model: Venue, attributes: ["id", "city", "state"] },
+    ],
+    group: "event.id",
+  });
+  const getAllEvents = await Event.findAll({
+    where: { groupId: getGroupById.id },
     attributes: [
       "id",
       "groupId",
@@ -118,14 +133,21 @@ router.get("/:groupId/events", async (req, res) => {
       "startDate",
       "endDate",
     ],
-    include: [
-      { model: Attendance },
-      { model: EventImage, attributes: [["preview", "previewImage"]] },
-      { model: Group, attributes: ["id", "name", "city", "state"] },
-      { model: Venue, attributes: ["id", "city", "state"] },
-    ],
   });
-  res.json({ getEventsByGroupId });
+
+  const response = [];
+  getAllEvents.forEach((event) => response.push(event.toJSON()));
+
+  let i = 0;
+  while (i < response.length) {
+    response[i].numAttending = numAttending[i].count;
+    response[i].previewImage = getAllEventImages[i].url;
+    response[i].Group = getAllEventsGroupVenue[i].Group;
+    response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    i++;
+  }
+
+  res.json({ Events: response });
 });
 
 //Get All Venues for a Group specified by its id
@@ -241,6 +263,7 @@ router.post("/:groupId/images", requireAuth, async (req, res) => {
   if (!checkGroup) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
+
   if (checkGroup.organizerId !== user.id) {
     return res
       .status(403)
@@ -352,6 +375,7 @@ router.put("/:groupId", [requireAuth, validateGroup], async (req, res) => {
       .status(403)
       .json({ message: "Current User must be the organizer for the group" });
   }
+
   name ? (editGroup.name = name) : editGroup.name;
   about ? (editGroup.about = about) : editGroup.about;
   type ? (editGroup.type = type) : editGroup.type;

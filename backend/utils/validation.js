@@ -21,6 +21,44 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+// Create a Event Validation Error Handling Middleware
+
+const validateEvent = [
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 5 })
+    .withMessage("Name must be at least 5 characters"),
+  check("type")
+    .exists({ checkFalsy: true })
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be Online or In person"),
+  check("capacity")
+    .exists({ checkFalsy: true })
+    .isInt()
+    .withMessage("Capacity must be an integer"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .isCurrency({
+      require_symbol: false,
+      allow_negatives: false,
+      require_decimal: true,
+    })
+    .withMessage("Price is invalid"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Description is required"),
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .isDate()
+    .withMessage("Start date must be in the future"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .isDate()
+    .withMessage("End date is less than start date"),
+  handleValidationErrors,
+];
+
 //Create a Group Validation Error Handling Middleware
 const validateGroup = [
   check("name")
@@ -103,7 +141,8 @@ const validateVenue = [
 
 module.exports = {
   handleValidationErrors,
-  validateSignup,
-  validateVenue,
+  validateEvent,
   validateGroup,
+  validateVenue,
+  validateSignup
 };

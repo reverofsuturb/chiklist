@@ -36,7 +36,7 @@ module.exports = {
           url: "image url 5",
           preview: false,
         },
-      ],
+      ], options,
       { validate: true }
     );
   },

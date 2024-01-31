@@ -37,6 +37,7 @@ module.exports = {
           status: "organizer",
         },
       ],
+      options,
       { validate: true }
     );
   },

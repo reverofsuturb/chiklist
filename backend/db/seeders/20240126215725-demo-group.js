@@ -62,6 +62,7 @@ module.exports = {
           state: "New Yersey",
         },
       ],
+      options,
       { validate: true }
     );
   },
