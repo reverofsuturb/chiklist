@@ -74,7 +74,7 @@ const validateGroup = [
     .isIn(["Online", "In person"])
     .withMessage("Type must be 'Online' or 'In person'"),
   check("private")
-    .exists({ checkFalsy: true })
+    .exists()
     .isBoolean()
     .withMessage("Private must be a boolean"),
   check("city")
@@ -121,7 +121,7 @@ const validateVenue = [
     .notEmpty()
     .withMessage("Street address is required"),
   check("city")
-    .exists()
+    .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage("City is required"),
   check("state")
@@ -144,5 +144,5 @@ module.exports = {
   validateEvent,
   validateGroup,
   validateVenue,
-  validateSignup
+  validateSignup,
 };

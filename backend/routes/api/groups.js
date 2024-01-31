@@ -23,10 +23,10 @@ const {
 
 router.get("/", async (req, res) => {
   const numMembers = await Membership.count({
-    group: "groupId",
+    group: [["groupId"], ["id"]],
   });
   const getAllGroupImages = await GroupImage.findAll({
-    group: ["groupId", "id"],
+    group: [["groupId"], ["id"]],
   });
 
   const getAllGroups = await Group.findAll({
