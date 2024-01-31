@@ -121,7 +121,7 @@ const validateVenue = [
     .notEmpty()
     .withMessage("Street address is required"),
   check("city")
-    .exists({ checkFalsy: true })
+    .exists()
     .notEmpty()
     .withMessage("City is required"),
   check("state")

@@ -25,7 +25,9 @@ router.get("/", async (req, res) => {
   const numMembers = await Membership.count({
     group: "groupId",
   });
-  const getAllGroupImages = await GroupImage.findAll({ group: ["groupId", "id"] });
+  const getAllGroupImages = await GroupImage.findAll({
+    group: ["groupId", "id"],
+  });
 
   const getAllGroups = await Group.findAll({
     attributes: [
@@ -69,7 +71,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
-    group: [["groupId"],["id"]]
+    group: [["groupId"], ["GroupImage.id"]],
   });
 
   const getAllUserGroups = await Group.findAll({
