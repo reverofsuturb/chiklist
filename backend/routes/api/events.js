@@ -42,7 +42,8 @@ router.get("/", async (req, res) => {
     : where.startDate;
 
   const numAttending = await Attendance.count({
-    group: "eventId",
+    group: [["eventId", "id"]],
+    order: [["eventId", "DESC"]]
   });
   const getAllEventImages = await EventImage.findAll({ group: "eventId" });
   const getAllEventsGroupVenue = await Event.findAll({

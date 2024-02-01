@@ -24,7 +24,8 @@ const {
 
 router.get("/", async (req, res) => {
   const numMembers = await Membership.count({
-    group: [["groupId"]],
+    group: [["groupId", "id"]],
+    order: [["groupId", "DESC"]],
   });
   const getAllGroupImages = await GroupImage.findAll({
     group: [["groupId"]],
@@ -70,6 +71,7 @@ router.get("/current", requireAuth, async (req, res) => {
   const numMembers = await Membership.count({
     where: { userId: user.id },
     group: [["groupId"], ["id"]],
+    order: [["groupId", "DESC"]],
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
@@ -261,7 +263,7 @@ router.post(
       return res.status(404).json({ message: "Group couldn't be found" });
     }
     const memberCheck = await Membership.findOne({
-      where: { userId: user.id, groupId: getGroupById.id },
+      where: { userId: user.id, groupId: groupCheck.id },
     });
     const organizerCheck = await Group.findOne({
       where: { organizerId: user.id },
@@ -293,12 +295,10 @@ router.post(
 
       res.json(createEventByGroupId);
     } else {
-      res
-        .status(403)
-        .json({
-          message:
-            "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
-        });
+      res.status(403).json({
+        message:
+          "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
+      });
     }
   }
 );
