@@ -38,11 +38,7 @@ const validateEvent = [
     .withMessage("Capacity must be an integer"),
   check("price")
     .exists({ checkFalsy: true })
-    .isCurrency({
-      require_symbol: false,
-      allow_negatives: false,
-      require_decimal: true,
-    })
+    .isFloat()
     .withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })
@@ -50,11 +46,11 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("startDate")
     .exists({ checkFalsy: true })
-    .isDate()
+    // .isDate()
     .withMessage("Start date must be in the future"),
   check("endDate")
     .exists({ checkFalsy: true })
-    .isDate()
+    // .isDate()
     .withMessage("End date is less than start date"),
   handleValidationErrors,
 ];

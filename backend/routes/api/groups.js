@@ -4,6 +4,7 @@ const { restoreUser, requireAuth } = require("../../utils/auth");
 
 const {
   handleValidationErrors,
+  validateEvent,
   validateGroup,
   validateVenue,
 } = require("../../utils/validation");
@@ -236,31 +237,71 @@ router.get("/:groupId/members", async (req, res) => {
 
 //Create an Event for a Group specified by its id
 
-router.post("/:groupId/events", async (req, res) => {
-  const {
-    venueId,
-    name,
-    type,
-    capacity,
-    price,
-    description,
-    startDate,
-    endDate,
-  } = req.body;
-  const createEventByGroupId = await Event.create({
-    venueId,
-    groupId: req.params.groupId,
-    name,
-    type,
-    capacity,
-    price,
-    description,
-    startDate,
-    endDate,
-  });
+router.post(
+  "/:groupId/events",
+  [requireAuth, validateEvent],
+  async (req, res) => {
+    const { user } = req;
+    const {
+      venueId,
+      name,
+      type,
+      capacity,
+      price,
+      description,
+      startDate,
+      endDate,
+    } = req.body;
+    const venueCheck = await Venue.findByPk(venueId);
+    if (!venueCheck) {
+      return res.status(404).json({ message: "Venue couldn't be found" });
+    }
+    const groupCheck = await Group.findByPk(req.params.groupId);
+    if (!groupCheck) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    const memberCheck = await Membership.findOne({
+      where: { userId: user.id, groupId: getGroupById.id },
+    });
+    const organizerCheck = await Group.findOne({
+      where: { organizerId: user.id },
+    });
 
-  res.json(createEventByGroupId);
-});
+    console.log(organizerCheck);
+    console.log(memberCheck);
+    if (
+      (memberCheck && memberCheck.status === "co-host") ||
+      (organizerCheck &&
+        organizerCheck.organizerId === getGroupById.organizerId)
+    ) {
+      const createEventByGroupId = await Event.create({
+        venueId,
+        groupId: req.params.groupId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+      });
+      const createAttendance = await Attendance.create({
+        eventId: createEventByGroupId.id,
+        userId: user.id,
+      });
+      status: "attending";
+
+      res.json(createEventByGroupId);
+    } else {
+      res
+        .status(403)
+        .json({
+          message:
+            "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
+        });
+    }
+  }
+);
 
 //Add an Image to a Group based on the Group's id
 
@@ -323,7 +364,8 @@ router.post(
     console.log(memberCheck);
     if (
       (memberCheck && memberCheck.status === "co-host") ||
-      (organizerCheck && organizerCheck.organizerId === getGroupById.organizerId)
+      (organizerCheck &&
+        organizerCheck.organizerId === getGroupById.organizerId)
     ) {
       const createVenueByGroupId = await getGroupById.createVenue({
         address,

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const requireAuth = require("../../utils/auth");
+const { restoreUser, requireAuth } = require("../../utils/auth");
 const { Op } = require("sequelize");
 
 const { validateEvent } = require("../../utils/validation");
@@ -153,15 +153,45 @@ router.post("/:eventId/attendance", async (req, res) => {
 
 //Add an Image to an Event based on the Event's id
 
-router.post("/:eventId/images", async (req, res) => {
+router.post("/:eventId/images", requireAuth, async (req, res) => {
+  const { user } = req
   const { url, preview } = req.body;
-  const createEventImageById = await EventImage.create({
-    eventId: req.params.eventId,
-    url,
-    preview,
+
+  const checkEvent = await Event.findByPk(req.params.eventId);
+  if (!checkEvent) {
+    return res.status(404).json({ message: "Event couldn't be found" });
+  }
+
+  const attendeesCheck = await Attendance.findOne({
+    where: { userId: user.id, eventId: checkEvent.id },
+  });
+  const memberCheck = await Membership.findOne({
+    where: { userId: user.id, groupId: checkEvent.groupId },
+  });
+  const organizerCheck = await Group.findOne({
+    where: { organizerId: user.id },
   });
 
-  res.json(createEventImageById);
+  if (
+    (attendeesCheck && attendeesCheck.status === "attending") ||
+    (memberCheck && memberCheck.status === "co-host") ||
+    (organizerCheck && organizerCheck.organizerId === user.id)
+  ) {
+    const createEventImageById = await EventImage.create({
+      eventId: req.params.eventId,
+      url,
+      preview,
+    });
+
+    res.json(createEventImageById);
+  } else {
+    res
+      .status(403)
+      .json({
+        message:
+          "Current User must be an attendee, host, or co-host of the event",
+      });
+  }
 });
 
 //Change the status of an attendance for an event specified by id
