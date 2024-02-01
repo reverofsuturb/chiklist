@@ -55,6 +55,23 @@ const validateEvent = [
   handleValidationErrors,
 ];
 
+const validateSearch = [
+  check("page")
+    .isInt({ min: 1 })
+    .withMessage("Page must be greater than or equal to 1"),
+  check("size")
+    .isInt({ min: 1 })
+    .withMessage("Size must be greater than or equal to 1"),
+  check("name").isString().withMessage("Name must be a string"),
+  check("type")
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be 'Online' or 'In person'"),
+  check("startDate")
+    .isDate()
+    .withMessage("Start date must be a valid datetime"),
+  handleValidationErrors,
+];
+
 //Create a Group Validation Error Handling Middleware
 const validateGroup = [
   check("name")

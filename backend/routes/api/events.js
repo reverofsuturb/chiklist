@@ -3,7 +3,7 @@ const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth");
 const { Op } = require("sequelize");
 
-const { validateEvent } = require("../../utils/validation");
+const { validateEvent, validateSearch } = require("../../utils/validation");
 
 const {
   Group,
@@ -271,7 +271,7 @@ router.post("/:eventId/images", requireAuth, async (req, res) => {
 
 //Change the status of an attendance for an event specified by id
 
-router.put("/:eventId/attendance", async (req, res) => {
+router.put("/:eventId/attendance", requireAuth, async (req, res) => {
   const { user } = req;
   const { userId, status } = req.body;
 
