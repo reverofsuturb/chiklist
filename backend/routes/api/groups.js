@@ -23,9 +23,9 @@ const {
 //Get all Groups
 
 router.get("/", async (req, res) => {
-  const numMembers = await Membership.count({
-    group: [["groupId", "id"]],
-    order: [["groupId", "DESC"]],
+  let numMembers = await Membership.findAll({
+    group: [["groupId"]],
+    order: [["groupId", "ASC"]],
   });
   const getAllGroupImages = await GroupImage.findAll({
     group: [["groupId"]],
@@ -51,12 +51,15 @@ router.get("/", async (req, res) => {
 
   getAllGroups.forEach((group) => response.push(group.toJSON()));
 
+  let num = [];
+
+  numMembers.forEach((member) => num.push([member.toJSON()]));
+
   let i = 0;
 
-  while (i < response.length - 1) {
-    if (numMembers[i].count) response[i].numMembers = numMembers[i].count;
-    if (getAllGroupImages[i].url)
-      response[i].previewImage = getAllGroupImages[i].url;
+  while (i < response.length) {
+    response[i].numMembers = num[i].length;
+    response[i].previewImage = getAllGroupImages[i].url;
     i++;
   }
 
@@ -68,10 +71,9 @@ router.get("/", async (req, res) => {
 router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
 
-  const numMembers = await Membership.count({
-    where: { userId: user.id },
-    group: [["groupId"], ["id"]],
-    order: [["groupId", "DESC"]],
+  let numMembers = await Membership.findAll({
+    group: [["groupId"]],
+    order: [["groupId", "ASC"]],
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
@@ -99,10 +101,14 @@ router.get("/current", requireAuth, async (req, res) => {
 
   getAllUserGroups.forEach((group) => response.push(group.toJSON()));
 
+  let num = [];
+
+  numMembers.forEach((member) => num.push([member.toJSON()]));
+
   let i = 0;
 
   while (i < response.length) {
-    response[i].numMembers = numMembers[i].count;
+    response[i].numMembers = num[i].length;
     response[i].previewImage = getAllUserGroupImages[i].url;
     i++;
   }
@@ -184,7 +190,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
     getVenueByGroupId.forEach((venue) => response.push(venue.toJSON()));
     res.json({ Venues: response });
   } else {
-    res.json({
+    res.status(403).json({
       message:
         "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
     });
@@ -273,8 +279,7 @@ router.post(
     console.log(memberCheck);
     if (
       (memberCheck && memberCheck.status === "co-host") ||
-      (organizerCheck &&
-        organizerCheck.organizerId === getGroupById.organizerId)
+      (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId)
     ) {
       const createEventByGroupId = await Event.create({
         venueId,
@@ -290,8 +295,8 @@ router.post(
       const createAttendance = await Attendance.create({
         eventId: createEventByGroupId.id,
         userId: user.id,
+        status: "attending",
       });
-      status: "attending";
 
       res.json(createEventByGroupId);
     } else {
@@ -376,7 +381,7 @@ router.post(
       });
       res.json(createVenueByGroupId);
     } else {
-      res.json({
+      res.status(403).json({
         message:
           "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
       });
