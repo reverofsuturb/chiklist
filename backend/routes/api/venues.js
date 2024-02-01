@@ -25,7 +25,7 @@ const {
 router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
   const { user } = req;
   const { address, city, state, lat, lng } = req.body;
-  const editVenue = await Venue.findOne({ where: { id: req.params.venueId } });
+  const editVenue = await Venue.findOne({ where: { id: req.params.venueId }, include: Group});
 
   if (!editVenue) {
     return res.json({ message: "Venue couldn't be found" });
@@ -41,7 +41,7 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
   console.log(memberCheck);
   if (
     (memberCheck && memberCheck.status === "co-host") ||
-    (organizerCheck && organizerCheck.organizerId === editVenue.groupId)
+    (organizerCheck && organizerCheck.organizerId === editVenue.Group.organizerId)
   ) {
     address ? (editVenue.address = address) : editVenue.address;
     city ? (editVenue.city = city) : editVenue.city;

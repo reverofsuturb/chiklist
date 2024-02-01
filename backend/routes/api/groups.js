@@ -23,10 +23,10 @@ const {
 
 router.get("/", async (req, res) => {
   const numMembers = await Membership.count({
-    group: [["groupId"], ["id"]],
+    group: [["groupId"]],
   });
   const getAllGroupImages = await GroupImage.findAll({
-    group: [["groupId"], ["id"]],
+    group: [["groupId"]],
   });
 
   const getAllGroups = await Group.findAll({
@@ -51,9 +51,10 @@ router.get("/", async (req, res) => {
 
   let i = 0;
 
-  while (i < response.length) {
-    response[i].numMembers = numMembers[i].count;
-    response[i].previewImage = getAllGroupImages[i].url;
+  while (i < response.length - 1) {
+    if (numMembers[i].count) response[i].numMembers = numMembers[i].count;
+    if (getAllGroupImages[i].url)
+      response[i].previewImage = getAllGroupImages[i].url;
     i++;
   }
 
@@ -67,7 +68,7 @@ router.get("/current", requireAuth, async (req, res) => {
 
   const numMembers = await Membership.count({
     where: { userId: user.id },
-    group: "groupId",
+    group: [["groupId"], ["id"]],
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
@@ -157,17 +158,23 @@ router.get("/:groupId/events", async (req, res) => {
 router.get("/:groupId/venues", requireAuth, async (req, res) => {
   const { user } = req;
   const getGroupById = await Group.findByPk(req.params.groupId);
-  const memberCheck = await Membership.findOne({
-    where: { userId: user.id, groupId: req.params.groupId },
-  });
+
   if (!getGroupById) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
+  const memberCheck = await Membership.findOne({
+    where: { userId: user.id, groupId: getGroupById.id },
+  });
+  const organizerCheck = await Group.findOne({
+    where: { organizerId: user.id },
+  });
+
+  console.log(organizerCheck);
+  console.log(memberCheck);
   if (
-    memberCheck
-      ? memberCheck.status == "co-host"
-      : false || getGroupById.organizerId == user.id
+    (memberCheck && memberCheck.status === "co-host") ||
+    (organizerCheck && organizerCheck.organizerId === getGroupById.organizerId)
   ) {
     const getVenueByGroupId = await getGroupById.getVenues();
     const response = [];
@@ -306,12 +313,17 @@ router.post(
       return res.json({ message: "Group couldn't be found" });
     }
     const memberCheck = await Membership.findOne({
-      where: { userId: user.id, groupId: req.params.groupId },
+      where: { userId: user.id, groupId: getGroupById.id },
     });
+    const organizerCheck = await Group.findOne({
+      where: { organizerId: user.id },
+    });
+
+    console.log(organizerCheck);
+    console.log(memberCheck);
     if (
-      memberCheck
-        ? memberCheck.status == "co-host"
-        : false || getGroupById.organizerId == user.id
+      (memberCheck && memberCheck.status === "co-host") ||
+      (organizerCheck && organizerCheck.organizerId === getGroupById.organizerId)
     ) {
       const createVenueByGroupId = await getGroupById.createVenue({
         address,
@@ -343,6 +355,12 @@ router.post("/", [requireAuth, validateGroup], async (req, res) => {
     private,
     city,
     state,
+  });
+
+  const createMember = await Membership.create({
+    userId: user.id,
+    groupId: createGroup.id,
+    status: "organizer",
   });
 
   res.status(201).json(createGroup);

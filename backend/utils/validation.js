@@ -129,12 +129,12 @@ const validateVenue = [
     .notEmpty()
     .withMessage("State is required"),
   check("lat")
-    .isInt({ min: -90 })
-    .isInt({ max: 90 })
+    .isFloat({ min: -90 })
+    .isFloat({ max: 90 })
     .withMessage("Latitude must be within -90 and 90"),
   check("lng")
-    .isInt({ min: -180 })
-    .isInt({ max: 180 })
+    .isFloat({ min: -180 })
+    .isFloat({ max: 180 })
     .withMessage("Longitude must be within -180 and 180"),
   handleValidationErrors,
 ];
