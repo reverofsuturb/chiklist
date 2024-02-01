@@ -24,11 +24,10 @@ const {
 
 router.get("/", async (req, res) => {
   let numMembers = await Membership.findAll({
-    group: [["groupId"]],
     order: [["groupId", "ASC"]],
   });
   const getAllGroupImages = await GroupImage.findAll({
-    group: [["groupId"]],
+    order: [["groupId", "ASC"]],
   });
 
   const getAllGroups = await Group.findAll({
@@ -44,7 +43,6 @@ router.get("/", async (req, res) => {
       "createdAt",
       "updatedAt",
     ],
-    group: "id",
   });
 
   const response = [];
@@ -72,12 +70,11 @@ router.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
 
   let numMembers = await Membership.findAll({
-    group: [["groupId"]],
     order: [["groupId", "ASC"]],
   });
   const getAllUserGroupImages = await GroupImage.findAll({
     include: { model: Group, where: { organizerId: user.id } },
-    group: [["groupId"], ["GroupImage.id"]],
+    order: [["groupId", "ASC"]],
   });
 
   const getAllUserGroups = await Group.findAll({
@@ -94,7 +91,6 @@ router.get("/current", requireAuth, async (req, res) => {
       "createdAt",
       "updatedAt",
     ],
-    group: "id",
   });
 
   const response = [];
@@ -506,9 +502,9 @@ router.put("/:groupId/membership", requireAuth, async (req, res) => {
       (userMembership && userMembership.status === "co-host") ||
       user.id === groupCheck.organizerId
     ) {
-      status ? (changeMemberStatus.status = status) : changeMemberStatus.status;
-      await changeMemberStatus.save();
-      return res.json(changeMemberStatus);
+      status ? (memberCheck.status = status) : memberCheck.status;
+      await memberCheck.save();
+      return res.json(memberCheck);
     } else {
       return res
         .status(403)

@@ -42,7 +42,6 @@ router.get("/", async (req, res) => {
     : where.startDate;
 
   const numAttending = await Attendance.findAll({
-    group: [["eventId"]],
     order: [["eventId", "ASC"]],
   });
   console.log(numAttending);
@@ -52,7 +51,7 @@ router.get("/", async (req, res) => {
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
-    group: "event.id",
+order: [["eventId", "ASC"]]
   });
   const getAllEvents = await Event.findAll({
     where,
