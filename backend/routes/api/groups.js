@@ -7,6 +7,7 @@ const {
   validateEvent,
   validateGroup,
   validateVenue,
+  validateMembership,
 } = require("../../utils/validation");
 
 const {
@@ -466,63 +467,80 @@ router.post("/", [requireAuth, validateGroup], async (req, res) => {
 
 //Change the status of a membership for a group specified by id
 
-router.put("/:groupId/membership", requireAuth, async (req, res) => {
-  const { user } = req;
-  const { memberId, status } = req.body;
-  const userCheck = await User.findByPk(memberId);
-  if (!userCheck) {
-    return res.status(404).json({ message: "User couldn't be found" });
-  }
-  const groupCheck = await Group.findByPk(req.params.groupId);
-  if (!groupCheck) {
-    return res.status(404).json({ message: "Group couldn't be found" });
-  }
-  const memberCheck = await Membership.findOne({
-    where: { groupId: groupCheck.id, userId: userCheck.id },
-  });
-  if (!memberCheck) {
-    return res.status(404).json({
-      message: "Membership between the user and the group doesn't exist",
+router.put(
+  "/:groupId/membership",
+  [requireAuth, validateMembership],
+  async (req, res) => {
+    const { user } = req;
+    const { memberId, status } = req.body;
+    const userCheck = await User.findByPk(memberId);
+    if (!userCheck) {
+      return res.status(404).json({ message: "User couldn't be found" });
+    }
+    const groupCheck = await Group.findByPk(req.params.groupId);
+    if (!groupCheck) {
+      return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    const memberCheck = await Membership.findOne({
+      where: { groupId: groupCheck.id, userId: userCheck.id },
     });
-  }
-  const userMembership = await Membership.findOne({
-    where: { userId: user.id, groupId: groupCheck.id },
-  });
+    if (!memberCheck) {
+      return res.status(404).json({
+        message: "Membership between the user and the group doesn't exist",
+      });
+    }
+    const userMembership = await Membership.findOne({
+      where: { userId: user.id, groupId: groupCheck.id },
+    });
 
-  if (status && status === "pending") {
-    return res.status(400).json({
-      message: "Bad Request",
-      errors: {
-        status: "Cannot change a membership status to pending",
-      },
-    });
-  }
-  if (status && status === "member") {
-    if (
-      (userMembership && userMembership.status === "co-host") ||
-      user.id === groupCheck.organizerId
-    ) {
-      status ? (memberCheck.status = status) : memberCheck.status;
-      await memberCheck.save();
-      return res.json(memberCheck);
-    } else {
-      return res
-        .status(403)
-        .json(
-          "Current User must already be the organizer or have a membership to the group with the status of 'co-host'"
-        );
+    if (status && status === "pending") {
+      return res.status(400).json({
+        message: "Bad Request",
+        errors: {
+          status: "Cannot change a membership status to pending",
+        },
+      });
+    }
+    if (status && status === "member") {
+      if (
+        (userMembership && userMembership.status === "co-host") ||
+        user.id === groupCheck.organizerId
+      ) {
+        status ? (memberCheck.status = status) : memberCheck.status;
+        await memberCheck.save();
+        return res.json(memberCheck);
+      } else {
+        return res
+          .status(403)
+          .json(
+            "Current User must already be the organizer or have a membership to the group with the status of 'co-host'"
+          );
+      }
+    }
+    if (status && status === "co-host") {
+      if (user.id === groupCheck.organizerId) {
+        status ? (memberCheck.status = status) : memberCheck.status;
+        await memberCheck.save();
+        return res.json(memberCheck);
+      } else {
+        return res
+          .status(403)
+          .json("Current User must already be the organizer");
+      }
+    }
+    if (status && status === "organizer") {
+      if (user.id === groupCheck.organizerId) {
+        status ? (memberCheck.status = status) : memberCheck.status;
+        await memberCheck.save();
+        return res.json(memberCheck);
+      } else {
+        return res
+          .status(403)
+          .json("Current User must already be the organizer");
+      }
     }
   }
-  if (status && status === "co-host ") {
-    if (user.id === groupCheck.organizerId) {
-      status ? (memberCheck.status = status) : memberCheck.status;
-      await memberCheck.save();
-      return res.json(memberCheck);
-    } else {
-      return res.status(403).json("Current User must already be the organizer");
-    }
-  }
-});
+);
 
 //Edit a Group
 

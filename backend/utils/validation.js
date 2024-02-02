@@ -152,10 +152,29 @@ const validateVenue = [
   handleValidationErrors,
 ];
 
+//Looks for valid membership specs -- using with put route for change membership status
+const validateMembership = [
+  check("memberId").isInt().withMessage("memberId must be an integer"),
+  check("status")
+    .isIn(["pending", "member", "co-host", "organizer"])
+    .withMessage("status must be 'pending', 'member', 'co-host', 'organizer'"),
+  handleValidationErrors,
+];
+//Looks for valid attendance specs -- using with put route for change attendance status
+const validateAttendance = [
+  check("userId").isInt().withMessage("userId must be an integer"),
+  check("status")
+    .isIn(["pending", "waitlist", "attending"])
+    .withMessage("status must be 'attending', 'waitlist', 'pending'"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
+  validateAttendance,
   validateEvent,
   validateGroup,
+  validateMembership,
   validateVenue,
   validateSignup,
 };
