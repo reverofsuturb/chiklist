@@ -28,7 +28,7 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
   const editVenue = await Venue.findOne({ where: { id: req.params.venueId }, include: Group});
 
   if (!editVenue) {
-    return res.json({ message: "Venue couldn't be found" });
+    return res.status(404).json({ message: "Venue couldn't be found" });
   }
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: editVenue.groupId },
@@ -37,8 +37,6 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
     where: { organizerId: user.id },
   });
 
-  console.log(organizerCheck);
-  console.log(memberCheck);
   if (
     (memberCheck && memberCheck.status === "co-host") ||
     (organizerCheck && organizerCheck.organizerId === editVenue.Group.organizerId)
@@ -53,7 +51,7 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
 
     res.json(editVenue);
   } else {
-    res.json({
+    res.status(403).json({
       message:
         "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
     });

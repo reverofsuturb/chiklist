@@ -121,15 +121,16 @@ router.get("/:groupId/events", async (req, res) => {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
   const numAttending = await Attendance.count({
-    group: eventId,
+    order: [["eventId", "ASC"]],
   });
-  const getAllEventImages = await EventImage.findAll({ group: "eventId" });
+  const getAllEventImages = await EventImage.findAll({
+    order: [["eventId", "ASC"]],
+  });
   const getAllEventsGroupVenue = await Event.findAll({
     include: [
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
-    group: "event.id",
   });
   const getAllEvents = await Event.findAll({
     where: { groupId: getGroupById.id },
@@ -176,8 +177,6 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
     where: { organizerId: user.id },
   });
 
-  console.log(organizerCheck);
-  console.log(memberCheck);
   if (
     (memberCheck && memberCheck.status === "co-host") ||
     (organizerCheck && organizerCheck.organizerId === getGroupById.organizerId)
@@ -510,11 +509,10 @@ router.put(
         await memberCheck.save();
         return res.json(memberCheck);
       } else {
-        return res
-          .status(403)
-          .json(
-            "Current User must already be the organizer or have a membership to the group with the status of 'co-host'"
-          );
+        return res.status(403).json({
+          message:
+            "Current User must already be the organizer or have a membership to the group with the status of 'co-host'",
+        });
       }
     }
     if (status && status === "co-host") {
@@ -599,7 +597,7 @@ router.delete(
     const userMembership = await Membership.findOne({
       where: { userId: user.id, groupId: groupCheck.id },
     });
-    if (userMembership || user.id === groupCheck.organizerId) {
+    if (userMembership.userId === deleteMember.userId || user.id === groupCheck.organizerId) {
       await deleteMember.destroy();
       res.json({ message: "Successfully deleted membership from group" });
     } else {
@@ -619,13 +617,14 @@ router.delete("/:groupId", requireAuth, async (req, res) => {
   if (!deleteGroup) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
-  if (deleteGroup.organizerId !== user.id) {
+  if (deleteGroup.organizerId === user.id) {
+    await deleteGroup.destroy();
+    res.json({ message: "Successfully deleted" });
+  } else {
     return res
       .status(403)
       .json({ message: "Current User must be the organizer for the group" });
   }
-  await deleteGroup.destroy();
-  res.json({ message: "Successfully deleted" });
 });
 
 module.exports = router;

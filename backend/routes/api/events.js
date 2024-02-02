@@ -3,7 +3,11 @@ const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth");
 const { Op } = require("sequelize");
 
-const { validateEvent, validateSearch, validateAttendance } = require("../../utils/validation");
+const {
+  validateEvent,
+  validateSearch,
+  validateAttendance,
+} = require("../../utils/validation");
 
 const {
   Group,
@@ -45,13 +49,15 @@ router.get("/", async (req, res) => {
     order: [["eventId", "ASC"]],
   });
   console.log(numAttending);
-  const getAllEventImages = await EventImage.findAll({ group: "eventId" });
+  const getAllEventImages = await EventImage.findAll({
+    order: [["eventId", "ASC"]],
+  });
   const getAllEventsGroupVenue = await Event.findAll({
     include: [
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
-order: [["eventId", "ASC"]]
+    order: [["eventId", "ASC"]],
   });
   const getAllEvents = await Event.findAll({
     where,
@@ -270,60 +276,67 @@ router.post("/:eventId/images", requireAuth, async (req, res) => {
 
 //Change the status of an attendance for an event specified by id
 
-router.put("/:eventId/attendance", [requireAuth, validateAttendance], async (req, res) => {
-  const { user } = req;
-  const { userId, status } = req.body;
+router.put(
+  "/:eventId/attendance",
+  [requireAuth, validateAttendance],
+  async (req, res) => {
+    const { user } = req;
+    const { userId, status } = req.body;
 
-  const userCheck = await User.findByPk(userId);
-  if (!userCheck) {
-    return res.status(404).json({ message: "User couldn't be found" });
-  }
-  const eventCheck = await Event.findByPk(req.params.eventId);
-  if (!eventCheck) {
-    return res.status(404).json({ message: "Event couldn't be found" });
-  }
+    const userCheck = await User.findByPk(userId);
+    if (!userCheck) {
+      return res.status(404).json({ message: "User couldn't be found" });
+    }
+    const eventCheck = await Event.findByPk(req.params.eventId);
+    if (!eventCheck) {
+      return res.status(404).json({ message: "Event couldn't be found" });
+    }
 
-  const groupCheck = await Group.findByPk(eventCheck.groupId);
+    const groupCheck = await Group.findByPk(eventCheck.groupId);
 
-  const attendanceCheck = await Attendance.findOne({
-    where: { userId: userId, eventId: eventCheck.id },
-  });
-
-  if (!attendanceCheck) {
-    return res.status(404).json({
-      message: "Attendance between the user and the event doesn't exist",
+    const attendanceCheck = await Attendance.findOne({
+      where: { userId: userId, eventId: eventCheck.id },
     });
-  }
 
-  const userMembership = await Membership.findOne({
-    where: { userId: user.id, groupId: eventCheck.groupId },
-  });
+    if (!attendanceCheck) {
+      return res.status(404).json({
+        message: "Attendance between the user and the event doesn't exist",
+      });
+    }
 
-  if (status && status === "pending") {
-    return res.status(400).json({
-      message: "Bad Request",
-      errors: {
-        status: "Cannot change an attendance status to pending",
-      },
+    const userMembership = await Membership.findOne({
+      where: { userId: user.id, groupId: eventCheck.groupId },
     });
-  }
-  if ((status && status === "waitlist") || (status && status === "attending")) {
+
+    if (status && status === "pending") {
+      return res.status(400).json({
+        message: "Bad Request",
+        errors: {
+          status: "Cannot change an attendance status to pending",
+        },
+      });
+    }
     if (
-      (userMembership && userMembership.status === "co-host") ||
-      user.id === groupCheck.organizerId
+      (status && status === "waitlist") ||
+      (status && status === "attending")
     ) {
-      status ? (attendanceCheck.status = status) : attendanceCheck.status;
-      await attendanceCheck.save();
-      return res.json(attendanceCheck);
-    } else {
-      res
-        .status(403)
-        .json(
-          "Current User must already be the organizer or have a member to the group with the status of 'co-host'"
-        );
+      if (
+        (userMembership && userMembership.status === "co-host") ||
+        user.id === groupCheck.organizerId
+      ) {
+        status ? (attendanceCheck.status = status) : attendanceCheck.status;
+        await attendanceCheck.save();
+        return res.json(attendanceCheck);
+      } else {
+        res
+          .status(403)
+          .json(
+            "Current User must already be the organizer or have a member to the group with the status of 'co-host'"
+          );
+      }
     }
   }
-});
+);
 
 //Edit an Event specified by its id
 
@@ -385,11 +398,11 @@ router.put("/:eventId", [requireAuth, validateEvent], async (req, res) => {
 
 router.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
   const { user } = req;
-  const eventCheck = Event.findByPk(req.params.eventId);
+  const eventCheck = await Event.findByPk(req.params.eventId);
   if (!eventCheck) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
-  const userCheck = User.findByPk(req.params.userId);
+  const userCheck = await User.findByPk(req.params.userId);
   if (!userCheck) {
     return res.status(404).json({ message: "User couldn't be found" });
   }
@@ -437,6 +450,7 @@ router.delete("/:eventId", requireAuth, async (req, res) => {
   if (!deleteEvent) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
+
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: deleteEvent.groupId },
   });
