@@ -28,6 +28,7 @@ module.exports = {
             model: "Groups",
             key: "id",
           },
+          onDelete: 'CASCADE'
         },
         name: {
           type: Sequelize.STRING(60),

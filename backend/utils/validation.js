@@ -39,6 +39,7 @@ const validateEvent = [
   check("price")
     .exists({ checkFalsy: true })
     .isFloat()
+    // .isCurrency()
     .withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })

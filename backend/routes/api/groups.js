@@ -58,7 +58,9 @@ router.get("/", async (req, res) => {
 
   while (i < response.length) {
     response[i].numMembers = num[i].length;
-    response[i].previewImage = getAllGroupImages[i].url;
+    if (getAllGroupImages[i].url) {
+      response[i].previewImage = getAllGroupImages[i].url;
+    }
     i++;
   }
 
@@ -106,7 +108,9 @@ router.get("/current", requireAuth, async (req, res) => {
 
   while (i < response.length) {
     response[i].numMembers = num[i].length;
-    response[i].previewImage = getAllUserGroupImages[i].url;
+    if (getAllUserGroupImages[i].url) {
+      response[i].previewImage = getAllUserGroupImages[i].url;
+    }
     i++;
   }
 
@@ -155,9 +159,13 @@ router.get("/:groupId/events", async (req, res) => {
   let i = 0;
   while (i < response.length) {
     response[i].numAttending = num[i].length;
-    response[i].previewImage = getAllEventImages[i].url;
+    if (getAllEventImages[i].url) {
+      response[i].previewImage = getAllEventImages[i].url;
+    }
     response[i].Group = getAllEventsGroupVenue[i].Group;
-    response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    if (getAllEventsGroupVenue[i].Venue) {
+      response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    }
     i++;
   }
 
@@ -268,7 +276,7 @@ router.get("/:groupId/members", async (req, res) => {
         attributes: ["status"],
       },
     });
-    res.json(getMembersByGroupId);
+    res.json({ Members: getMembersByGroupId });
   }
 });
 
@@ -279,7 +287,7 @@ router.post(
   [requireAuth, validateEvent],
   async (req, res) => {
     const { user } = req;
-    const {
+    let {
       venueId,
       name,
       type,
@@ -304,12 +312,11 @@ router.post(
       where: { organizerId: user.id },
     });
 
-    console.log(organizerCheck);
-    console.log(memberCheck);
     if (
       (memberCheck && memberCheck.status === "co-host") ||
       (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId)
     ) {
+
       const createEventByGroupId = await Event.create({
         venueId,
         groupId: req.params.groupId,
@@ -321,6 +328,7 @@ router.post(
         startDate,
         endDate,
       });
+
       const createAttendance = await Attendance.create({
         eventId: createEventByGroupId.id,
         userId: user.id,
@@ -437,8 +445,6 @@ router.post(
       where: { organizerId: user.id },
     });
 
-    console.log(organizerCheck);
-    console.log(memberCheck);
     if (
       (memberCheck && memberCheck.status === "co-host") ||
       (organizerCheck &&
@@ -461,8 +467,7 @@ router.post(
       });
     } else {
       res.status(403).json({
-        message:
-          "Current User must be the organizer of the group or a member of the group with a status of 'co-host'",
+        message: "Current User must be the organizer of the group",
       });
     }
   }

@@ -84,9 +84,13 @@ router.get("/", async (req, res) => {
   let i = 0;
   while (i < response.length) {
     response[i].numAttending = num[i].length;
-    response[i].previewImage = getAllEventImages[i].url;
+    if (getAllEventImages[i].url) {
+      response[i].previewImage = getAllEventImages[i].url;
+    }
     response[i].Group = getAllEventsGroupVenue[i].Group;
-    response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    if (getAllEventsGroupVenue[i].Venue) {
+      response[i].Venue = getAllEventsGroupVenue[i].Venue;
+    }
     i++;
   }
 
@@ -176,8 +180,12 @@ router.get("/:eventId", async (req, res) => {
 
   response.numAttending = numAttending.length;
   response.Group = getEventsGroupVenueById.Group;
-  response.Venue = getEventsGroupVenueById.Venue;
-  response.EventImages = getEventImageById;
+  if (getEventsGroupVenueById.Venue) {
+    response.Venue = getEventsGroupVenueById.Venue;
+  }
+  if (getEventImageById) {
+    response.EventImages = getEventImageById;
+  }
 
   res.json(response);
 });
@@ -332,7 +340,12 @@ router.put(
       ) {
         status ? (attendanceCheck.status = status) : attendanceCheck.status;
         await attendanceCheck.save();
-        return res.json(attendanceCheck);
+        return res.json({
+          id: attendanceCheck.id,
+          eventId: attendanceCheck.eventId,
+          userId: attendanceCheck.userId,
+          status: attendanceCheck.status,
+        });
       } else {
         res.status(403).json({
           message:
