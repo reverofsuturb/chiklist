@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth");
 
-
 const {
   handleValidationErrors,
   validateEvent,
@@ -318,7 +317,6 @@ router.post(
       (memberCheck && memberCheck.status === "co-host") ||
       (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId)
     ) {
-
       const createEventByGroupId = await Event.create({
         venueId,
         groupId: req.params.groupId,
@@ -516,9 +514,10 @@ router.put(
       return res.status(404).json({ message: "Group couldn't be found" });
     }
     const memberCheck = await Membership.findOne({
-      where: { groupId: groupCheck.id, userId: userCheck.id }, attributes: ['id', 'groupId', 'userId', 'status']
+      where: { groupId: groupCheck.id, userId: userCheck.id },
+      attributes: ["id", "groupId", "userId", "status"],
     });
-    console.log(memberCheck)
+    console.log(memberCheck);
     if (!memberCheck) {
       return res.status(404).json({
         message: "Membership between the user and the group doesn't exist",
@@ -649,7 +648,7 @@ router.delete(
       where: { userId: user.id, groupId: groupCheck.id },
     });
     if (
-      userMembership.userId === deleteMember.userId ||
+      userMembership && userMembership.userId === deleteMember.userId ||
       user.id === groupCheck.organizerId
     ) {
       await deleteMember.destroy();
