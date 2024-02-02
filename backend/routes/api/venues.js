@@ -25,7 +25,10 @@ const {
 router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
   const { user } = req;
   const { address, city, state, lat, lng } = req.body;
-  const editVenue = await Venue.findOne({ where: { id: req.params.venueId }, include: Group});
+  const editVenue = await Venue.findOne({
+    where: { id: req.params.venueId },
+    include: Group,
+  });
 
   if (!editVenue) {
     return res.status(404).json({ message: "Venue couldn't be found" });
@@ -39,7 +42,8 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
 
   if (
     (memberCheck && memberCheck.status === "co-host") ||
-    (organizerCheck && organizerCheck.organizerId === editVenue.Group.organizerId)
+    (organizerCheck &&
+      organizerCheck.organizerId === editVenue.Group.organizerId)
   ) {
     address ? (editVenue.address = address) : editVenue.address;
     city ? (editVenue.city = city) : editVenue.city;
@@ -49,7 +53,15 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
 
     await editVenue.save();
 
-    res.json(editVenue);
+    res.json({
+      id: editVenue.id,
+      groupId: editVenue.groupId,
+      address: editVenue.address,
+      city: editVenue.city,
+      state: editVenue.state,
+      lat: editVenue.lat,
+      lng: editVenue.lng,
+    });
   } else {
     res.status(403).json({
       message:

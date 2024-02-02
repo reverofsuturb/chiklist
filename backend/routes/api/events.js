@@ -57,7 +57,6 @@ router.get("/", async (req, res) => {
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
-    order: [["eventId", "ASC"]],
   });
   const getAllEvents = await Event.findAll({
     where,
@@ -168,8 +167,8 @@ router.get("/:eventId", async (req, res) => {
   });
   const getEventsGroupVenueById = await Event.findByPk(req.params.eventId, {
     include: [
-      { model: Group, attributes: ["id", "name", "city", "state"] },
-      { model: Venue, attributes: ["id", "city", "state"] },
+      { model: Group, attributes: ["id", "name", "private", "city", "state"] },
+      { model: Venue, attributes: ["id", "city", "state", "lat", "lng"] },
     ],
   });
 
@@ -187,7 +186,6 @@ router.get("/:eventId", async (req, res) => {
 
 router.post("/:eventId/attendance", requireAuth, async (req, res) => {
   const { user } = req;
-  const { userId, status } = req.body;
 
   const eventCheck = await Event.findByPk(req.params.eventId);
   if (!eventCheck) {
@@ -226,11 +224,14 @@ router.post("/:eventId/attendance", requireAuth, async (req, res) => {
 
   const requestAttendance = await Attendance.create({
     eventId: eventCheck.id,
-    userId,
-    status,
+    userId: user.id,
+    status: "pending",
   });
 
-  res.json(requestAttendance);
+  res.json({
+    userId: requestAttendance.userId,
+    status: requestAttendance.status,
+  });
 });
 
 //Add an Image to an Event based on the Event's id
@@ -255,6 +256,7 @@ router.post("/:eventId/images", requireAuth, async (req, res) => {
   });
 
   if (
+    (attendeesCheck && attendeesCheck.status === "waitlist") ||
     (attendeesCheck && attendeesCheck.status === "attending") ||
     (memberCheck && memberCheck.status === "co-host") ||
     (organizerCheck && organizerCheck.organizerId === user.id)
@@ -385,7 +387,18 @@ router.put("/:eventId", [requireAuth, validateEvent], async (req, res) => {
 
     await editEvent.save();
 
-    res.json(editEvent);
+    res.json({
+      id: editEvent.id,
+      groupId: editEvent.groupId,
+      venueId: editEvent.venueId,
+      name: editEvent.name,
+      type: editEvent.type,
+      capacity: editEvent.capacity,
+      price: editEvent.price,
+      description: editEvent.description,
+      startDate: editEvent.startDate,
+      endDate: editEvent.endDate,
+    });
   } else {
     res.status(403).json({
       message:

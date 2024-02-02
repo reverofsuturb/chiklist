@@ -120,7 +120,7 @@ router.get("/:groupId/events", async (req, res) => {
   if (!getGroupById) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
-  const numAttending = await Attendance.count({
+  const numAttending = await Attendance.findAll({
     order: [["eventId", "ASC"]],
   });
   const getAllEventImages = await EventImage.findAll({
@@ -148,9 +148,13 @@ router.get("/:groupId/events", async (req, res) => {
   const response = [];
   getAllEvents.forEach((event) => response.push(event.toJSON()));
 
+  let num = [];
+
+  numAttending.forEach((attendee) => num.push([attendee.toJSON()]));
+
   let i = 0;
   while (i < response.length) {
-    response[i].numAttending = numAttending[i].count;
+    response[i].numAttending = num[i].length;
     response[i].previewImage = getAllEventImages[i].url;
     response[i].Group = getAllEventsGroupVenue[i].Group;
     response[i].Venue = getAllEventsGroupVenue[i].Venue;
@@ -321,7 +325,18 @@ router.post(
         status: "attending",
       });
 
-      res.json(createEventByGroupId);
+      res.json({
+        id: createEventByGroupId.id,
+        groupId: createEventByGroupId.groupId,
+        venueId: createEventByGroupId.venueId,
+        name: createEventByGroupId.name,
+        type: createEventByGroupId.type,
+        capacity: createEventByGroupId.capacity,
+        price: createEventByGroupId.price,
+        description: createEventByGroupId.description,
+        startDate: createEventByGroupId.startDate,
+        endDate: createEventByGroupId.endDate,
+      });
     } else {
       res.status(403).json({
         message:
@@ -353,7 +368,11 @@ router.post("/:groupId/images", requireAuth, async (req, res) => {
     preview,
   });
 
-  res.json(createGroupImage);
+  res.json({
+    id: createGroupImage.id,
+    url: createGroupImage.url,
+    preview: createGroupImage.preview,
+  });
 });
 
 //Request a Membership for a Group based on the Group's id
@@ -430,7 +449,14 @@ router.post(
         lat,
         lng,
       });
-      res.json(createVenueByGroupId);
+      res.json({
+        id: createVenueByGroupId.id,
+        address: createVenueByGroupId.address,
+        city: createVenueByGroupId.city,
+        state: createVenueByGroupId.state,
+        lat: createVenueByGroupId.lat,
+        lang: createVenueByGroupId.lng,
+      });
     } else {
       res.status(403).json({
         message:
@@ -507,7 +533,12 @@ router.put(
       ) {
         status ? (memberCheck.status = status) : memberCheck.status;
         await memberCheck.save();
-        return res.json(memberCheck);
+        return res.json({
+          id: memberCheck.id,
+          groupId: memberCheck.groupId,
+          memberId: memberCheck.userId,
+          status: memberCheck.status,
+        });
       } else {
         return res.status(403).json({
           message:
@@ -523,7 +554,7 @@ router.put(
       } else {
         return res
           .status(403)
-          .json("Current User must already be the organizer");
+          .json({message: "Current User must already be the organizer"});
       }
     }
     if (status && status === "organizer") {
@@ -534,7 +565,7 @@ router.put(
       } else {
         return res
           .status(403)
-          .json("Current User must already be the organizer");
+          .json({message: "Current User must already be the organizer"});
       }
     }
   }
@@ -597,11 +628,14 @@ router.delete(
     const userMembership = await Membership.findOne({
       where: { userId: user.id, groupId: groupCheck.id },
     });
-    if (userMembership.userId === deleteMember.userId || user.id === groupCheck.organizerId) {
+    if (
+      userMembership.userId === deleteMember.userId ||
+      user.id === groupCheck.organizerId
+    ) {
       await deleteMember.destroy();
       res.json({ message: "Successfully deleted membership from group" });
     } else {
-      return res.json({
+      return res.status(403).json({
         message:
           "Current User must be the host of the group, or the user whose membership is being deleted",
       });
