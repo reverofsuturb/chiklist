@@ -44,18 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       startDate: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-          // is: /"\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d"/g,
-          // isAfter: this.createdAt
-        },
       },
       endDate: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-          // is: /"\d\d\d\d-\d\d-\d\d\ \d\d:\d\d:\d\d"/g,
-          // isAfter: this.createdAt
-        },
       },
     },
     {

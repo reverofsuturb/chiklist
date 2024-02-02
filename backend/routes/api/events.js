@@ -22,7 +22,7 @@ const {
 
 //Get all Events
 
-router.get("/", async (req, res) => {
+router.get("/", validateSearch, async (req, res) => {
   let { page, size, name, type, startDate } = req.query;
 
   page ? (page = parseInt(page)) : (page = 1);

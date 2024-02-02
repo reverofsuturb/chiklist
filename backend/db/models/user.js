@@ -16,9 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       User.hasMany(models.Group, { foreignKey: "organizerId" });
-
-      //not in use
-
       User.hasMany(models.Attendance, { foreignKey: "userId" });
       User.hasMany(models.Membership, { foreignKey: "userId" });
     }

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth");
 
+
 const {
   handleValidationErrors,
   validateEvent,
@@ -297,6 +298,7 @@ router.post(
       startDate,
       endDate,
     } = req.body;
+
     const venueCheck = await Venue.findByPk(venueId);
     if (!venueCheck) {
       return res.status(404).json({ message: "Venue couldn't be found" });

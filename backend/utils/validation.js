@@ -21,6 +21,8 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+let date = new Date().toISOString();
+let date2 = new Date().toISOString();
 // Create a Event Validation Error Handling Middleware
 
 const validateEvent = [
@@ -39,7 +41,6 @@ const validateEvent = [
   check("price")
     .exists({ checkFalsy: true })
     .isFloat()
-    // .isCurrency()
     .withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })
@@ -47,28 +48,45 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("startDate")
     .exists({ checkFalsy: true })
-    // .isDate()
+    .isAfter(date)
     .withMessage("Start date must be in the future"),
   check("endDate")
     .exists({ checkFalsy: true })
-    // .isDate()
+    .isAfter(date2)
+    .custom((val, { req }) => {
+      start = new Date(req.body.startDate);
+      end = new Date(val);
+      if (start >= end) {
+        throw new Error("End date is less than start date");
+      } else {
+        return true;
+      }
+    })
     .withMessage("End date is less than start date"),
   handleValidationErrors,
 ];
 
 const validateSearch = [
   check("page")
-    .isInt({ min: 1 })
+    .isInt({ min: 1, max: 20  })
+    .optional({checkFalsy: true})
     .withMessage("Page must be greater than or equal to 1"),
   check("size")
-    .isInt({ min: 1 })
+    .isInt({ min: 1, max: 20 })
+    .optional({checkFalsy: true})
     .withMessage("Size must be greater than or equal to 1"),
-  check("name").isString().withMessage("Name must be a string"),
+  check("name")
+    .isString()
+    .isAlpha()
+    .optional({checkFalsy: true})
+    .withMessage("Name must be a string"),
   check("type")
     .isIn(["Online", "In person"])
+    .optional({checkFalsy: true})
     .withMessage("Type must be 'Online' or 'In person'"),
   check("startDate")
-    .isDate()
+    .isISO8601()
+    .optional({checkFalsy: true})
     .withMessage("Start date must be a valid datetime"),
   handleValidationErrors,
 ];
@@ -143,12 +161,10 @@ const validateVenue = [
     .notEmpty()
     .withMessage("State is required"),
   check("lat")
-    .isFloat({ min: -90 })
-    .isFloat({ max: 90 })
+    .isFloat({ min: -90, max: 90 })
     .withMessage("Latitude must be within -90 and 90"),
   check("lng")
-    .isFloat({ min: -180 })
-    .isFloat({ max: 180 })
+    .isFloat({ min: -180, max: 180 })
     .withMessage("Longitude must be within -180 and 180"),
   handleValidationErrors,
 ];
@@ -177,5 +193,6 @@ module.exports = {
   validateGroup,
   validateMembership,
   validateVenue,
+  validateSearch,
   validateSignup,
 };
