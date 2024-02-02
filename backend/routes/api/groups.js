@@ -120,7 +120,7 @@ router.get("/:groupId/events", async (req, res) => {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
   const numAttending = await Attendance.count({
-    group: "eventId",
+    group: eventId,
   });
   const getAllEventImages = await EventImage.findAll({ group: "eventId" });
   const getAllEventsGroupVenue = await Event.findAll({
@@ -515,9 +515,9 @@ router.put("/:groupId/membership", requireAuth, async (req, res) => {
   }
   if (status && status === "co-host ") {
     if (user.id === groupCheck.organizerId) {
-      status ? (changeMemberStatus.status = status) : changeMemberStatus.status;
-      await changeMemberStatus.save();
-      return res.json(changeMemberStatus);
+      status ? (memberCheck.status = status) : memberCheck.status;
+      await memberCheck.save();
+      return res.json(memberCheck);
     } else {
       return res.status(403).json("Current User must already be the organizer");
     }
