@@ -236,35 +236,37 @@ router.get("/:groupId", async (req, res) => {
 
 router.get("/:groupId/members", async (req, res) => {
   const { user } = req;
+
   const groupCheck = await Group.findByPk(req.params.groupId);
   if (!groupCheck) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
-  const memberCheck = await Membership.findOne({
-    where: { userId: user.id, groupId: groupCheck.id },
-  });
+
   const organizerCheck = await Group.findOne({
     where: { organizerId: user.id },
   });
 
-  if (
-    (memberCheck && memberCheck.status === "co-host") ||
-    (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId)
-  ) {
-    const getMembersByGroupId = await Membership.findAll({
-      where: { groupId: req.params.groupId },
-      attributes: ["status"],
-      include: { model: User, attributes: ["firstName", "lastName"] },
+  if (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId) {
+    const getMembersByGroupId = await User.findAll({
+      attributes: ["id", "firstName", "lastName"],
+      include: {
+        model: Membership,
+        where: { groupId: groupCheck.id },
+        attributes: ["status"],
+      },
     });
     res.json(getMembersByGroupId);
   } else {
-    const getMembersByGroupId = await Membership.findAll({
-      where: {
-        groupId: req.params.groupId,
-        status: ["co-host", "member", "organizer"],
+    const getMembersByGroupId = await User.findAll({
+      attributes: ["id", "firstName", "lastName"],
+      include: {
+        model: Membership,
+        where: {
+          groupId: groupCheck.id,
+          status: ["co-host", "member", "organizer"],
+        },
+        attributes: ["status"],
       },
-      attributes: ["status"],
-      include: { model: User, attributes: ["firstName", "lastName"] },
     });
     res.json(getMembersByGroupId);
   }
@@ -426,7 +428,7 @@ router.post(
     const { address, city, state, lat, lng } = req.body;
     const getGroupById = await Group.findByPk(req.params.groupId);
     if (!getGroupById) {
-      return res.json({ message: "Group couldn't be found" });
+      return res.status(404).json({ message: "Group couldn't be found" });
     }
     const memberCheck = await Membership.findOne({
       where: { userId: user.id, groupId: getGroupById.id },
@@ -550,22 +552,32 @@ router.put(
       if (user.id === groupCheck.organizerId) {
         status ? (memberCheck.status = status) : memberCheck.status;
         await memberCheck.save();
-        return res.json(memberCheck);
+        return res.json({
+          id: memberCheck.id,
+          groupId: memberCheck.groupId,
+          memberId: memberCheck.userId,
+          status: memberCheck.status,
+        });
       } else {
         return res
           .status(403)
-          .json({message: "Current User must already be the organizer"});
+          .json({ message: "Current User must already be the organizer" });
       }
     }
     if (status && status === "organizer") {
       if (user.id === groupCheck.organizerId) {
         status ? (memberCheck.status = status) : memberCheck.status;
         await memberCheck.save();
-        return res.json(memberCheck);
+        return res.json({
+          id: memberCheck.id,
+          groupId: memberCheck.groupId,
+          memberId: memberCheck.userId,
+          status: memberCheck.status,
+        });
       } else {
         return res
           .status(403)
-          .json({message: "Current User must already be the organizer"});
+          .json({ message: "Current User must already be the organizer" });
       }
     }
   }

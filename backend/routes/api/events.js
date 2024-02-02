@@ -195,7 +195,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res) => {
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: eventCheck.groupId },
   });
-  if (!memberCheck) {
+  if (!memberCheck || memberCheck.status === "pending") {
     return res
       .status(403)
       .json({ message: "Current User must be a member of the group" });
@@ -267,7 +267,11 @@ router.post("/:eventId/images", requireAuth, async (req, res) => {
       preview,
     });
 
-    res.json(createEventImageById);
+    res.json({
+      id: createEventImageById.id,
+      url: createEventImageById.url,
+      preview: createEventImageById.preview,
+    });
   } else {
     res.status(403).json({
       message:
@@ -330,11 +334,10 @@ router.put(
         await attendanceCheck.save();
         return res.json(attendanceCheck);
       } else {
-        res
-          .status(403)
-          .json(
-            "Current User must already be the organizer or have a member to the group with the status of 'co-host'"
-          );
+        res.status(403).json({
+          message:
+            "Current User must already be the organizer or have a member to the group with the status of 'co-host'",
+        });
       }
     }
   }
@@ -441,8 +444,9 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
   });
 
   if (
-    (memberCheck && memberCheck.status === "member") ||
-    (memberCheck && memberCheck.status === "co-host") ||
+    (memberCheck &&
+      memberCheck.status === "member" &&
+      memberCheck.userId === deleteAttendance.userId) ||
     (organizerCheck && organizerCheck.organizerId === user.id)
   ) {
     await deleteAttendance.destroy();
