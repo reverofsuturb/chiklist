@@ -516,8 +516,9 @@ router.put(
       return res.status(404).json({ message: "Group couldn't be found" });
     }
     const memberCheck = await Membership.findOne({
-      where: { groupId: groupCheck.id, userId: userCheck.id },
+      where: { groupId: groupCheck.id, userId: userCheck.id }, attributes: ['id', 'groupId', 'userId', 'status']
     });
+    console.log(memberCheck)
     if (!memberCheck) {
       return res.status(404).json({
         message: "Membership between the user and the group doesn't exist",

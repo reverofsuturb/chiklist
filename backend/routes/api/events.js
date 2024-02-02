@@ -309,7 +309,7 @@ router.put(
     const groupCheck = await Group.findByPk(eventCheck.groupId);
 
     const attendanceCheck = await Attendance.findOne({
-      where: { userId: userId, eventId: eventCheck.id },
+      where: { userId: userId, eventId: eventCheck.id }, attributes: ['id', 'eventId', 'userId', 'status']
     });
 
     if (!attendanceCheck) {
