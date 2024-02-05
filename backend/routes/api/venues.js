@@ -48,8 +48,8 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
     address ? (editVenue.address = address) : editVenue.address;
     city ? (editVenue.city = city) : editVenue.city;
     state ? (editVenue.state = state) : editVenue.state;
-    lat ? (editVenue.lat = lat) : editVenue.lat;
-    lng ? (editVenue.lng = lng) : editVenue.lng;
+    lat ? (editVenue.lat = parseFloat(lat)) : editVenue.lat;
+    lng ? (editVenue.lng = parseFloat(lng)) : editVenue.lng;
 
     await editVenue.save();
 
@@ -59,8 +59,8 @@ router.put("/:venueId", [requireAuth, validateVenue], async (req, res) => {
       address: editVenue.address,
       city: editVenue.city,
       state: editVenue.state,
-      lat: editVenue.lat,
-      lng: editVenue.lng,
+      lat: parseFloat(editVenue.lat),
+      lng: parseFloat(editVenue.lng),
     });
   } else {
     res.status(403).json({

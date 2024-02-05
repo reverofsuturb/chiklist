@@ -108,6 +108,7 @@ router.get("/:eventId/attendees", async (req, res) => {
 
   const attendanceCheck = await Attendance.findOne({
     where: { userId: user.id, eventId: eventCheck.id },
+    attributes: ["id", "userId", "eventId", "status"],
   });
   const organizerCheck = await Group.findOne({
     where: { organizerId: user.id },
@@ -411,7 +412,7 @@ router.put("/:eventId", [requireAuth, validateEvent], async (req, res) => {
       name: editEvent.name,
       type: editEvent.type,
       capacity: editEvent.capacity,
-      price: editEvent.price,
+      price: parseFloat(editEvent.price),
       description: editEvent.description,
       startDate: editEvent.startDate,
       endDate: editEvent.endDate,

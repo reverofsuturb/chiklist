@@ -132,8 +132,8 @@ router.get("/:groupId/events", async (req, res) => {
   });
   const getAllEventsGroupVenue = await Event.findAll({
     include: [
-      { model: Group, attributes: ["id", "name", "city", "state"] },
-      { model: Venue, attributes: ["id", "city", "state"] },
+      { model: Group, where: { groupId: getGroupById.id }, attributes: ["id", "name", "city", "state"] },
+      { model: Venue, where: { groupId: getGroupById.id }, attributes: ["id", "city", "state"] },
     ],
   });
   const getAllEvents = await Event.findAll({
@@ -184,6 +184,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
 
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: getGroupById.id },
+    attributes: ["id", "userId", "groupId", "status"]
   });
   const organizerCheck = await Group.findOne({
     where: { organizerId: user.id },
@@ -263,7 +264,7 @@ router.get("/:groupId/members", async (req, res) => {
         attributes: ["status"],
       },
     });
-    res.json(getMembersByGroupId);
+    res.json({ Members: getMembersByGroupId });
   } else {
     const getMembersByGroupId = await User.findAll({
       attributes: ["id", "firstName", "lastName"],
@@ -342,7 +343,7 @@ router.post(
         name: createEventByGroupId.name,
         type: createEventByGroupId.type,
         capacity: createEventByGroupId.capacity,
-        price: createEventByGroupId.price,
+        price: parseFloat(createEventByGroupId.price),
         description: createEventByGroupId.description,
         startDate: createEventByGroupId.startDate,
         endDate: createEventByGroupId.endDate,
@@ -454,16 +455,17 @@ router.post(
         address,
         city,
         state,
-        lat,
-        lng,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
       });
       res.json({
         id: createVenueByGroupId.id,
+        groupId: createVenueByGroupId.groupId,
         address: createVenueByGroupId.address,
         city: createVenueByGroupId.city,
         state: createVenueByGroupId.state,
-        lat: createVenueByGroupId.lat,
-        lang: createVenueByGroupId.lng,
+        lat: parseFloat(createVenueByGroupId.lat),
+        lang: parseFloat(createVenueByGroupId.lng),
       });
     } else {
       res.status(403).json({
