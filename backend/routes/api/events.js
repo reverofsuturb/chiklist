@@ -48,7 +48,6 @@ router.get("/", validateSearch, async (req, res) => {
   const numAttending = await Attendance.findAll({
     order: [["eventId", "ASC"]],
   });
-  console.log(numAttending);
   const getAllEventImages = await EventImage.findAll({
     order: [["eventId", "ASC"]],
   });
@@ -72,7 +71,6 @@ router.get("/", validateSearch, async (req, res) => {
 
     ...pagination,
   });
-
   const response = [];
   getAllEvents.forEach((event) => response.push(event.toJSON()));
 
