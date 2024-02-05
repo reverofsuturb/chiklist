@@ -323,7 +323,7 @@ router.post(
         name,
         type,
         capacity,
-        price,
+        price: parseFloat(price),
         description,
         startDate,
         endDate,
