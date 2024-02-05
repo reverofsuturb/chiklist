@@ -200,7 +200,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
     user.id === getGroupById.organizerId
   ) {
     const getVenueByGroupId = await getGroupById.getVenues();
-    const response = [];
+    let response = [];
     getVenueByGroupId.forEach((venue) => response.push(venue.toJSON()));
     response.forEach((res) => {
       let { lat, lng } = res;
@@ -242,8 +242,9 @@ router.get("/:groupId", async (req, res) => {
   });
   const group = getGroupById.toJSON();
 
-  const venues = [];
-  getVenuesByGroupId.forEach((venue) => venues.push(venue.toJSON));
+  let venues = [];
+  getVenuesByGroupId.forEach((venue) => venues.push(venue.toJSON()));
+
   venues.forEach((venue) => {
     let { lat, lng } = venue;
     venue.lat = parseFloat(lat);
@@ -505,8 +506,8 @@ router.post("/", [requireAuth, validateGroup], async (req, res) => {
   const { user } = req;
   const { name, about, type, private, city, state } = req.body;
   const createGroup = await Group.create({
-    name,
     organizerId: user.id,
+    name,
     about,
     type,
     private,
