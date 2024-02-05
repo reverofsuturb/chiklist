@@ -108,7 +108,7 @@ router.get("/:eventId/attendees", async (req, res) => {
 
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: eventCheck.groupId },
-    attributes: ["id", "userId", "eventId", "status"],
+    attributes: ["id", "userId", "groupId", "status"],
   });
   const groupCheck = await Group.findByPk(eventCheck.groupId);
 

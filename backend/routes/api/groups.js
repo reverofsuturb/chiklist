@@ -202,6 +202,11 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
     const getVenueByGroupId = await getGroupById.getVenues();
     const response = [];
     getVenueByGroupId.forEach((venue) => response.push(venue.toJSON()));
+    response.forEach((res) => {
+      let { lat, lng } = res;
+      res.lat = parseFloat(lat);
+      res.lng = parseFloat(lng);
+    });
     res.json({ Venues: response });
   } else {
     res.status(403).json({
@@ -237,12 +242,20 @@ router.get("/:groupId", async (req, res) => {
   });
   const group = getGroupById.toJSON();
 
+  const venues = [];
+  getVenuesByGroupId.forEach((venue) => venues.push(venue.toJSON));
+  venues.forEach((venue) => {
+    let { lat, lng } = venue;
+    venue.lat = parseFloat(lat);
+    venue.lng = parseFloat(lng);
+  });
+
   res.json({
     ...group,
     numMembers,
     GroupImages: getGroupImagesByGroupId,
     Organizer: getOrganizer,
-    Venues: getVenuesByGroupId,
+    Venues: venues,
   });
 });
 
