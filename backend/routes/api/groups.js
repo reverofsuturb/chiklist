@@ -132,8 +132,16 @@ router.get("/:groupId/events", async (req, res) => {
   });
   const getAllEventsGroupVenue = await Event.findAll({
     include: [
-      { model: Group, where: { groupId: getGroupById.id }, attributes: ["id", "name", "city", "state"] },
-      { model: Venue, where: { groupId: getGroupById.id }, attributes: ["id", "city", "state"] },
+      {
+        model: Group,
+        where: { id: getGroupById.id },
+        attributes: ["id", "name", "city", "state"],
+      },
+      {
+        model: Venue,
+        where: { groupId: getGroupById.id },
+        attributes: ["id", "city", "state"],
+      },
     ],
   });
   const getAllEvents = await Event.findAll({
@@ -184,15 +192,12 @@ router.get("/:groupId/venues", requireAuth, async (req, res) => {
 
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: getGroupById.id },
-    attributes: ["id", "userId", "groupId", "status"]
-  });
-  const organizerCheck = await Group.findOne({
-    where: { organizerId: user.id },
+    attributes: ["id", "userId", "groupId", "status"],
   });
 
   if (
     (memberCheck && memberCheck.status === "co-host") ||
-    (organizerCheck && organizerCheck.organizerId === getGroupById.organizerId)
+    user.id === getGroupById.organizerId
   ) {
     const getVenueByGroupId = await getGroupById.getVenues();
     const response = [];
@@ -251,11 +256,17 @@ router.get("/:groupId/members", async (req, res) => {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  const organizerCheck = await Group.findOne({
-    where: { organizerId: user.id },
+  const memberCheck = await Membership.findOne({
+    where: {
+      userId: user.id,
+      groupId: groupCheck.id,
+    },
   });
 
-  if (organizerCheck && organizerCheck.organizerId === groupCheck.organizerId) {
+  if (
+    user.id === groupCheck.organizerId ||
+    (memberCheck && memberCheck.status === "co-host")
+  ) {
     const getMembersByGroupId = await User.findAll({
       attributes: ["id", "firstName", "lastName"],
       include: {
@@ -650,7 +661,7 @@ router.delete(
       where: { userId: user.id, groupId: groupCheck.id },
     });
     if (
-      userMembership && userMembership.userId === deleteMember.userId ||
+      (userMembership && userMembership.userId === deleteMember.userId) ||
       user.id === groupCheck.organizerId
     ) {
       await deleteMember.destroy();

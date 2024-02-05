@@ -106,17 +106,15 @@ router.get("/:eventId/attendees", async (req, res) => {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
 
-  const attendanceCheck = await Attendance.findOne({
-    where: { userId: user.id, eventId: eventCheck.id },
+  const memberCheck = await Membership.findOne({
+    where: { userId: user.id, groupId: eventCheck.groupId },
     attributes: ["id", "userId", "eventId", "status"],
   });
-  const organizerCheck = await Group.findOne({
-    where: { organizerId: user.id },
-  });
+  const groupCheck = await Group.findByPk(eventCheck.groupId);
 
   if (
-    (attendanceCheck && attendanceCheck.status === "co-host") ||
-    (organizerCheck && organizerCheck.organizerId === user.id)
+    (memberCheck && memberCheck.status === "co-host") ||
+    (groupCheck && groupCheck.organizerId === user.id)
   ) {
     const getAttendancesByEventId = await User.findAll({
       attributes: ["id", "firstName", "lastName"],
@@ -142,7 +140,6 @@ router.get("/:eventId/attendees", async (req, res) => {
     res.json({ Attendees: getAttendancesByEventId });
   }
 });
-
 //Get details of an Event specified by its id
 
 router.get("/:eventId", async (req, res) => {
@@ -178,11 +175,16 @@ router.get("/:eventId", async (req, res) => {
   });
 
   const response = getEventById.toJSON();
-
+  const { price, capacity } = response;
+  response.price = parseFloat(price);
+  response.capacity = parseFloat(capacity);
   response.numAttending = numAttending.length;
   response.Group = getEventsGroupVenueById.Group;
   if (getEventsGroupVenueById.Venue) {
+    const { lat, lng } = getEventsGroupVenueById.Venue;
     response.Venue = getEventsGroupVenueById.Venue;
+    response.Venue.lat = parseFloat(lat);
+    response.Venue.lng = parseFloat(lng);
   }
   if (getEventImageById) {
     response.EventImages = getEventImageById;
