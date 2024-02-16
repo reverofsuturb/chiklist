@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import * as sessionActions from "../../store/session";
-import "./SignUpForm.css";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
+import * as sessionActions from '../../store/session';
+import './SignupForm.css';
 
-function SignUpFormModal() {
+function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -25,7 +25,7 @@ function SignUpFormModal() {
           username,
           firstName,
           lastName,
-          password,
+          password
         })
       )
         .then(closeModal)
@@ -37,8 +37,7 @@ function SignUpFormModal() {
         });
     }
     return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
+      confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
 
@@ -112,4 +111,4 @@ function SignUpFormModal() {
   );
 }
 
-export { SignUpFormModal }
+export default SignupFormModal;

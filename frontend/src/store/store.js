@@ -1,13 +1,12 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { thunk } from "redux-thunk";
-import sessionReducer from "./session";
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import sessionReducer from './session';
 
 const rootReducer = combineReducers({
-  session: sessionReducer,
+  session: sessionReducer
 });
 
 let enhancer;
-// in production the enhancer should only apply thunk middleware
 if (import.meta.env.MODE === "production") {
   enhancer = applyMiddleware(thunk);
 } else {
