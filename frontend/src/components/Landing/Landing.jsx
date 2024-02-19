@@ -1,6 +1,6 @@
 import "./Landing.css";
 
-function Landing() {
+export function Landing() {
   return (
     <div>
       <div className="la-topbanner">
@@ -18,6 +18,4 @@ function Landing() {
       </div>
     </div>
   );
-}
-
-export default Landing;
+  }

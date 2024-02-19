@@ -1,7 +1,5 @@
-function EventsListPage() {
+export function EventsListPage() {
   return (
     <></>
   )
 }
-
-export default EventsListPage

@@ -1,7 +1,5 @@
-function GroupsListPage () {
+export function GroupsListPage () {
   return (
   <></>
   )
 }
-
-export default GroupsListPage

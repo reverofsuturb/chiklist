@@ -1,7 +1,5 @@
-function EventDetailsPage() {
+export function EventDetailsPage() {
   return (
   <></>
   );
 }
-
-export default EventDetailsPage

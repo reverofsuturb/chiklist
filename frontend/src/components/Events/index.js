@@ -1,5 +1,3 @@
-import EventDetailsPage from "./EventDetailsPage";
-import EventsListPage from "./EventsListPage";
-import EventForm from "./EventForm";
-
-export default Events
+export { EventDetailsPage } from "./EventDetailsPage";
+export { EventsListPage } from "./EventsListPage";
+export { EventForm } from "./EventForm";

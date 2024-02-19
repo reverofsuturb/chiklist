@@ -1,5 +1,3 @@
-import GroupDetailsPage from "./GroupDetailsPage";
-import GroupsListPage from "./GroupsListPage";
-import GroupForm from "./GroupForm";
-
-export default Groups
+export { GroupDetailsPage } from "./GroupDetailsPage";
+export { GroupsListPage } from "./GroupsListPage";
+export { GroupForm } from "./GroupForm";

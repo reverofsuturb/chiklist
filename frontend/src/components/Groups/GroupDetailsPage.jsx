@@ -1,7 +1,5 @@
-function GroupDetailsPage () {
+export function GroupDetailsPage () {
   return (
     <></>
   )
 }
-
-export default GroupDetailsPage

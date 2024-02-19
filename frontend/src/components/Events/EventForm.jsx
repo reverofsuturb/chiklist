@@ -1,7 +1,5 @@
-function EventForm() {
+export function EventForm() {
   return (
     <></>
   )
 }
-
-export default EventForm

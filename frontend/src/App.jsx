@@ -6,11 +6,15 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation-bonus";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
-import Landing from "./components/Landing/Landing";
-import GroupsListPage from "./components/Groups";
-import GroupDetailsPage from "./components/Groups/";
+import { Landing } from "./components/Landing/";
+import { GroupDetailsPage } from "./components/Groups";
+import { GroupsListPage } from "./components/Groups";
+import { GroupForm } from "./components/Groups";
+import { EventDetailsPage } from "./components/Events";
+import { EventsListPage } from "./components/Events";
+import { EventForm } from "./components/Events";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GroupForm from "./components/Groups/GroupForm";
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,19 +25,19 @@ function Layout() {
     });
   }, [dispatch]);
 
-  const router = (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/groups" element={<GroupsListPage />} />
-        <Route path="/groups/:groupId" element={<GroupDetailsPage />} />
-        <Route path="/groups/new" element={<GroupForm />} />
-        <Route path="/events" element={<EventsListPage />} />
-        <Route path="/events/:eventId" element={<EventDetailsPage />} />
-        <Route path="/events/new" element={<EventForm />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  // const router = {
+  //   <BrowserRouter>
+  //     <Routes>
+  //       <Route path="/" element={<Landing />} />
+  //       <Route path="/groups" element={<GroupsListPage />} />
+  //       <Route path="/groups/:groupId" element={<GroupDetailsPage />} />
+  //       <Route path="/groups/new" element={<GroupForm />} />
+  //       <Route path="/events" element={<EventsListPage />} />
+  //       <Route path="/events/:eventId" element={<EventDetailsPage />} />
+  //       <Route path="/events/new" element={<EventForm />} />
+  //     </Routes>
+  //   </BrowserRouter>
+  // };
 
   return (
     <>
@@ -60,9 +64,18 @@ const router = createBrowserRouter([
       //   path: 'signup',
       //   element: <SignupFormPage />
       // }
+      {
+        path: "/groups",
+        element: <GroupsListPage />,
+      },
+      { path: "/groups/:groupId", element: <GroupDetailsPage /> },
+      { path: "/groups/new", element: <GroupForm /> },
+      { path: "/events", element: <EventsListPage /> },
+      { path: "/events/:eventId", element: <EventDetailsPage /> },
+      { path: "/events/new", element: <EventForm /> },
     ],
   },
-]);
+  ]);
 
 function App() {
   return <RouterProvider router={router} />;
