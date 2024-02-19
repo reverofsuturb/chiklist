@@ -72,10 +72,10 @@ const router = createBrowserRouter([
       { path: "/groups/new", element: <GroupForm /> },
       { path: "/events", element: <EventsListPage /> },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
-      { path: "/events/new", element: <EventForm /> },
+      { path: "/groups/:groupId/events/new", element: <EventForm /> },
     ],
   },
-  ]);
+]);
 
 function App() {
   return <RouterProvider router={router} />;

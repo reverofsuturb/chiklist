@@ -1,26 +1,44 @@
-import { useDispatch } from "react-redux";
 import { csrfFetch } from "./csrf";
 
 //Action Type Creators//
 export const LOAD_GROUPS = "groups/loadGroups";
+export const SINGLE_GROUP = "groups/singleGroup";
 export const CREATE_GROUP = "groups/createGroup";
 
 //Action Creators//
-export const fetchGroups = () => {
-  type: LOAD_GROUPS, groups
-}
-export const makeGroup = (group) => {
-  type: CREATE_GROUP, group;
-};
-
+export const loadGroups = (groups) => ({
+  type: LOAD_GROUPS,
+  groups,
+});
+export const singleGroup = (group) => ({
+  type: SINGLE_GROUP,
+  group,
+});
+export const createGroup = (group) => ({
+  type: CREATE_GROUP,
+  group,
+});
 
 //Thunk Action Creator//
-export const loadGroups = () => async(dispatch) => {
-  const response = await fetch("/api/groups")
+export const fetchGroups = () => async (dispatch) => {
+  const response = await csrfFetch("/api/groups");
   const groups = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(groups);
+  dispatch(loadGroups(groups));
+};
 
-}
-export const createGroup = (payload) => async (dispatch) => {
+export const fetchGroup = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`);
+  const group = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(group);
+  dispatch(singleGroup(group));
+};
+
+export const makeGroup = (payload) => async (dispatch) => {
   console.log("PAYLOAD =================", payload);
   const response = await csrfFetch("/api/groups", {
     method: "POST",
@@ -41,6 +59,15 @@ export const createGroup = (payload) => async (dispatch) => {
 
 const groupsReducer = (state = {}, action) => {
   switch (action.type) {
+    case LOAD_GROUPS: {
+      const groupsState = {};
+      action.groups.Groups.forEach((group) => {
+        groupsState[group.id] = group;
+      });
+      return groupsState;
+    }
+    case SINGLE_GROUP:
+      return { ...state, [action.group.id]: action.group };
     case CREATE_GROUP:
       return { ...state, [action.group.id]: action.group };
     default:

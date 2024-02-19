@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createGroup } from "../../store/groups";
+import { makeGroup } from "../../store/groups";
 
 export function GroupForm() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export function GroupForm() {
       city: cityArr[0],
       state: cityArr[1],
     };
-    const newGroup = await dispatch(createGroup(group));
+    const newGroup = await dispatch(makeGroup(group));
     console.log(newGroup);
   };
   return (

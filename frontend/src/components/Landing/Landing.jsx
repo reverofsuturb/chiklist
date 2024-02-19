@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Landing.css";
 
 export function Landing() {
@@ -10,12 +11,12 @@ export function Landing() {
       <div className="la-bottombanner">
         <h1 className="la-bottomtitle">HOW MEETUP WORKS</h1>
         <div className="la-bottomintro">
-          <div>SEE ALL GROUPS</div>
-          <div>FIND AN EVENT</div>
-          <div>START A NEW GROUP</div>
+          <Link to="/groups">SEE ALL GROUPS</Link>
+          <Link to="/events">FIND AN EVENT</Link>
+          <Link to="/groups/new">START A NEW GROUP</Link>
         </div>
         <button className="la-bottombutton">JOIN MEETUP</button>
       </div>
     </div>
   );
-  }
+}
