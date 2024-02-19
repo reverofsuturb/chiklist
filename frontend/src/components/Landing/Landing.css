@@ -1,0 +1,23 @@
+.la-topbanner {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+.la-bottombanner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.la-bottomintro {
+  display: flex;
+  margin: 10px;
+  gap: 10px;
+}
+
+.la-bottombutton {
+  padding: 20px
+}
