@@ -89,7 +89,10 @@ export const makeGroup = (payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
   const group = await response.json();
-  if (response.status !== 201) return console.log(response);
+  if (response.status !== 201) {
+    console.log(group);
+    return group;
+  }
   console.log(response);
   console.log(group);
   dispatch(createGroup(group));
@@ -103,7 +106,7 @@ export const makeGroupImage = (payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
   const groupImage = await response.json();
-  if (response.status !== 200) return console.log(response);
+  if (response.status !== 200) return response;
   console.log(response);
   console.log(groupImage);
   dispatch(createGroupImage(groupImage));

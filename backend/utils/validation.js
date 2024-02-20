@@ -40,7 +40,7 @@ const validateEvent = [
     .withMessage("Capacity must be an integer"),
   check("price")
     .exists({ checkFalsy: true })
-    .isFloat({ min: 0})
+    .isFloat({ min: 0 })
     .withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })
@@ -68,25 +68,25 @@ const validateEvent = [
 
 const validateSearch = [
   check("page")
-    .isInt({ min: 1, max: 20  })
-    .optional({checkFalsy: true})
+    .isInt({ min: 1, max: 20 })
+    .optional({ checkFalsy: true })
     .withMessage("Page must be greater than or equal to 1"),
   check("size")
     .isInt({ min: 1, max: 20 })
-    .optional({checkFalsy: true})
+    .optional({ checkFalsy: true })
     .withMessage("Size must be greater than or equal to 1"),
   check("name")
     .isString()
     .isAlpha()
-    .optional({checkFalsy: true})
+    .optional({ checkFalsy: true })
     .withMessage("Name must be a string"),
   check("type")
     .isIn(["Online", "In person"])
-    .optional({checkFalsy: true})
+    .optional({ checkFalsy: true })
     .withMessage("Type must be 'Online' or 'In person'"),
   check("startDate")
     .isISO8601()
-    .optional({checkFalsy: true})
+    .optional({ checkFalsy: true })
     .withMessage("Start date must be a valid datetime"),
   handleValidationErrors,
 ];
@@ -95,7 +95,7 @@ const validateSearch = [
 const validateGroup = [
   check("name")
     .exists({ checkFalsy: true })
-    .isLength({ max: 60 })
+    .isLength({ min: 2, max: 60 })
     .withMessage("Name must be 60 characters or less"),
   check("about")
     .exists({ checkFalsy: true })

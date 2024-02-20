@@ -8,7 +8,10 @@
 
 nav {
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .homelinks {
