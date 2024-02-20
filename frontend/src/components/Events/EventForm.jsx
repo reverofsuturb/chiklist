@@ -31,8 +31,8 @@ export function EventForm() {
       description,
       startDate,
       endDate,
+      privateGroup,
     };
-
     const newEvent = await dispatch(makeEvent(event));
     console.log(newEvent);
     const preview = imageUrl ? true : false;
@@ -62,7 +62,16 @@ export function EventForm() {
             placeholder="Event Name"
           />
         </label>
-
+        <label>
+          Where is this event being hosted?
+          <input
+            type="text"
+            value={venueId}
+            onChange={(e) => setVenueId(e.target.value)}
+            placeholder="Venue"
+            disabled={true}
+          />
+        </label>
         <label>
           Is this an in person or online event?
           <select onChange={(e) => setType(e.target.value)}>

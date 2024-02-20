@@ -12,7 +12,7 @@ export function GroupEventsListPage() {
 
   useEffect(() => {
     dispatch(fetchGroupEvents(groupId));
-  }, [dispatch]);
+  }, [dispatch, groupId]);
   return (
     <>
       <ul>
