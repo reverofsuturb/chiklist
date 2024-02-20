@@ -9,7 +9,7 @@ export function Landing() {
         <div>PICTURE</div>
       </div>
       <div className="la-bottombanner">
-        <h1 className="la-bottomtitle">HOW MEETUP WORKS!</h1>
+        <h1 className="la-bottomtitle">HOW MEETUP WORKS</h1>
         <div className="la-bottomintro">
           <Link to="/groups">SEE ALL GROUPS</Link>
           <Link to="/events">FIND AN EVENT</Link>
