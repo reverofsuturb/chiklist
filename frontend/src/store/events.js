@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_EVENTS = "events/loadEvents";
 export const SINGLE_EVENT = "events/singleEvent";
 export const CREATE_EVENT = "events/createEvent";
+export const CREATE_EVENT_PHOTO = "events/createEventPhoto";
 
 //Action Creators//
 export const loadEvents = (events) => ({
@@ -18,6 +19,10 @@ export const createEvent = (event) => ({
   type: CREATE_EVENT,
   event,
 });
+export const createEventPhoto = (eventPhoto) => ({
+  type: CREATE_EVENT_PHOTO,
+  eventPhoto
+})
 
 //Thunk Action Creator//
 export const fetchEvents = () => async (dispatch) => {
@@ -53,7 +58,9 @@ export const makeEvent = (payload) => async (dispatch) => {
   return event;
 };
 
+// export const makeEventPhoto = (payload) = async (dispatch) => {
 
+// }
 
 //Selectors
 

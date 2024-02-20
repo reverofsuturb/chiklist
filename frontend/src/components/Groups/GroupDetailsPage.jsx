@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroup } from "../../store/groups";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 
 export function GroupDetailsPage() {
@@ -21,7 +21,7 @@ export function GroupDetailsPage() {
       <li>Number of Members: {group?.numMembers}</li>
       <li>Type: {group?.type}</li>
       <li>About: {group?.about}</li>
-      <Link to={`/groups/${group.id}/events`}>Group Events</Link>
+      <Link to={`/groups/${group?.id}/events`}>Group Events</Link>
     </>
   );
 }

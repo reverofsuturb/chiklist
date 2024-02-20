@@ -6,19 +6,20 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation-bonus";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
-
 import { Landing } from "./components/Landing/";
-
-import { GroupDetailsPage } from "./components/Groups";
-import { GroupsListPage } from "./components/Groups";
-import { GroupForm } from "./components/Groups";
-import { GroupEventsListPage } from "./components/Groups/"
-
-import { EventDetailsPage } from "./components/Events";
-import { EventsListPage } from "./components/Events";
-import { EventForm } from "./components/Events";
-
+import {
+  GroupDetailsPage,
+  GroupEventsListPage,
+  GroupsListPage,
+  GroupForm,
+} from "./components/Groups";
+import {
+  EventDetailsPage,
+  EventsListPage,
+  EventForm,
+} from "./components/Events";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -27,20 +28,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
       setIsLoaded(true);
     });
   }, [dispatch]);
-
-  // const router = {
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<Landing />} />
-  //       <Route path="/groups" element={<GroupsListPage />} />
-  //       <Route path="/groups/:groupId" element={<GroupDetailsPage />} />
-  //       <Route path="/groups/new" element={<GroupForm />} />
-  //       <Route path="/events" element={<EventsListPage />} />
-  //       <Route path="/events/:eventId" element={<EventDetailsPage />} />
-  //       <Route path="/events/new" element={<EventForm />} />
-  //     </Routes>
-  //   </BrowserRouter>
-  // };
 
   return (
     <>

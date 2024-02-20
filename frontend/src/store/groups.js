@@ -35,12 +35,12 @@ export const fetchGroups = () => async (dispatch) => {
 };
 
 export const fetchGroupEvents = (groupId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}events`);
-  const groups = await response.json();
+  const response = await csrfFetch(`/api/groups/${groupId}/events`);
+  const groupEvents = await response.json();
   if (response.status !== 200) return console.log(response);
   console.log(response);
-  console.log(groups);
-  dispatch(loadGroups(groups));
+  console.log(groupEvents);
+  dispatch(loadGroupEvents(groupEvents));
 };
 
 export const fetchGroup = (groupId) => async (dispatch) => {
@@ -79,6 +79,13 @@ const groupsReducer = (state = {}, action) => {
         groupsState[group.id] = group;
       });
       return groupsState;
+    }
+    case LOAD_GROUP_EVENTS: {
+      const groupEventsState = {};
+      action.groupEvents.Events.forEach((event) => {
+        groupEventsState[event.id] = event;
+      });
+      return groupEventsState;
     }
     case SINGLE_GROUP:
       return { ...state, [action.group.id]: action.group };
