@@ -12,11 +12,13 @@ import {
   GroupEventsListPage,
   GroupsListPage,
   GroupForm,
+  UserGroupsListPage,
 } from "./components/Groups";
 import {
   EventDetailsPage,
   EventsListPage,
   EventForm,
+  UserEventsListPage,
 } from "./components/Events";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function Layout() {
@@ -58,12 +60,14 @@ const router = createBrowserRouter([
         path: "/groups",
         element: <GroupsListPage />,
       },
+      { path: "/groups/current", element: <UserGroupsListPage /> },
+      { path: "/groups/new", element: <GroupForm /> },
       { path: "/groups/:groupId", element: <GroupDetailsPage /> },
       { path: "/groups/:groupId/events", element: <GroupEventsListPage /> },
-      { path: "/groups/new", element: <GroupForm /> },
+      { path: "/groups/:groupId/events/new", element: <EventForm /> },
+      { path: "/events/current", element: <UserEventsListPage /> },
       { path: "/events", element: <EventsListPage /> },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
-      { path: "/groups/:groupId/events/new", element: <EventForm /> },
     ],
   },
 ]);

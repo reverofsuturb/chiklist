@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { makeEvent } from "../../store/events";
+import { makeEvent, makeEventImage } from "../../store/events";
 import { fetchGroup } from "../../store/groups";
 
 export function EventForm() {
@@ -16,6 +16,7 @@ export function EventForm() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [privateGroup, setPrivateGroup] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const group = useSelector((state) => state.groups[groupId]);
 
   const onSubmit = async (e) => {
@@ -34,6 +35,14 @@ export function EventForm() {
 
     const newEvent = await dispatch(makeEvent(event));
     console.log(newEvent);
+    const preview = imageUrl ? true : false;
+    const eventImage = {
+      eventId: newEvent.id,
+      url: imageUrl,
+      preview,
+    };
+    console.log(eventImage);
+    dispatch(makeEventImage(eventImage));
   };
 
   useEffect(() => {
@@ -109,6 +118,14 @@ export function EventForm() {
             value={description}
             placeholder="Please write at least 30 characters"
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </label>
+        <label>
+          Please add in image url for your event below:
+          <input
+            type="url"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
           />
         </label>
         <button>Create Event</button>

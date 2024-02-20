@@ -95,6 +95,21 @@ router.get("/", validateSearch, async (req, res) => {
   res.json({ Events: response });
 });
 
+//Get all Events for Current User
+router.get("/current", requireAuth, async (req, res) => {
+  const { user } = req;
+  const userEvents = await Event.findAll({
+    include: {
+      model: Attendance,
+      where: { userId: user.id },
+    },
+  });
+  if (!userEvents)
+    return res.status(404).json({ message: "No User Events found" });
+
+  res.json(userEvents);
+});
+
 // Get all Attendees of an Event specified by its id
 
 router.get("/:eventId/attendees", async (req, res) => {

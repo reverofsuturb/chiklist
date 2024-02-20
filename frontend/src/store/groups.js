@@ -3,25 +3,35 @@ import { csrfFetch } from "./csrf";
 //Action Type Creators//
 export const LOAD_GROUPS = "groups/loadGroups";
 export const SINGLE_GROUP = "groups/singleGroup";
+export const LOAD_USER_GROUPS = "groups/loadUserGroups";
 export const LOAD_GROUP_EVENTS = "groups/loadGroupEvents";
 export const CREATE_GROUP = "groups/createGroup";
+export const CREATE_GROUP_IMAGE = "groups/createGroupImage";
 
 //Action Creators//
 export const loadGroups = (groups) => ({
   type: LOAD_GROUPS,
   groups,
 });
-export const loadGroupEvents = (groupEvents) => ({
-  type: LOAD_GROUP_EVENTS,
-  groupEvents,
-});
 export const singleGroup = (group) => ({
   type: SINGLE_GROUP,
   group,
 });
+export const loadUserGroups = (groups) => ({
+  type: LOAD_USER_GROUPS,
+  groups,
+});
+export const loadGroupEvents = (groupEvents) => ({
+  type: LOAD_GROUP_EVENTS,
+  groupEvents,
+});
 export const createGroup = (group) => ({
   type: CREATE_GROUP,
   group,
+});
+export const createGroupImage = (groupImage) => ({
+  type: CREATE_GROUP_IMAGE,
+  groupImage,
 });
 
 //Thunk Action Creator//
@@ -34,13 +44,13 @@ export const fetchGroups = () => async (dispatch) => {
   dispatch(loadGroups(groups));
 };
 
-export const fetchGroupEvents = (groupId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}/events`);
-  const groupEvents = await response.json();
+export const fetchUserGroups = () => async (dispatch) => {
+  const response = await csrfFetch("/api/groups/current");
+  const groups = await response.json();
   if (response.status !== 200) return console.log(response);
   console.log(response);
-  console.log(groupEvents);
-  dispatch(loadGroupEvents(groupEvents));
+  console.log(groups);
+  dispatch(loadGroups(groups));
 };
 
 export const fetchGroup = (groupId) => async (dispatch) => {
@@ -50,6 +60,15 @@ export const fetchGroup = (groupId) => async (dispatch) => {
   console.log(response);
   console.log(group);
   dispatch(singleGroup(group));
+};
+
+export const fetchGroupEvents = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/events`);
+  const groupEvents = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(groupEvents);
+  dispatch(loadGroupEvents(groupEvents));
 };
 
 export const makeGroup = (payload) => async (dispatch) => {
@@ -63,8 +82,21 @@ export const makeGroup = (payload) => async (dispatch) => {
   if (response.status !== 201) return console.log(response);
   console.log(response);
   console.log(group);
-  dispatch(makeGroup(group));
+  dispatch(createGroup(group));
   return group;
+};
+
+export const makeGroupImage = (payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${payload.groupId}/images`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const groupImage = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(groupImage);
+  dispatch(createGroupImage(groupImage));
 };
 
 //Selectors
@@ -80,6 +112,15 @@ const groupsReducer = (state = {}, action) => {
       });
       return groupsState;
     }
+    case SINGLE_GROUP:
+      return { ...state, [action.group.id]: action.group };
+    case LOAD_USER_GROUPS: {
+      const userGroupsState = {};
+      action.groups.Groups.forEach((group) => {
+        userGroupsState[group.id] = group;
+      });
+      return groupsState;
+    }
     case LOAD_GROUP_EVENTS: {
       const groupEventsState = {};
       action.groupEvents.Events.forEach((event) => {
@@ -87,10 +128,10 @@ const groupsReducer = (state = {}, action) => {
       });
       return groupEventsState;
     }
-    case SINGLE_GROUP:
-      return { ...state, [action.group.id]: action.group };
     case CREATE_GROUP:
       return { ...state, [action.group.id]: action.group };
+    case CREATE_GROUP_IMAGE:
+      return { ...state, [action.groupImage.id]: action.groupImage };
     default:
       return state;
   }

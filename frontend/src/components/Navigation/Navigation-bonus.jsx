@@ -19,6 +19,12 @@ function Navigation({ isLoaded }) {
       <div>
         <NavLink to="/">Home</NavLink>
       </div>
+      <li>
+        <NavLink to="/groups/current">Your groups</NavLink>
+      </li>
+      <li>
+        <NavLink to="/events/current">Your events</NavLink>
+      </li>
       </div>
     </nav>
   );

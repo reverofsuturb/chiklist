@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { makeGroup } from "../../store/groups";
+import { makeGroup, makeGroupImage } from "../../store/groups";
 
 export function GroupForm() {
   const dispatch = useDispatch();
@@ -9,6 +9,7 @@ export function GroupForm() {
   const [about, setAbout] = useState("");
   const [type, setType] = useState("In person");
   const [privateGroup, setPrivateGroup] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,14 @@ export function GroupForm() {
     };
     const newGroup = await dispatch(makeGroup(group));
     console.log(newGroup);
+    const preview = imageUrl ? true : false;
+    const groupImage = {
+      groupId: newGroup.id,
+      url: imageUrl,
+      preview,
+    };
+    console.log(groupImage);
+    dispatch(makeGroupImage(groupImage));
   };
   return (
     <>
@@ -89,6 +98,14 @@ export function GroupForm() {
               <option value={true}>Private</option>
             </select>
           </span>
+        </label>
+        <label>
+          Please add in image url for your group below:
+          <input
+            type="url"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
         </label>
         <button>Create Group</button>
       </form>

@@ -21,7 +21,8 @@ export function GroupDetailsPage() {
       <li>Number of Members: {group?.numMembers}</li>
       <li>Type: {group?.type}</li>
       <li>About: {group?.about}</li>
-      <Link to={`/groups/${group?.id}/events`}>Group Events</Link>
+      <li><Link to={`/groups/${group?.id}/events`}>Group Events</Link></li>
+      <li><Link to={`/groups/${group?.id}/events/new`}>Create an Event</Link></li>
     </>
   );
 }
