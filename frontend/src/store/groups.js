@@ -7,6 +7,7 @@ export const LOAD_USER_GROUPS = "groups/loadUserGroups";
 export const LOAD_GROUP_EVENTS = "groups/loadGroupEvents";
 export const CREATE_GROUP = "groups/createGroup";
 export const CREATE_GROUP_IMAGE = "groups/createGroupImage";
+export const DELETE_GROUP = "groups/deleteGroup";
 
 //Action Creators//
 export const loadGroups = (groups) => ({
@@ -32,6 +33,10 @@ export const createGroup = (group) => ({
 export const createGroupImage = (groupImage) => ({
   type: CREATE_GROUP_IMAGE,
   groupImage,
+});
+export const deleteGroup = (groupId) => ({
+  type: DELETE_GROUP,
+  groupId,
 });
 
 //Thunk Action Creator//
@@ -99,6 +104,16 @@ export const makeGroupImage = (payload) => async (dispatch) => {
   dispatch(createGroupImage(groupImage));
 };
 
+export const removeGroup = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE",
+  });
+  const deletedGroup = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(deletedGroup);
+  dispatch(deleteGroup(groupId));
+};
 //Selectors
 
 //Reducer
@@ -132,6 +147,11 @@ const groupsReducer = (state = {}, action) => {
       return { ...state, [action.group.id]: action.group };
     case CREATE_GROUP_IMAGE:
       return { ...state, [action.groupImage.id]: action.groupImage };
+    case DELETE_GROUP: {
+      const groupsState = { ...state };
+      delete groupsState[action.groupId];
+      return groupsState;
+    }
     default:
       return state;
   }

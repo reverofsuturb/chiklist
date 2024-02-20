@@ -6,7 +6,7 @@ export const SINGLE_EVENT = "events/singleEvent";
 export const LOAD_USER_EVENTS = "events/loadUserEvents";
 export const CREATE_EVENT = "events/createEvent";
 export const CREATE_EVENT_IMAGE = "events/createEventImage";
-
+export const DELETE_EVENT = "events/deleteEvent";
 
 //Action Creators//
 export const loadEvents = (events) => ({
@@ -28,6 +28,10 @@ export const createEvent = (event) => ({
 export const createEventImage = (eventImage) => ({
   type: CREATE_EVENT_IMAGE,
   eventImage,
+});
+export const deleteEvent = (eventId) => ({
+  type: DELETE_EVENT,
+  eventId,
 });
 
 //Thunk Action Creator//
@@ -86,6 +90,16 @@ export const makeEventImage = (payload) => async (dispatch) => {
   dispatch(createEventImage(eventImage));
 };
 
+export const removeEvent = (eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: "DELETE",
+  });
+  const deletedEvent = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(deletedEvent);
+  dispatch(deleteEvent(eventId));
+};
 //Selectors
 
 //Reducer
@@ -112,6 +126,11 @@ const eventsReducer = (state = {}, action) => {
       return { ...state, [action.event.id]: action.event };
     case CREATE_EVENT_IMAGE:
       return { ...state, [action.eventImage.id]: action.eventImage };
+    case DELETE_EVENT: {
+      const eventsState = { ...state };
+      delete eventsState[action.eventId];
+      return eventsState;
+    }
     default:
       return state;
   }

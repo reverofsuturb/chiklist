@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGroup } from "../../store/groups";
-import { useParams, Link } from "react-router-dom";
+import { fetchGroup, removeGroup } from "../../store/groups";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[groupId]);
+  const navigate = useNavigate();
 
   console.log(group);
   useEffect(() => {
@@ -21,8 +22,20 @@ export function GroupDetailsPage() {
       <li>Number of Members: {group?.numMembers}</li>
       <li>Type: {group?.type}</li>
       <li>About: {group?.about}</li>
-      <li><Link to={`/groups/${group?.id}/events`}>Group Events</Link></li>
-      <li><Link to={`/groups/${group?.id}/events/new`}>Create an Event</Link></li>
+      <li>
+        <Link to={`/groups/${group?.id}/events`}>Group Events</Link>
+      </li>
+      <li>
+        <Link to={`/groups/${group?.id}/events/new`}>Create an Event</Link>
+      </li>
+      <button
+        onClick={() => {
+          dispatch(removeGroup(groupId));
+          navigate("/groups");
+        }}
+      >
+        Delete Group
+      </button>
     </>
   );
 }
