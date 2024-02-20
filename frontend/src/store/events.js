@@ -46,12 +46,14 @@ export const makeEvent = (payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
   const event = await response.json();
-  if (response.status !== 201) return console.log(response);
+  if (response.status !== 200) return console.log(response);
   console.log(response);
   console.log(event);
-  dispatch(makeEvent(event));
+  dispatch(createEvent(event));
   return event;
 };
+
+
 
 //Selectors
 

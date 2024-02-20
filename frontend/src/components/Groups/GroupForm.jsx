@@ -90,7 +90,7 @@ export function GroupForm() {
             </select>
           </span>
         </label>
-        <button>SUBMIT</button>
+        <button>Create Group</button>
       </form>
     </>
   );

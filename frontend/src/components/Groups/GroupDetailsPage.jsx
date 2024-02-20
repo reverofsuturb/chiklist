@@ -8,19 +8,20 @@ export function GroupDetailsPage() {
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[groupId]);
 
-  console.log(group)
+  console.log(group);
   useEffect(() => {
     dispatch(fetchGroup(groupId));
   }, [dispatch, groupId]);
 
   return (
     <>
-      <h1>{group?.name}</h1>
-      <li>{group?.city}</li>
-      <li>{group?.state}</li>
-      <li>{group?.numMembers}</li>
-      <li>{group?.type}</li>
-      <li>{group?.about}</li>
+      <h1>Name: {group?.name}</h1>
+      <li>City: {group?.city}</li>
+      <li>State: {group?.state}</li>
+      <li>Number of Members: {group?.numMembers}</li>
+      <li>Type: {group?.type}</li>
+      <li>About: {group?.about}</li>
+      <Link to={`/groups/${group.id}/events`}>Group Events</Link>
     </>
   );
 }

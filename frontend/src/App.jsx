@@ -6,16 +6,19 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation-bonus";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
+
 import { Landing } from "./components/Landing/";
+
 import { GroupDetailsPage } from "./components/Groups";
 import { GroupsListPage } from "./components/Groups";
 import { GroupForm } from "./components/Groups";
+import { GroupEventsListPage } from "./components/Groups/"
+
 import { EventDetailsPage } from "./components/Events";
 import { EventsListPage } from "./components/Events";
 import { EventForm } from "./components/Events";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -69,6 +72,7 @@ const router = createBrowserRouter([
         element: <GroupsListPage />,
       },
       { path: "/groups/:groupId", element: <GroupDetailsPage /> },
+      { path: "/groups/:groupId/events", element: <GroupEventsListPage /> },
       { path: "/groups/new", element: <GroupForm /> },
       { path: "/events", element: <EventsListPage /> },
       { path: "/events/:eventId", element: <EventDetailsPage /> },

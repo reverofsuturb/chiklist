@@ -3,12 +3,17 @@ import { csrfFetch } from "./csrf";
 //Action Type Creators//
 export const LOAD_GROUPS = "groups/loadGroups";
 export const SINGLE_GROUP = "groups/singleGroup";
+export const LOAD_GROUP_EVENTS = "groups/loadGroupEvents";
 export const CREATE_GROUP = "groups/createGroup";
 
 //Action Creators//
 export const loadGroups = (groups) => ({
   type: LOAD_GROUPS,
   groups,
+});
+export const loadGroupEvents = (groupEvents) => ({
+  type: LOAD_GROUP_EVENTS,
+  groupEvents,
 });
 export const singleGroup = (group) => ({
   type: SINGLE_GROUP,
@@ -22,6 +27,15 @@ export const createGroup = (group) => ({
 //Thunk Action Creator//
 export const fetchGroups = () => async (dispatch) => {
   const response = await csrfFetch("/api/groups");
+  const groups = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(groups);
+  dispatch(loadGroups(groups));
+};
+
+export const fetchGroupEvents = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}events`);
   const groups = await response.json();
   if (response.status !== 200) return console.log(response);
   console.log(response);
