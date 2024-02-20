@@ -58,10 +58,10 @@ export function GroupForm({ group, formType }) {
     <>
       <form onSubmit={onSubmit}>
         <label>
-          First, set your group's location.
+          First, set your group&apos;s location.
           <span>
-            Meetup groups meet locally, in person and online we'll connect you
-            with people in your area, and more can join you online.
+            Meetup groups meet locally, in person and online we&apos;ll connect
+            you with people in your area, and more can join you online.
           </span>
           <input
             type="text"
@@ -71,7 +71,7 @@ export function GroupForm({ group, formType }) {
           />
         </label>
         <label>
-          What will your group's name be?
+          What will your group&apos;s name be?
           <span>
             Choose a name that will give people a clear idea of what the group
             is about. Feel free to get creative! You can edit this later if you
@@ -87,10 +87,10 @@ export function GroupForm({ group, formType }) {
         <label>
           Now describe what your group will be about
           <span>
-            People will see this when we promote your group, but you'll be able
-            to add to it later, too.
+            People will see this when we promote your group, but you&apos;ll be
+            able to add to it later, too.
             <ul>
-              <li>What's the purpose of the group?</li>
+              <li>What&apos;s the purpose of the group?</li>
               <li>Who should join?</li>
               <li>What will you do at your events</li>
             </ul>
@@ -128,7 +128,9 @@ export function GroupForm({ group, formType }) {
             disabled={group ? true : false}
           />
         </label>
-        <button>{formType === "Edit Group" ? "Edit Group" : "Create Group"}</button>
+        <button>
+          {formType === "Edit Group" ? "Edit Group" : "Create Group"}
+        </button>
       </form>
     </>
   );
