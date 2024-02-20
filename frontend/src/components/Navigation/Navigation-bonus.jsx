@@ -10,21 +10,14 @@ function Navigation({ isLoaded }) {
     <nav>
       <div className="logo">Meet Up</div>
       <div className="homelinks">
-      {isLoaded && (
+        {isLoaded && (
+          <div>
+            <ProfileButton user={sessionUser} />
+          </div>
+        )}
         <div>
-          <ProfileButton user={sessionUser} />
+          <NavLink to="/">Home</NavLink>
         </div>
-
-      )}
-      <div>
-        <NavLink to="/">Home</NavLink>
-      </div>
-      <li>
-        <NavLink to="/groups/current">Your groups</NavLink>
-      </li>
-      <li>
-        <NavLink to="/events/current">Your events</NavLink>
-      </li>
       </div>
     </nav>
   );

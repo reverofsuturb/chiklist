@@ -34,7 +34,7 @@ export const deleteEvent = (eventId) => ({
   eventId,
 });
 
-//Thunk Action Creator//
+//Thunk Action Creators//
 export const fetchEvents = () => async (dispatch) => {
   const response = await csrfFetch("/api/events");
   const events = await response.json();
@@ -100,6 +100,7 @@ export const removeEvent = (eventId) => async (dispatch) => {
   console.log(deletedEvent);
   dispatch(deleteEvent(eventId));
 };
+
 //Selectors
 
 //Reducer
