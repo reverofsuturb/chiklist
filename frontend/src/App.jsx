@@ -12,6 +12,8 @@ import {
   GroupEventsListPage,
   GroupsListPage,
   GroupForm,
+  CreateGroup,
+  EditGroup,
   UserGroupsListPage,
 } from "./components/Groups";
 import {
@@ -61,16 +63,18 @@ const router = createBrowserRouter([
         element: <GroupsListPage />,
       },
       { path: "/groups/current", element: <UserGroupsListPage /> },
-      { path: "/groups/new", element: <GroupForm /> },
-      { path: "/groups/:groupId", element: <GroupDetailsPage /> },
+      { path: "/groups/new", element: <CreateGroup /> },
       { path: "/groups/:groupId/events", element: <GroupEventsListPage /> },
       { path: "/groups/:groupId/events/new", element: <EventForm /> },
+      { path: "/groups/:groupId/edit", element: <EditGroup /> },
+      { path: "/groups/:groupId", element: <GroupDetailsPage /> },
       { path: "/events/current", element: <UserEventsListPage /> },
       { path: "/events", element: <EventsListPage /> },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
     ],
   },
 ]);
+
 
 function App() {
   return <RouterProvider router={router} />;

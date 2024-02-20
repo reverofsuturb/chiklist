@@ -7,6 +7,7 @@ export const LOAD_USER_GROUPS = "groups/loadUserGroups";
 export const LOAD_GROUP_EVENTS = "groups/loadGroupEvents";
 export const CREATE_GROUP = "groups/createGroup";
 export const CREATE_GROUP_IMAGE = "groups/createGroupImage";
+export const EDIT_GROUP = "groups/editGroup";
 export const DELETE_GROUP = "groups/deleteGroup";
 
 //Action Creators//
@@ -33,6 +34,10 @@ export const createGroup = (group) => ({
 export const createGroupImage = (groupImage) => ({
   type: CREATE_GROUP_IMAGE,
   groupImage,
+});
+export const editGroup = (group) => ({
+  type: EDIT_GROUP,
+  group,
 });
 export const deleteGroup = (groupId) => ({
   type: DELETE_GROUP,
@@ -104,6 +109,21 @@ export const makeGroupImage = (payload) => async (dispatch) => {
   dispatch(createGroupImage(groupImage));
 };
 
+export const putGroup = (payload) => async (dispatch) => {
+  console.log("PAYLOAD =================", payload);
+  const response = await csrfFetch(`/api/groups/${payload.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const group = await response.json();
+  if (response.status !== 200) return console.log(response);
+  console.log(response);
+  console.log(group);
+  dispatch(editGroup(group));
+  return group;
+};
+
 export const removeGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`, {
     method: "DELETE",
@@ -147,6 +167,8 @@ const groupsReducer = (state = {}, action) => {
       return { ...state, [action.group.id]: action.group };
     case CREATE_GROUP_IMAGE:
       return { ...state, [action.groupImage.id]: action.groupImage };
+    case EDIT_GROUP:
+      return { ...state, [action.group.id]: action.group };
     case DELETE_GROUP: {
       const groupsState = { ...state };
       delete groupsState[action.groupId];

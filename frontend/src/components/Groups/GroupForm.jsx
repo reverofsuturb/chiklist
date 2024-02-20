@@ -1,39 +1,59 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { makeGroup, makeGroupImage } from "../../store/groups";
+import { makeGroup, makeGroupImage, putGroup } from "../../store/groups";
 
-export function GroupForm() {
+export function GroupForm({ group, formType }) {
   const dispatch = useDispatch();
-  const [cityState, setCityState] = useState("");
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [type, setType] = useState("In person");
-  const [privateGroup, setPrivateGroup] = useState(false);
+  const [cityState, setCityState] = useState(
+    group?.city ? group.city + ", " + group.state : ""
+  );
+  const [name, setName] = useState(group?.name ? group.name : "");
+  const [about, setAbout] = useState(group?.about ? group.about : "");
+  const [type, setType] = useState(group?.type ? group.type : "In person");
+  const [privateGroup, setPrivateGroup] = useState(
+    group?.private ? group.private : false
+  );
   const [imageUrl, setImageUrl] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     let cityArr = cityState.split(", ");
 
-    const group = {
-      name,
-      about,
-      type: type,
-      private: privateGroup,
-      city: cityArr[0],
-      state: cityArr[1],
-    };
-    const newGroup = await dispatch(makeGroup(group));
-    console.log(newGroup);
-    const preview = imageUrl ? true : false;
-    const groupImage = {
-      groupId: newGroup.id,
-      url: imageUrl,
-      preview,
-    };
-    console.log(groupImage);
-    dispatch(makeGroupImage(groupImage));
+    if (formType === "Create Group") {
+      const newGroup = {
+        name,
+        about,
+        type: type,
+        private: privateGroup,
+        city: cityArr[0],
+        state: cityArr[1],
+      };
+      const madeGroup = await dispatch(makeGroup(newGroup));
+      console.log(newGroup);
+      const preview = imageUrl ? true : false;
+      const groupImage = {
+        groupId: madeGroup.id,
+        url: imageUrl,
+        preview,
+      };
+      console.log(groupImage);
+      dispatch(makeGroupImage(groupImage));
+    }
+    if (formType === "Edit Group") {
+      const editGroup = {
+        id: group.id,
+        name,
+        about,
+        type: type,
+        private: privateGroup,
+        city: cityArr[0],
+        state: cityArr[1],
+      };
+      const editedGroup = await dispatch(putGroup(editGroup));
+      console.log(editedGroup);
+    }
   };
+
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -105,9 +125,10 @@ export function GroupForm() {
             type="url"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
+            disabled={group ? true : false}
           />
         </label>
-        <button>Create Group</button>
+        <button>{formType === "Edit Group" ? "Edit Group" : "Create Group"}</button>
       </form>
     </>
   );

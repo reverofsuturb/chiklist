@@ -28,6 +28,7 @@ export function GroupDetailsPage() {
       <li>
         <Link to={`/groups/${group?.id}/events/new`}>Create an Event</Link>
       </li>
+      <li><Link to={`/groups/${group?.id}/edit`}>Edit Group</Link></li>
       <button
         onClick={() => {
           dispatch(removeGroup(groupId));
