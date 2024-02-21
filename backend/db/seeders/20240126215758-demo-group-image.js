@@ -13,27 +13,27 @@ module.exports = {
       [
         {
           groupId: 1,
-          url: "image url 6",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491780/Chiklist/openart-image_yAn1hnVa_1708491562711_raw_yinsvr.jpg",
           preview: true,
         },
         {
           groupId: 2,
-          url: "image url 7",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491665/Chiklist/image_Lvmnovg9_1708489832763_raw_ebqplp.jpg",
           preview: true,
         },
         {
           groupId: 3,
-          url: "image url 8",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491664/Chiklist/image_HQXP8bmP_1708489401762_raw_auefzt.jpg",
           preview: false,
         },
         {
           groupId: 4,
-          url: "image url 9",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491664/Chiklist/image_2OFOW514_1708491437672_raw_dipcni.jpg",
           preview: false,
         },
         {
           groupId: 5,
-          url: "image url 10",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491664/Chiklist/image_qbxaoGBh_1708490183602_raw_blh8q4.jpg",
           preview: false,
         },
       ], options,

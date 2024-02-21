@@ -1,0 +1,30 @@
+.gd-banner {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.gd-buttons {
+  display: flex;
+}
+
+.gd-container {
+  margin: auto;
+  width: 75%;
+}
+
+.gd-img {
+  height: 450px;
+  width: 450px;
+}
+
+.gd-img-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gd-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
