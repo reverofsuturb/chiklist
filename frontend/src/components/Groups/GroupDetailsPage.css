@@ -13,6 +13,12 @@
   width: 75%;
 }
 
+.gd-events-container {
+  height: 30%;
+  width: 50%;
+  border: 1px solid black
+}
+
 .gd-img {
   height: 450px;
   width: 450px;

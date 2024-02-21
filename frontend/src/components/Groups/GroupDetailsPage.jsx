@@ -1,20 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGroup } from "../../store/groups";
+import { fetchGroup, fetchGroupEvents } from "../../store/groups";
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import OpenModalButton from "../OpenModalButton";
 import { DeleteModal } from "../DeleteModal";
+import { EventDetailsCard } from "../Events/EventDetailsCard";
 import "./GroupDetailsPage.css";
 
 export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[groupId]);
-
+  const groupEvents = useSelector((state) => state.groups);
+  const groupEventsArr = Object.values(groupEvents);
+  let groupEventIds = []
+  groupEventsArr.forEach((event) => groupEventIds.push(group.id))
+  console.log(groupEventIds)
   const type = "group";
   console.log(group);
   useEffect(() => {
     dispatch(fetchGroup(groupId));
+    dispatch(fetchGroupEvents(groupId));
   }, [dispatch, groupId]);
 
   return (
@@ -65,8 +71,8 @@ export function GroupDetailsPage() {
       <h2>What we&apos;re about</h2>
       <p>{group?.about}</p>
       <h2>Events:</h2>
-      <div>
-        <Link to={`/groups/${group?.id}/events`}>Group Events</Link>
+      <div className="gd-events-container">
+        {/* <GroupEventsListPage groupId={group?.id} /> */}
       </div>
     </div>
   );

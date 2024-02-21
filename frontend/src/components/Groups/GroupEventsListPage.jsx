@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupEvents } from "../../store/groups";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-export function GroupEventsListPage() {
+export function GroupEventsListPage({ groupId }) {
   const dispatch = useDispatch();
-  const { groupId } = useParams();
+  if (!groupId) return ({ groupId } = useParams());
   const eventsObj = useSelector((state) => state.groups);
   const groupEvents = Object.values(eventsObj);
 
