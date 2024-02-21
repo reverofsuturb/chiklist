@@ -121,9 +121,9 @@ export const putGroup = (payload) => async (dispatch) => {
   });
   const group = await response.json();
   if (response.status !== 200) {
-    console.log(group)
-    return group
-  };
+    console.log(group);
+    return group;
+  }
   console.log(response);
   console.log(group);
   dispatch(editGroup(group));

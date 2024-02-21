@@ -72,7 +72,7 @@ export function GroupForm({ group, formType }) {
     <div className="gf-container">
       <div className="gf-caption">BECOME AN ORGANIZER</div>
       <h2 className="gf-header">
-        We'll walk you through a few steps to build your local community.
+        We&apos;ll walk you through a few steps to build your local community.
       </h2>
       <form className="gf-form" onSubmit={onSubmit}>
         <label className="gf-label">

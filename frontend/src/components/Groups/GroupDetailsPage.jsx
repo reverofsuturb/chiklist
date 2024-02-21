@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroup } from "../../store/groups";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import OpenModalButton from "../OpenModalButton";
 import { DeleteModal } from "../DeleteModal";
@@ -10,7 +10,7 @@ export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[groupId]);
-  const navigate = useNavigate();
+
   const type = "group";
   console.log(group);
   useEffect(() => {
@@ -62,7 +62,7 @@ export function GroupDetailsPage() {
         {group?.Organizer && group?.Organizer.firstName}{" "}
         {group?.Organizer && group?.Organizer.lastName}
       </p>
-      <h2>What we're about</h2>
+      <h2>What we&apos;re about</h2>
       <p>{group?.about}</p>
       <h2>Events:</h2>
       <div>
