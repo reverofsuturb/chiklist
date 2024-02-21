@@ -11,13 +11,25 @@ export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[groupId]);
-  const groupEvents = useSelector((state) => state.groups);
-  const groupEventsArr = Object.values(groupEvents);
-  let groupEventIds = []
-  groupEventsArr.forEach((event) => groupEventIds.push(group.id))
-  console.log(groupEventIds)
+  const groupEvents = useSelector((state) => state.groups.events);
+  let groupEventsArr = [];
+  let groupEventIdsFuture = [];
+  let groupEventIdsPast = [];
+  const newDate = new Date();
+  if (groupEvents) {
+    groupEventsArr = Object.values(groupEvents);
+
+    groupEventsArr.forEach((event) =>
+      new Date(event.startDate) > newDate
+        ? groupEventIdsFuture.push(event.id)
+        : groupEventIdsPast.push(event.id)
+    );
+  }
+
   const type = "group";
   console.log(group);
+  console.log(groupEventIdsFuture);
+  console.log(groupEventIdsPast);
   useEffect(() => {
     dispatch(fetchGroup(groupId));
     dispatch(fetchGroupEvents(groupId));
@@ -70,9 +82,21 @@ export function GroupDetailsPage() {
       </p>
       <h2>What we&apos;re about</h2>
       <p>{group?.about}</p>
-      <h2>Events:</h2>
       <div className="gd-events-container">
-        {/* <GroupEventsListPage groupId={group?.id} /> */}
+        <h2>Upcoming Events:</h2>
+        {groupEventIdsFuture.length &&
+          groupEventIdsFuture.map((event) => (
+            <Link className="gd-link" to={`/events/{event.id}`}>
+              <EventDetailsCard eventId={event} newDate={newDate} />
+            </Link>
+          ))}
+        <h2>Past Events:</h2>
+        {groupEventIdsPast.length &&
+          groupEventIdsPast.map((event) => (
+            <Link className="gd-link" to={`/events/{event.id}`}>
+              <EventDetailsCard eventId={event} newDate={newDate} />
+            </Link>
+          ))}
       </div>
     </div>
   );

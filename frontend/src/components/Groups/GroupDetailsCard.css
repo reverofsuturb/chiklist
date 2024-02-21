@@ -1,4 +1,4 @@
-.edc-card {
+.gdc-card {
   display: flex;
   flex-direction: column;
   background-color: aquamarine;
@@ -8,35 +8,35 @@
   padding: 20px;
   border-radius: 15px;
 }
-.edc-img-info {
+.gdc-img-info {
   display: flex;
   background-color: aquamarine;
 }
 
-.edc-img {
+.gdc-img {
   border-radius: 50px;
   height: 150px;
   width: 150px;
 }
 
-.edc-info-container {
+.gdc-info-container {
   margin-left: 10px;
 }
 
-.edc-description,
-.edc-img-container,
-.edc-info-container,
-.edc-info-container > p,
-.edc-info-container > h2 {
+.gdc-description,
+.gdc-img-container,
+.gdc-info-container,
+.gdc-info-container > p,
+.gdc-info-container > h2 {
   background-color: aquamarine;
 }
 
-.edc-link {
+.gdc-link {
   text-decoration: none;
   color: black;
 }
 
-.edc-description {
+.gdc-description {
   display: flex;
   font-size: 0.75rem;
 }

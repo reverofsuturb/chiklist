@@ -5,7 +5,6 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 // import SignupFormPage from './components/SignupFormPage';
 import * as sessionActions from "./store/session";
 
-
 import Navigation from "./components/Navigation/Navigation-bonus";
 import { Modal } from "./context/Modal";
 import { Landing } from "./components/Landing/";
@@ -25,7 +24,6 @@ import {
   EventForm,
   UserEventsListPage,
 } from "./components/Events";
-
 
 function Layout() {
   const dispatch = useDispatch();
@@ -78,7 +76,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
 
 function App() {
   return <RouterProvider router={router} />;

@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGroups } from "../../store/groups";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { GroupDetailsCard } from "./GroupDetailsCard";
+import "./GroupsListPage.css";
 
 export function GroupsListPage() {
   const dispatch = useDispatch();
@@ -14,21 +16,12 @@ export function GroupsListPage() {
   }, [dispatch]);
 
   return (
-    <>
-      <ul>
-        {groups.map((group) => (
-          <>
-            <Link to={`/groups/${group.id}`}>
-              <h1>{group.name}</h1>
-            </Link>
-            <li>{group.city}</li>
-            <li>{group.state}</li>
-            <li>{group.numMembers}</li>
-            <li>{group.type}</li>
-            <li>{group.about}</li>
-          </>
-        ))}
-      </ul>
-    </>
+    <div className="gl-container">
+      {groups?.map((group) => (
+        <Link className="gl-link" to={`/groups/${group.id}`}>
+          <GroupDetailsCard groupId={group.id} />
+        </Link>
+      ))}
+    </div>
   );
 }

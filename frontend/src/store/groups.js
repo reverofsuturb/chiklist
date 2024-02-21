@@ -167,7 +167,8 @@ const groupsReducer = (state = {}, action) => {
       action.groupEvents.Events.forEach((event) => {
         groupEventsState[event.id] = event;
       });
-      return groupEventsState;
+      const newState = {...state, events: groupEventsState}
+      return newState;
     }
     case CREATE_GROUP:
       return { ...state, [action.group.id]: action.group };
