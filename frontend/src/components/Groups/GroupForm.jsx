@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { makeGroup, makeGroupImage, putGroup } from "../../store/groups";
 import "./GroupForm.css";
 
 export function GroupForm({ group, formType }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [cityState, setCityState] = useState(
     group?.city ? group.city + ", " + group.state : ""
   );
@@ -44,6 +46,7 @@ export function GroupForm({ group, formType }) {
       };
       console.log(groupImage);
       dispatch(makeGroupImage(groupImage));
+      navigate(`/groups/${madeGroup.id}`);
     }
     if (formType === "Edit Group") {
       const editGroup = {
@@ -61,6 +64,7 @@ export function GroupForm({ group, formType }) {
         return setErrors(editedGroup.errors);
       }
       console.log(editedGroup);
+      navigate(`/groups/${editedGroup.id}`);
     }
   };
 

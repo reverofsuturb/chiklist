@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeEvent, makeEventImage } from "../../store/events";
@@ -7,6 +7,7 @@ import "./EventForm.css";
 
 export function EventForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { groupId } = useParams();
   const [venueId, setVenueId] = useState(1);
   const [name, setName] = useState("");
@@ -49,6 +50,7 @@ export function EventForm() {
     };
     console.log(eventImage);
     dispatch(makeEventImage(eventImage));
+    navigate(`/events/${newEvent.id}`);
   };
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export function EventForm() {
             onChange={(e) => setName(e.target.value)}
             placeholder="Event Name"
           />
-        {errors.name && <p className="ef-errors">{errors.name}</p>}
+          {errors.name && <p className="ef-errors">{errors.name}</p>}
         </label>
         <label className="ef-label">
           Where is this event being hosted?
@@ -91,7 +93,7 @@ export function EventForm() {
             <option value="In person">In person</option>
             <option value="Online">Online</option>
           </select>
-        {errors.type && <p className="ef-errors">{errors.type}</p>}
+          {errors.type && <p className="ef-errors">{errors.type}</p>}
         </label>
         <label className="ef-label">
           Is this event private or public?
@@ -112,7 +114,7 @@ export function EventForm() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
-        {errors.price && <p className="ef-errors">{errors.price}</p>}
+          {errors.price && <p className="ef-errors">{errors.price}</p>}
         </label>
         <label className="ef-label">
           What is the capacity for your event?
@@ -122,7 +124,7 @@ export function EventForm() {
             value={capacity}
             onChange={(e) => setCapacity(e.target.value)}
           />
-        {errors.capacity && <p className="ef-errors">{errors.capacity}</p>}
+          {errors.capacity && <p className="ef-errors">{errors.capacity}</p>}
         </label>
         <label className="ef-label">
           When does your event start?
@@ -133,7 +135,7 @@ export function EventForm() {
             onChange={(e) => setStartDate(e.target.value)}
             placeholder="MM/DD/YYYY HH:mm:AM"
           />
-        {errors.startDate && <p className="ef-errors">{errors.startDate}</p>}
+          {errors.startDate && <p className="ef-errors">{errors.startDate}</p>}
         </label>
         <label className="ef-label ef-borderbottom">
           When does your event end?
@@ -144,7 +146,7 @@ export function EventForm() {
             onChange={(e) => setEndDate(e.target.value)}
             placeholder="MM/DD/YYYY HH:mm:PM"
           />
-        {errors.endDate && <p className="ef-errors">{errors.endDate}</p>}
+          {errors.endDate && <p className="ef-errors">{errors.endDate}</p>}
         </label>
         <label className="ef-label ef-borderbottom">
           Please add in image url for your event below:
@@ -165,7 +167,9 @@ export function EventForm() {
             placeholder="Please write at least 30 characters"
             onChange={(e) => setDescription(e.target.value)}
           />
-        {errors.description && <p className="ef-errors">{errors.description}</p>}
+          {errors.description && (
+            <p className="ef-errors">{errors.description}</p>
+          )}
         </label>
         <button className="ef-button">Create Event</button>
       </form>

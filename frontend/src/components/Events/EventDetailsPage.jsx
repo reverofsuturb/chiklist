@@ -2,12 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEvent, removeEvent } from "../../store/events";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import OpenModalButton from "../OpenModalButton/";
+import { DeleteModal } from "../DeleteModal";
 
 export function EventDetailsPage() {
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const navigate = useNavigate();
   const event = useSelector((state) => state.events[eventId]);
+  const type = "event";
   useEffect(() => {
     dispatch(fetchEvent(eventId));
   }, [dispatch, eventId]);
@@ -23,15 +26,11 @@ export function EventDetailsPage() {
         <li>Price: ${event?.price}</li>
         <li>Start Date: {event?.startDate}</li>
         <li>End Date: {event?.endDate}</li>
-        <button
-          onClick={() => {
-            dispatch(removeEvent(eventId));
-            navigate("/events");
-          }}
-        >
-          Delete an Event
-        </button>
       </ul>
+      <OpenModalButton
+        buttonText="Delete Event"
+        modalComponent={<DeleteModal type={type} id={eventId} />}
+      />
     </>
   );
 }
