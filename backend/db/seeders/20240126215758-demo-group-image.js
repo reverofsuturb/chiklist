@@ -18,7 +18,7 @@ module.exports = {
         },
         {
           groupId: 2,
-          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491665/Chiklist/image_Lvmnovg9_1708489832763_raw_ebqplp.jpg",
+          url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708494121/Chiklist/image_l3z2DGuj_1708493779451_raw_jn8mg6.jpg",
           preview: true,
         },
         {
@@ -36,7 +36,8 @@ module.exports = {
           url: "https://res.cloudinary.com/drozfc2tz/image/upload/v1708491664/Chiklist/image_qbxaoGBh_1708490183602_raw_blh8q4.jpg",
           preview: false,
         },
-      ], options,
+      ],
+      options,
       { validate: true }
     );
   },
