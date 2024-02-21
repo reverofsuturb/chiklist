@@ -36,15 +36,15 @@ const validateEvent = [
     .withMessage("Type must be Online or In person"),
   check("capacity")
     .exists({ checkFalsy: true })
-    .isInt()
+    .isInt({ min: 1 })
     .withMessage("Capacity must be an integer"),
   check("price")
     .exists({ checkFalsy: true })
-    .isFloat({ min: 0 })
+    .isFloat({ min: 0.01 })
     .withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })
-    .notEmpty()
+    .isLength({ min: 30 })
     .withMessage("Description is required"),
   check("startDate")
     .exists({ checkFalsy: true })
@@ -53,6 +53,7 @@ const validateEvent = [
   check("endDate")
     .exists({ checkFalsy: true })
     .isAfter(date2)
+    .withMessage("End date is less than start date")
     .custom((val, { req }) => {
       start = new Date(req.body.startDate);
       end = new Date(val);
@@ -61,8 +62,7 @@ const validateEvent = [
       } else {
         return true;
       }
-    })
-    .withMessage("End date is less than start date"),
+    }),
   handleValidationErrors,
 ];
 

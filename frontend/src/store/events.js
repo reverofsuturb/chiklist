@@ -70,7 +70,10 @@ export const makeEvent = (payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
   const event = await response.json();
-  if (response.status !== 200) return console.log(response);
+  if (response.status !== 200) {
+    console.log(event);
+    return event;
+  }
   console.log(response);
   console.log(event);
   dispatch(createEvent(event));

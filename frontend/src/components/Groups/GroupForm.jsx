@@ -10,12 +10,13 @@ export function GroupForm({ group, formType }) {
   );
   const [name, setName] = useState(group?.name ? group.name : "");
   const [about, setAbout] = useState(group?.about ? group.about : "");
-  const [type, setType] = useState(group?.type ? group.type : "In person");
+  const [type, setType] = useState(group?.type ? group.type : "");
   const [privateGroup, setPrivateGroup] = useState(
-    group?.private ? group.private : false
+    group?.private ? group.private : ""
   );
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
+
   const onSubmit = async (e) => {
     e.preventDefault();
     let cityArr = cityState.split(", ");
@@ -59,7 +60,6 @@ export function GroupForm({ group, formType }) {
         console.log(editedGroup.errors);
         return setErrors(editedGroup.errors);
       }
-
       console.log(editedGroup);
     }
   };
@@ -84,9 +84,9 @@ export function GroupForm({ group, formType }) {
             placeholder="City, STATE"
             onChange={(e) => setCityState(e.target.value)}
           />
+          {errors.city && <p className="gf-errors">{errors.city}</p>}
+          {errors.state && <p className="gf-errors">{errors.state}</p>}
         </label>
-        {errors.city && <p className="gf-errors">{errors.city}</p>}
-        {errors.state && <p className="gf-errors">{errors.state}</p>}
         <label className="gf-label">
           What will your group&apos;s name be?
           <span className="gf-span">
@@ -101,8 +101,8 @@ export function GroupForm({ group, formType }) {
             placeholder="What is your group name?"
             onChange={(e) => setName(e.target.value)}
           />
+          {errors.name && <p className="gf-errors">{errors.name}</p>}
         </label>
-        {errors.name && <p className="gf-errors">{errors.name}</p>}
         <label className="gf-label">
           Now describe what your group will be about
           <span className="gf-span">
@@ -121,8 +121,8 @@ export function GroupForm({ group, formType }) {
             placeholder="Please write at least 30 characters"
             onChange={(e) => setAbout(e.target.value)}
           />
+          {errors.about && <p className="gf-errors">{errors.about}</p>}
         </label>
-        {errors.about && <p className="gf-errors">{errors.about}</p>}
         <label className="gf-label">
           Final steps
           <span className="gf-span">
@@ -130,23 +130,28 @@ export function GroupForm({ group, formType }) {
             <select
               className="gf-select"
               onChange={(e) => setType(e.target.value)}
+              value={type}
             >
+              <option value="">(select one)</option>
               <option value="In person">In person</option>
               <option value="Online">Online</option>
             </select>
           </span>
+          {errors.type && <p className="gf-errors">{errors.type}</p>}
           <span className="gf-span">
             Is this group private or public?
             <select
               className="gf-select"
               onChange={(e) => setPrivateGroup(e.target.value)}
+              value={privateGroup}
             >
+              <option value="">(select one)</option>
               <option value={false}>Public</option>
               <option value={true}>Private</option>
             </select>
           </span>
+          {errors.private && <p className="gf-errors">{errors.private}</p>}
         </label>
-        {errors.private && <p className="gf-errors">{errors.private}</p>}
         <label className="gf-label">
           Please add in image url for your group below:
           <input
