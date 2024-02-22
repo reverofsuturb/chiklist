@@ -60,7 +60,7 @@ export const fetchUserGroups = () => async (dispatch) => {
   if (response.status !== 200) return console.log(response);
   console.log(response);
   console.log(groups);
-  dispatch(loadGroups(groups));
+  dispatch(loadUserGroups(groups));
 };
 
 export const fetchGroup = (groupId) => async (dispatch) => {

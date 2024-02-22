@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserGroups } from "../../store/groups";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { GroupDetailsCard } from "./GroupDetailsCard";
 
 export function UserGroupsListPage() {
   const dispatch = useDispatch();
@@ -14,21 +15,12 @@ export function UserGroupsListPage() {
   }, [dispatch]);
 
   return (
-    <>
-      <ul>
-        {groups.map((group) => (
-          <>
-            <Link to={`/groups/${group.id}`}>
-              <h1>{group.name}</h1>
-            </Link>
-            <li>{group.city}</li>
-            <li>{group.state}</li>
-            <li>{group.numMembers}</li>
-            <li>{group.type}</li>
-            <li>{group.about}</li>
-          </>
-        ))}
-      </ul>
-    </>
+    <div className="ugl-container">
+      {groups?.map((group) => (
+        <Link className="ugl-link" to={`/groups/${group.id}`}>
+          <GroupDetailsCard group={group} />
+        </Link>
+      ))}
+    </div>
   );
 }
