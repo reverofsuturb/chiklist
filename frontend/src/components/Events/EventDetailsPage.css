@@ -4,8 +4,9 @@
   gap: 10px;
 }
 
-.ed-buttons {
+.ed-button {
   display: flex;
+  justify-content: right;
 }
 
 .ed-container {

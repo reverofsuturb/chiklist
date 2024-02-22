@@ -8,6 +8,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation/Navigation-bonus";
 import { Modal } from "./context/Modal";
 import { Landing } from "./components/Landing/";
+import { DisplayLists } from "./components/DisplayLists";
 
 import {
   GroupDetailsPage,
@@ -24,6 +25,7 @@ import {
   EventForm,
   UserEventsListPage,
 } from "./components/Events";
+
 
 function Layout() {
   const dispatch = useDispatch();
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
       // }
       {
         path: "/groups",
-        element: <GroupsListPage />,
+        element: [<DisplayLists />, <GroupsListPage />],
       },
       { path: "/groups/current", element: <UserGroupsListPage /> },
       { path: "/groups/new", element: <CreateGroup /> },
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
       { path: "/groups/:groupId/edit", element: <EditGroup /> },
       { path: "/groups/:groupId", element: <GroupDetailsPage /> },
       { path: "/events/current", element: <UserEventsListPage /> },
-      { path: "/events", element: <EventsListPage /> },
+      { path: "/events", element: [<DisplayLists/>, <EventsListPage />] },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
     ],
   },

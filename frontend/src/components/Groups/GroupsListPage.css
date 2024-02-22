@@ -9,4 +9,5 @@ width: 75%
 .gl-link {
   color: black;
   text-decoration: none;
+  border-top: 1px solid black
 }

@@ -19,7 +19,7 @@ export function GroupsListPage() {
     <div className="gl-container">
       {groups?.map((group) => (
         <Link className="gl-link" to={`/groups/${group.id}`}>
-          <GroupDetailsCard groupId={group.id} />
+          <GroupDetailsCard group={group} />
         </Link>
       ))}
     </div>

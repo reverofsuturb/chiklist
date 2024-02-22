@@ -10,26 +10,27 @@ import "./GroupDetailsPage.css";
 export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.session);
   const group = useSelector((state) => state.groups[groupId]);
   const groupEvents = useSelector((state) => state.groups.events);
   let groupEventsArr = [];
-  let groupEventIdsFuture = [];
-  let groupEventIdsPast = [];
+  let groupEventsFuture = [];
+  let groupEventsPast = [];
   const newDate = new Date();
   if (groupEvents) {
     groupEventsArr = Object.values(groupEvents);
 
     groupEventsArr.forEach((event) =>
       new Date(event.startDate) > newDate
-        ? groupEventIdsFuture.push(event.id)
-        : groupEventIdsPast.push(event.id)
+        ? groupEventsFuture.push(event)
+        : groupEventsPast.push(event)
     );
   }
 
   const type = "group";
   console.log(group);
-  console.log(groupEventIdsFuture);
-  console.log(groupEventIdsPast);
+  console.log(groupEventsFuture);
+  console.log(groupEventsPast);
   useEffect(() => {
     dispatch(fetchGroup(groupId));
     dispatch(fetchGroupEvents(groupId));
@@ -58,20 +59,22 @@ export function GroupDetailsPage() {
               {group?.Organizer && group?.Organizer.lastName}
             </p>
           </div>
-          <div className="gd-buttons">
-            <button>
-              <Link to={`/groups/${group?.id}/events/new`}>
-                Create an Event
-              </Link>
-            </button>
-            <button>
-              <Link to={`/groups/${group?.id}/edit`}>Edit Group</Link>
-            </button>
-            <OpenModalButton
-              buttonText="Delete Group"
-              modalComponent={<DeleteModal type={type} id={groupId} />}
-            />
-          </div>
+          {user?.id == group?.organizerId && (
+            <div className="gd-buttons">
+              <button>
+                <Link to={`/groups/${group?.id}/events/new`}>
+                  Create an Event
+                </Link>
+              </button>
+              <button>
+                <Link to={`/groups/${group?.id}/edit`}>Edit Group</Link>
+              </button>
+              <OpenModalButton
+                buttonText="Delete Group"
+                modalComponent={<DeleteModal type={type} id={groupId} />}
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -84,17 +87,17 @@ export function GroupDetailsPage() {
       <p>{group?.about}</p>
       <div className="gd-events-container">
         <h2>Upcoming Events:</h2>
-        {groupEventIdsFuture.length &&
-          groupEventIdsFuture.map((event) => (
-            <Link className="gd-link" to={`/events/{event.id}`}>
-              <EventDetailsCard eventId={event} newDate={newDate} />
+        {groupEventsFuture.length &&
+          groupEventsFuture.map((event) => (
+            <Link className="gd-link" to={`/events/${event.id}`}>
+              <EventDetailsCard event={event} />
             </Link>
           ))}
         <h2>Past Events:</h2>
-        {groupEventIdsPast.length &&
-          groupEventIdsPast.map((event) => (
-            <Link className="gd-link" to={`/events/{event.id}`}>
-              <EventDetailsCard eventId={event} newDate={newDate} />
+        {groupEventsPast.length &&
+          groupEventsPast.map((event) => (
+            <Link className="gd-link" to={`/events/${event.id}`}>
+              <EventDetailsCard event={event} />
             </Link>
           ))}
       </div>
