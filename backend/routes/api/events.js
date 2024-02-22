@@ -64,6 +64,7 @@ router.get("/", validateSearch, async (req, res) => {
       "groupId",
       "venueId",
       "name",
+      "description",
       "type",
       "startDate",
       "endDate",

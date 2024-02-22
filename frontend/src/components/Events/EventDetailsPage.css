@@ -45,7 +45,8 @@
   flex-direction: column;
   background-color: aquamarine;
 }
-.ed-group-nametype > p {
+.ed-group-nametype > p,
+p > p {
   background-color: aquamarine;
   margin: 0;
 }

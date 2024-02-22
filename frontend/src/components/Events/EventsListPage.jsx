@@ -18,7 +18,7 @@ export function EventsListPage() {
   return (
     <div className="el-container">
       {events.map((event) => (
-        <Link className="el-link" to={`/events/${event.id}`}>
+        <Link key={event.id} className="el-link" to={`/events/${event.id}`}>
           <EventDetailsCard event={event} />
         </Link>
       ))}

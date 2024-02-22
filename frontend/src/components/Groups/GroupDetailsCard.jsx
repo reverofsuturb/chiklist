@@ -22,11 +22,11 @@ export function GroupDetailsCard({ group }) {
         <div className="gdc-info-container">
           <h2>{group?.name}</h2>
           <p style={{ color: "grey" }}>
-            {group?.city} {group?.state}
+            {group.city} {group.state}
           </p>
         </div>
       </div>
-      <div className="gdc-description">{group?.about}</div>
+      <div className="gdc-description">{group.about}</div>
     </div>
   );
 }

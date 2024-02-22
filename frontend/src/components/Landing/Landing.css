@@ -3,8 +3,6 @@
   justify-content: space-between;
 }
 
-
-
 .la-bottombanner {
   display: flex;
   flex-direction: column;
@@ -14,10 +12,61 @@
 
 .la-bottomintro {
   display: flex;
-  margin: 10px;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
-.la-bottombutton {
-  padding: 20px
+.la-bottomtitle{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px
+}
+.la-topbanner {
+  display: flex;
+  justify-content: space-around;
+}
+
+.la-introtext {
+  height: 30%;
+  width: 40%;
+}
+
+.la-intropic {
+  height: 325px;
+  width: 325px;
+  border-radius: 50px;
+}
+
+.la-bearpic,
+.la-writingpic,
+.la-runningpic {
+  height: 275px;
+  width: 275px;
+  border-radius: 50px;
+}
+
+.la-caption-title {
+  font-size: 1.1rem;
+}
+.la-caption {
+  width: 250px;
+  font-size: 0.9rem;
+}
+
+.la-pic-container {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  align-items: center;
+  justify-content: center;
+}
+.la-pic-container:hover {
+  border-bottom: 2px solid black;
+}
+
+.la-link {
+  text-decoration: none;
+  color: black;
 }

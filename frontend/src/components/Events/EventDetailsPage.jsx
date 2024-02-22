@@ -58,7 +58,6 @@ export function EventDetailsPage() {
             <div className="ed-datetime">
               <p>
                 Start: {startDate} {startTime}
-                <br />
                 End: {endDate} {endTime}
               </p>
             </div>

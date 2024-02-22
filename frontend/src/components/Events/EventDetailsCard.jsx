@@ -22,15 +22,15 @@ export function EventDetailsCard({ event }) {
         </div>
         <div className="edc-info-container">
           <p>
-            {startDate} {startTime}
+            {startDate} · {startTime}
           </p>
           <h2>{event?.name}</h2>
           <p style={{ color: "grey" }}>
-            {event?.Venue.city} {event?.Venue.state}
+            {event?.Venue?.city || "Kentucky"} {event?.Venue?.state || "Saska"}
           </p>
         </div>
       </div>
-      <div className="edc-description">{event?.description}</div>
+      <div className="edc-description">{event.description}</div>
     </div>
     // </Link>
   );

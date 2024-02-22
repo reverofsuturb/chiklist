@@ -54,10 +54,11 @@ export function GroupDetailsPage() {
             <p>
               {group?.city} {group?.state}
             </p>
-            <p>
-              Organized by {group?.Organizer && group?.Organizer.firstName}
+            <label>
+              Organized by: {group?.Organizer && group?.Organizer.firstName}{" "}
               {group?.Organizer && group?.Organizer.lastName}
-            </p>
+            </label>
+            <p>{group?.type}</p>
           </div>
           {user?.id == group?.organizerId && (
             <div className="gd-buttons">
@@ -75,6 +76,18 @@ export function GroupDetailsPage() {
               />
             </div>
           )}
+          {user?.id != group?.organizerId && user !== null ? (
+            <div className="gd-buttons">
+              <button
+                className="gd-join"
+                onClick={() => alert("Feature coming soon")}
+              >
+                Join This Group
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
@@ -87,19 +100,22 @@ export function GroupDetailsPage() {
       <p>{group?.about}</p>
       <div className="gd-events-container">
         <h2>Upcoming Events:</h2>
-        {groupEventsFuture.length &&
+        {groupEventsFuture.length ? (
           groupEventsFuture.map((event) => (
             <Link className="gd-link" to={`/events/${event.id}`}>
               <EventDetailsCard event={event} />
             </Link>
-          ))}
+          ))
+        ) : (
+          <h2>No Upcoming Events</h2>
+        )}
         <h2>Past Events:</h2>
-        {groupEventsPast.length &&
+        {groupEventsPast.length ? (
           groupEventsPast.map((event) => (
             <Link className="gd-link" to={`/events/${event.id}`}>
               <EventDetailsCard event={event} />
             </Link>
-          ))}
+          ))) : <h2>No Past Events</h2>}
       </div>
     </div>
   );

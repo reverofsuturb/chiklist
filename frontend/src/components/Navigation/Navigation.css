@@ -14,7 +14,33 @@ nav {
   margin-bottom: 5px;
 }
 
-.homelinks {
+.nav-logo {
   display: flex;
+}
+.nav-img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+}
+
+.nav-homelinks {
+  display: flex;
+  justify-content: center;
   gap: 5px;
+  margin-right: 100px;
+}
+
+.nav-loaded {
+  display: flex;
+  gap: 10px
+}
+
+.nav-titlebox {
+  display: flex;
+  flex-direction: column
+}
+
+
+.profile-items {
+  font-size: 0.8rem;
 }

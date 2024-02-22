@@ -112,7 +112,7 @@ export function GroupForm({ group, formType }) {
           <span className="gf-span">
             People will see this when we promote your group, but you&apos;ll be
             able to add to it later, too.
-            <ul>
+            <ul className="gf-list">
               <li>What&apos;s the purpose of the group?</li>
               <li>Who should join?</li>
               <li>What will you do at your events</li>

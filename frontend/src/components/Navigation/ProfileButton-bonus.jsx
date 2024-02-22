@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink } from "react-router-dom";
+import "./Navigation.css";
 
 function ProfileButton({ user }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -35,10 +38,12 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate("/");
     closeMenu();
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName =
+    "profile-dropdown profile-items" + (showMenu ? "" : " hidden");
 
   return (
     <>
@@ -58,6 +63,12 @@ function ProfileButton({ user }) {
             </li>
             <li>
               <NavLink to="/events/current">Your events</NavLink>
+            </li>
+            <li>
+              <NavLink to="/groups">View groups</NavLink>
+            </li>
+            <li>
+              <NavLink to="/events">View events</NavLink>
             </li>
             <li>
               <button onClick={logout}>Log Out</button>

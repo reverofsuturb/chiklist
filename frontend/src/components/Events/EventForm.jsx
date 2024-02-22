@@ -9,7 +9,7 @@ export function EventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const [venueId, setVenueId] = useState(1);
+  const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [capacity, setCapacity] = useState(0);
@@ -26,7 +26,7 @@ export function EventForm() {
     e.preventDefault();
     const event = {
       groupId,
-      venueId,
+      venueId: null,
       name,
       type,
       capacity,

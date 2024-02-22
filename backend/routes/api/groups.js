@@ -139,7 +139,7 @@ router.get("/:groupId/events", async (req, res) => {
       },
       {
         model: Venue,
-        where: { groupId: getGroupById.id },
+        // where: { groupId: getGroupById.id },
         attributes: ["id", "city", "state"],
       },
     ],
@@ -151,6 +151,7 @@ router.get("/:groupId/events", async (req, res) => {
       "groupId",
       "venueId",
       "name",
+      "description",
       "type",
       "startDate",
       "endDate",
@@ -324,10 +325,10 @@ router.post(
       endDate,
     } = req.body;
 
-    const venueCheck = await Venue.findByPk(venueId);
-    if (!venueCheck) {
-      return res.status(404).json({ message: "Venue couldn't be found" });
-    }
+    // const venueCheck = await Venue.findByPk(venueId);
+    // if (!venueCheck) {
+    //   return res.status(404).json({ message: "Venue couldn't be found" });
+    // }
     const groupCheck = await Group.findByPk(req.params.groupId);
     if (!groupCheck) {
       return res.status(404).json({ message: "Group couldn't be found" });

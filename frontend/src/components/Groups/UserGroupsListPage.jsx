@@ -3,6 +3,7 @@ import { fetchUserGroups } from "../../store/groups";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GroupDetailsCard } from "./GroupDetailsCard";
+import "./UserGroupsListPage.css";
 
 export function UserGroupsListPage() {
   const dispatch = useDispatch();
@@ -15,12 +16,19 @@ export function UserGroupsListPage() {
   }, [dispatch]);
 
   return (
-    <div className="ugl-container">
-      {groups?.map((group) => (
-        <Link className="ugl-link" to={`/groups/${group.id}`}>
-          <GroupDetailsCard group={group} />
-        </Link>
-      ))}
-    </div>
+    <>
+      <div className="ugl-header">
+      <h2>Manage Groups</h2>
+      <p style={{ color: "darkgrey" }}>You groups in Meetup</p>
+      </div>
+      <div className="ugl-container">
+
+        {groups?.map((group) => (
+          <Link key={group.id} className="ugl-link" to={`/groups/${group.id}`}>
+            <GroupDetailsCard group={group} />
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }
