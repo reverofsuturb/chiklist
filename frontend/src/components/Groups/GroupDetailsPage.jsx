@@ -130,7 +130,7 @@ export function GroupDetailsPage() {
               </Link>
             ))
           ) : (
-            <h2>No Upcoming Events</h2>
+            <h2 className="gd-no-events">No Upcoming Events</h2>
           )}
           <h3 className="gd-past">Past Events:</h3>
           {sortedPast.length ? (
@@ -144,7 +144,7 @@ export function GroupDetailsPage() {
               </Link>
             ))
           ) : (
-            <h2>No Past Events</h2>
+            <h2 className="gd-no-events">No Past Events</h2>
           )}
         </div>
       </div>

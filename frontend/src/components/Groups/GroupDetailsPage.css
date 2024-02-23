@@ -35,6 +35,10 @@
   gap: 5px;
 }
 
+.gd-no-events {
+  background-color: #efe7bc;
+}
+
 .gd-link-text {
   display: flex;
   align-items: center;
