@@ -1,26 +1,47 @@
 .edc-card {
   display: flex;
   flex-direction: column;
-  background-color: aquamarine;
-  width: 500px;
-  height: 200px;
+  background-color: #74bdcb;
+  width: 80%;
+  height: 30%;
   margin: 20px;
   padding: 20px;
   border-radius: 15px;
 }
 .edc-img-info {
   display: flex;
-  background-color: aquamarine;
+  background-color: #74bdcb;
 }
 
 .edc-img {
   border-radius: 50px;
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
 }
 
 .edc-info-container {
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: start;
+}
+
+.edc-name {
+  margin: 0px;
+  font-size: 1.5rem;
+}
+
+.edc-location {
+  color: #e7f2f8;
+  margin: 0px;
+}
+.edc-time {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0px;
 }
 
 .edc-description,
@@ -28,7 +49,7 @@
 .edc-info-container,
 .edc-info-container > p,
 .edc-info-container > h2 {
-  background-color: aquamarine;
+  background-color: #74bdcb;
 }
 
 .edc-link {
@@ -39,9 +60,13 @@
 .edc-description {
   display: flex;
   font-size: 0.75rem;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #ffa384;
+  margin-top: 10px;
 }
 
 .edc-dot {
   font-size: 0.8rem;
-  background-color: aquamarine;
+  background-color: #74bdcb;
 }

@@ -22,16 +22,16 @@ export function EventDetailsCard({ event }) {
           <img className="edc-img" src={event.previewImage} />
         </div>
         <div className="edc-info-container">
-          <p>
+          <p className="edc-time">
             {startDate} <FaCodeCommit className="edc-dot" /> {startTime}
           </p>
-          <h2>{event?.name}</h2>
-          <p style={{ color: "grey" }}>
-            {event?.Venue?.city || "Kentucky"} {event?.Venue?.state || "Saska"}
+          <h2 className="edc-name">{event?.name}</h2>
+          <p className="edc-location">
+            {event?.Venue?.city || "Kentucky"}, {event?.Venue?.state || "Saska"}
           </p>
+      <div className="edc-description">{event.description}</div>
         </div>
       </div>
-      <div className="edc-description">{event.description}</div>
     </div>
     // </Link>
   );

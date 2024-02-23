@@ -21,11 +21,13 @@ export function GroupDetailsCard({ group }) {
           <img className="gdc-img" src={group.previewImage} />
         </div>
         <div className="gdc-info-container">
+          <div className="gdc-nameloc">
           <h2 className="gdc-name">{group.name}</h2>
           <p className="gdc-location">
             {group.city}, {group.state}
           </p>
-
+          </div>
+          <div className="gdc-description">{group.about}</div>
           {group?.Events?.length ? (
             <p className="gdc-eventcount">
               {group.Events.length}{" "}
@@ -41,7 +43,7 @@ export function GroupDetailsCard({ group }) {
           )}
         </div>
       </div>
-      <div className="gdc-description">{group.about}</div>
+
     </div>
   );
 }

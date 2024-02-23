@@ -9,7 +9,7 @@
 }
 
 .profile-items {
-  width: 125px;
+  width: fit-content;
   padding: 10px;
   display: flex;
   flex-direction: column;

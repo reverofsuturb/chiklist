@@ -9,6 +9,7 @@ import { FaRegClock } from "react-icons/fa6";
 import { FaCodeCommit } from "react-icons/fa6";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaLocationDot } from "react-icons/fa6";
+import { FaAnglesLeft } from "react-icons/fa6";
 
 import "./EventDetailsPage.css";
 
@@ -24,7 +25,7 @@ export function EventDetailsPage() {
   const endDate = new Date(event?.endDate).toDateString();
   const endTime = new Date(event?.endDate).toLocaleTimeString();
   const type = "event";
-
+  const css = "omb-delete-button";
   useEffect(() => {
     dispatch(fetchEvent(eventId));
     dispatch(fetchGroup(event?.groupId));
@@ -32,9 +33,15 @@ export function EventDetailsPage() {
 
   return (
     <div className="ed-container">
-      <Link to="/events">Events</Link>
-      <h2>{event?.name}</h2>
-      <p>
+      <Link className="ed-link" to="/events">
+        <div className="ed-link-text">
+          <FaAnglesLeft className="ed-link-icon" />
+          Events
+        </div>
+      </Link>
+
+      <h2 className="ed-name">{event?.name}</h2>
+      <p className="ed-host">
         Hosted by: {group?.Organizer && group?.Organizer.firstName}{" "}
         {group?.Organizer && group?.Organizer.lastName}
       </p>
@@ -54,8 +61,8 @@ export function EventDetailsPage() {
                 <img className="ed-group-img" src={group?.GroupImages[0].url} />
               )}
               <div className="ed-group-nametype">
-                <p>{group?.name}</p>
-                <p style={{ color: "grey" }}>{group?.type}</p>
+                <p className="ed-group-name">{group?.name}</p>
+                <p className="ed-group-type">{group?.type}</p>
               </div>
             </div>
           </Link>
@@ -87,6 +94,7 @@ export function EventDetailsPage() {
                 Update Event
               </button>
               <OpenModalButton
+                css={css}
                 buttonText="Delete Event"
                 modalComponent={<DeleteModal type={type} id={eventId} />}
               />
@@ -94,8 +102,8 @@ export function EventDetailsPage() {
           )}
         </div>
       </div>
-      <h2>Description</h2>
-      <p>{event?.description}</p>
+      <h2 className="ed-description">Description</h2>
+      <p className="ed-description-text">{event?.description}</p>
     </div>
   );
 }

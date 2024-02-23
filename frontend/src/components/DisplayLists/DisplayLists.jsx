@@ -1,23 +1,27 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./DisplayLists.css";
 
 export function DisplayLists() {
   const [message, setMessage] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/events") setMessage("events");
+    if (location.pathname === "/groups") setMessage("groups");
+  }, [location]);
   return (
     <div className="dl-container">
       <div className="dl-link-container">
         <Link
-          className="dl-link"
+          className={message === "events" ? "dl-link-e dl-link" : "dl-link"}
           to="/events"
-          onClick={() => setMessage("events")}
         >
           Events
         </Link>
         <Link
-          className="dl-link"
+          className={message === "groups" ? "dl-link-g dl-link" : "dl-link"}
           to="/groups"
-          onClick={() => setMessage("groups")}
         >
           Groups
         </Link>

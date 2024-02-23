@@ -1,57 +1,62 @@
 .gdc-card {
   display: flex;
   flex-direction: column;
-  background-color: aquamarine;
-  width: 500px;
-  height: 200px;
+  background-color: #ffa384;
+  width: 80%;
+  height: 30%;
   margin: 20px;
   padding: 20px;
   border-radius: 15px;
 }
-.gdc-name {
-  font-size: 1.2rem;
-}
+
 .gdc-img-info {
   display: flex;
-  background-color: aquamarine;
+  background-color: #ffa384;
 }
 
 .gdc-img {
   border-radius: 50px;
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
 }
 
 .gdc-info-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   margin-left: 10px;
 }
 
 .gdc-dot {
-  background-color: aquamarine;
+  background-color: #ffa384;
   font-size: 0.8rem;
 }
 
 .gdc-eventcount {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   margin: 2px;
 }
 
 .gdc-name {
   margin: 2px;
+  font-size: 1.5rem
 }
-.gdc-location {
-  color: grey;
-  margin: 2px;
-}
-
+.gdc-nameloc,
+.gdc-name,
+.gdc-location,
 .gdc-description,
 .gdc-img-container,
 .gdc-info-container,
 .gdc-info-container > p,
 .gdc-info-container > h2 {
-  background-color: aquamarine;
+  background-color: #ffa384;
+}
+
+.gdc-location {
+  color: #e7f2f8;
+  margin: 2px;
 }
 
 .gdc-link {
@@ -62,4 +67,7 @@
 .gdc-description {
   display: flex;
   font-size: 0.75rem;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #efe7bc;
 }

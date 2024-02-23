@@ -9,7 +9,7 @@
 
 .omb-signup-button-big {
   font-size: 2rem;
-  background-color: #74BDCB;
+  background-color: #74bdcb;
   height: 100px;
   width: 300px;
   border-radius: 150px;
@@ -20,12 +20,25 @@
 
 .omb-login-signup-button {
   font-size: 0.9rem;
-  background-color: #74BDCB;
+  background-color: #74bdcb;
   width: 125px;
   height: 50;
   border-radius: 15px;
   border: none;
   margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.omb-delete-button {
+  font-size: 0.9rem;
+  background-color: #ffa384;
+  width: 150px;
+  height: 25px;
+  border-radius: 100px;
+  border: none;
+  margin: 10px;
+  margin-top: 0px;
   color: whitesmoke;
   cursor: pointer;
 }

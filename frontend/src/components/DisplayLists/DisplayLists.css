@@ -16,8 +16,15 @@
 .dl-link {
   font-size: 1.5rem;
   text-decoration: none;
+  color: black
 }
 
-.dl-link:focus {
+.dl-link-e {
   text-decoration: underline;
+  text-decoration-color: #FFA384;
+}
+
+.dl-link-g {
+  text-decoration: underline;
+  text-decoration-color: #74BDCB
 }

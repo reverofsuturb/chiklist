@@ -1,8 +1,13 @@
 .gf-button {
-  color: white;
-  background-color: blueviolet;
-  margin: 5px;
-  width: 20%;
+  font-size: 0.9rem;
+  background-color: #74bdcb;
+  width: 150px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
 }
 
 .gf-caption {
@@ -39,7 +44,7 @@
 }
 
 .gf-list {
-list-style: decimal;
+  list-style: decimal;
 }
 
 .gf-select {
