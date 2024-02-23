@@ -5,6 +5,11 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { DeleteModal } from "../DeleteModal";
+import { FaRegClock } from "react-icons/fa6";
+import { FaCodeCommit } from "react-icons/fa6";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaLocationDot } from "react-icons/fa6";
+
 import "./EventDetailsPage.css";
 
 export function EventDetailsPage() {
@@ -56,18 +61,31 @@ export function EventDetailsPage() {
           </Link>
           <div className="ed-event-info">
             <div className="ed-datetime">
+              <FaRegClock className="ed-clock" />
               <p>
-                Start: {startDate} {startTime}
-                End: {endDate} {endTime}
+                Start: {startDate} <FaCodeCommit className="ed-dot" />
+                {startTime}
+                <br />
+                End: {endDate} <FaCodeCommit className="ed-dot" /> {endTime}
               </p>
             </div>
             <div className="ed-price">
-              {event?.price && event?.price > 0 ? `$ ${event?.price}` : "FREE"}
+              <FaSackDollar className="ed-moneyicon" />
+              {event?.price && event?.price > 0 ? `${event?.price}` : "FREE"}
             </div>
-            <div className="ed-type">{event?.type}</div>
+            <div className="ed-type">
+              <FaLocationDot className="ed-locdot" />
+              {event?.type}
+            </div>
           </div>
           {user?.id == group?.organizerId && (
-            <div className="ed-button">
+            <div className="ed-buttons">
+              <button
+                className="ed-updatebutton"
+                onClick={() => alert("Feature coming soon")}
+              >
+                Update Event
+              </button>
               <OpenModalButton
                 buttonText="Delete Event"
                 modalComponent={<DeleteModal type={type} id={eventId} />}
@@ -76,7 +94,7 @@ export function EventDetailsPage() {
           )}
         </div>
       </div>
-      <h2>Details</h2>
+      <h2>Description</h2>
       <p>{event?.description}</p>
     </div>
   );

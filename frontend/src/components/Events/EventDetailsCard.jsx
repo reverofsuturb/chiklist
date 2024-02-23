@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvent } from "../../store/events";
 import { useEffect } from "react";
+import { FaCodeCommit } from "react-icons/fa6";
 import "./EventDetailsCard.css";
 
 export function EventDetailsCard({ event }) {
@@ -22,7 +23,7 @@ export function EventDetailsCard({ event }) {
         </div>
         <div className="edc-info-container">
           <p>
-            {startDate} · {startTime}
+            {startDate} <FaCodeCommit className="edc-dot" /> {startTime}
           </p>
           <h2>{event?.name}</h2>
           <p style={{ color: "grey" }}>

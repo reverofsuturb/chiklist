@@ -125,10 +125,12 @@ const validateSignup = [
   check("firstName")
     .exists({ checkFalsy: true })
     .isLength({ min: 1 })
+    .isAlpha()
     .withMessage("First Name is required"),
   check("lastName")
     .exists({ checkFalsy: true })
     .isLength({ min: 1 })
+    .isAlpha()
     .withMessage("Last Name is required"),
   check("email")
     .exists({ checkFalsy: true })

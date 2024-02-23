@@ -1,0 +1,31 @@
+.omb-detail-button {
+  font-size: 0.9rem;
+  background-color: darkgrey;
+  width: 125px;
+  height: 50;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.omb-signup-button-big {
+  font-size: 2rem;
+  background-color: #74BDCB;
+  height: 100px;
+  width: 300px;
+  border-radius: 150px;
+  border: none;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.omb-login-signup-button {
+  font-size: 0.9rem;
+  background-color: #74BDCB;
+  width: 125px;
+  height: 50;
+  border-radius: 15px;
+  border: none;
+  margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
+}

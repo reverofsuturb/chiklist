@@ -1,6 +1,5 @@
 /* TODO: Add sitewide styles */
 * {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  background-color: rgb(38, 141, 141);
+  font-family: "Jost", sans-serif;
+  background-color: #EFF2F8;
 }

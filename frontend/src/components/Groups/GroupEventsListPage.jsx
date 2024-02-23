@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 export function GroupEventsListPage() {
   const dispatch = useDispatch();
-
   const { groupId } = useParams();
   const eventsObj = useSelector((state) => state.groups);
   const groupEvents = Object.values(eventsObj);

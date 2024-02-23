@@ -4,9 +4,10 @@
   gap: 10px;
 }
 
-.ed-button {
+.ed-buttons {
   display: flex;
   justify-content: right;
+  gap: 5px
 }
 
 .ed-container {
@@ -66,7 +67,8 @@ p > p {
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 10px;
   background-color: aquamarine;
   width: 300px;
   padding: 20px;
@@ -84,4 +86,47 @@ p > p {
 .ed-link {
   text-decoration: none;
   color: black;
+}
+
+.ed-clock {
+  font-size: 1.5rem;
+  background-color: aquamarine;
+}
+
+.ed-dot {
+  background-color: aquamarine;
+}
+
+.ed-datetime {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.ed-price {
+  display: flex;
+  gap: 5px;
+  align-items: center
+}
+.ed-moneyicon {
+  background-color: aquamarine;
+  font-size: 1rem;
+}
+
+.ed-type {
+  display: flex;
+  gap: 5px;
+  align-items: center
+}
+.ed-locdot {
+  background-color: aquamarine;
+  font-size: 1rem;
+}
+
+.ed-updatebutton {
+  font-size: 0.9rem;
+  background-color: darkgrey;
+  width: 125px;
+  height: 50px;
+  border-radius: 15px;
 }

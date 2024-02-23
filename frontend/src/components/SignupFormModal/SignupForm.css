@@ -5,13 +5,14 @@
 }
 
 .signup-h1 {
-  font-size: 1rem;
+  font-size: 1.5rem;
   text-align: center;
+  color: #ffa384;
 }
 
 .signup-errors {
   font-size: 0.75rem;
-  color: darkred
+  color: darkred;
 }
 .signup-form {
   display: flex;
@@ -22,17 +23,28 @@
 
 .signup-input {
   margin: 3px;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   width: 260px;
-  border: 2px solid black;
-  background-color: rgb(184, 178, 178);
+  border: 2px solid #74bdcb;
+  background-color: #efe7bc;
+  border-radius: 10px;
+}
+.signup-input:focus {
+  outline: 2px solid #ffa384;
+}
+.signup-button {
+  font-size: 0.9rem;
+  background-color: #74bdcb;
+  width: 150px;
+  height: 50px;
+  border-radius: 100px;
+  border: none;
+  margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
 }
 
-.signup-button {
-  margin: 5px;
-  font-size: 0.75rem;
-  width: 260px;
-  height: 50px;
-  border: 2px solid black;
-  box-shadow: 5px 5px 10px;
+.signup-button:disabled {
+  text-decoration: line-through;
+  text-decoration-color: black;
 }

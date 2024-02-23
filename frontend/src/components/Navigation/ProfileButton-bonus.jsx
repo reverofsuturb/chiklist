@@ -6,6 +6,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink } from "react-router-dom";
+import { FaHouseChimneyWindow } from "react-icons/fa6";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
@@ -47,31 +48,34 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="profile-button" onClick={toggleMenu}>
+        <FaHouseChimneyWindow className={showMenu ? "profile-icon-salmon" : "profile-icon-black"}/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
+            <p>Hello, {user.firstName}</p>
             <li>{user.username}</li>
             <li>
               {user.firstName} {user.lastName}
             </li>
             <li>{user.email}</li>
+            <br />
             <li>
-              <NavLink to="/groups/current">Your groups</NavLink>
+              <NavLink className="profile-link" to="/groups/current">Your groups</NavLink>
             </li>
             <li>
-              <NavLink to="/events/current">Your events</NavLink>
+              <NavLink className="profile-link" to="/events/current">Your events</NavLink>
             </li>
             <li>
-              <NavLink to="/groups">View groups</NavLink>
+              <NavLink className="profile-link" to="/groups">View groups</NavLink>
             </li>
             <li>
-              <NavLink to="/events">View events</NavLink>
+              <NavLink className="profile-link" to="/events">View events</NavLink>
             </li>
+            <br />
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button className="profile-logout-button" onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (

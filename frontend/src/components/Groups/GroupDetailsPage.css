@@ -4,8 +4,18 @@
   gap: 10px;
 }
 
+.gd-button {
+
+  font-size: 0.9rem;
+  background-color: darkgrey;
+  width: 125px;
+  height: 50px;
+  border-radius: 15px;
+}
+
 .gd-buttons {
   display: flex;
+  gap: 5px
 }
 
 .gd-container {

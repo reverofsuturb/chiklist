@@ -40,3 +40,8 @@
   display: flex;
   font-size: 0.75rem;
 }
+
+.edc-dot {
+  font-size: 0.8rem;
+  background-color: aquamarine;
+}

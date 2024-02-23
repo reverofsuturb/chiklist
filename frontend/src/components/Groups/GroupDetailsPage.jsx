@@ -11,6 +11,7 @@ export function GroupDetailsPage() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.session);
+  const css = "omb-detail-button";
   const group = useSelector((state) => state.groups[groupId]);
   const groupEvents = useSelector((state) => state.groups.events);
   let groupEventsArr = [];
@@ -62,17 +63,18 @@ export function GroupDetailsPage() {
           </div>
           {user?.id == group?.organizerId && (
             <div className="gd-buttons">
-              <button>
-                <Link to={`/groups/${group?.id}/events/new`}>
-                  Create an Event
-                </Link>
-              </button>
-              <button>
-                <Link to={`/groups/${group?.id}/edit`}>Edit Group</Link>
-              </button>
+              <Link className="gd-link" to={`/groups/${group?.id}/events/new`}>
+                <button className="gd-button "> Create an Event </button>
+              </Link>
+
+              <Link className="gd-link" to={`/groups/${group?.id}/edit`}>
+                <button className="gd-button">Edit Group </button>
+              </Link>
+
               <OpenModalButton
                 buttonText="Delete Group"
-                modalComponent={<DeleteModal type={type} id={groupId} />}
+                modalComponent={<DeleteModal type={type} id={groupId}  />}
+                css={css}
               />
             </div>
           )}
@@ -99,7 +101,8 @@ export function GroupDetailsPage() {
       <h2>What we&apos;re about</h2>
       <p>{group?.about}</p>
       <div className="gd-events-container">
-        <h2>Upcoming Events:</h2>
+        <h2>Events ({groupEventsArr.length})</h2>
+        <h3>Upcoming Events:</h3>
         {groupEventsFuture.length ? (
           groupEventsFuture.map((event) => (
             <Link className="gd-link" to={`/events/${event.id}`}>
@@ -109,13 +112,16 @@ export function GroupDetailsPage() {
         ) : (
           <h2>No Upcoming Events</h2>
         )}
-        <h2>Past Events:</h2>
+        <h3>Past Events:</h3>
         {groupEventsPast.length ? (
           groupEventsPast.map((event) => (
             <Link className="gd-link" to={`/events/${event.id}`}>
               <EventDetailsCard event={event} />
             </Link>
-          ))) : <h2>No Past Events</h2>}
+          ))
+        ) : (
+          <h2>No Past Events</h2>
+        )}
       </div>
     </div>
   );

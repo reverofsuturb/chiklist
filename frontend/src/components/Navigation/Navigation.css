@@ -1,5 +1,56 @@
 .profile-dropdown {
   position: absolute;
+  top: 2%;
+  right: 5%;
+}
+.profile-link {
+  text-decoration: none;
+  color: black;
+}
+
+.profile-items {
+  width: 125px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  list-style: none;
+  border: 2px solid #74bdcb;
+  border-radius: 25px;
+}
+.profile-link:hover {
+  text-decoration: underline;
+  text-decoration-color: #ffa384;
+  text-decoration-thickness: 2px;
+}
+
+.profile-icon-salmon {
+  font-size: 2rem;
+  color: #ffa384;
+}
+
+.profile-icon-black {
+  color: black;
+  font-size: 2rem;
+}
+
+.profile-logout-button {
+  font-size: 0.9rem;
+  background-color: #74bdcb;
+  width: 100px;
+  height: 25px;
+  border-radius: 100px;
+  border: none;
+  margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.profile-button {
+  border-style: dashed;
+  border-radius: 10px;
 }
 
 .hidden {
@@ -27,20 +78,31 @@ nav {
   display: flex;
   justify-content: center;
   gap: 5px;
-  margin-right: 100px;
+}
+
+.nav-create-button {
+  font-size: 0.9rem;
+  background-color: #74bdcb;
+  width: 150px;
+  height: 25px;
+  border-radius: 100px;
+  border: none;
+  margin: 10px;
+  margin-top: 0px;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.nav-chik {
+  border-bottom: 2px solid black;
 }
 
 .nav-loaded {
   display: flex;
-  gap: 10px
+  gap: 10px;
 }
 
 .nav-titlebox {
   display: flex;
-  flex-direction: column
-}
-
-
-.profile-items {
-  font-size: 0.8rem;
+  flex-direction: column;
 }

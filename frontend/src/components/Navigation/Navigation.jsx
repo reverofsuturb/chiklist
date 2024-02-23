@@ -8,7 +8,7 @@ import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
-
+  const css = "omb-login-signup-button";
   const sessionLinks = sessionUser ? (
     <>
       <li>
@@ -24,9 +24,11 @@ function Navigation({ isLoaded }) {
   ) : (
     <>
       <li>
+        aaaa
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
+          css={css}
         />
         {/* <NavLink to="/login">Log In</NavLink> */}
       </li>
@@ -34,6 +36,7 @@ function Navigation({ isLoaded }) {
         <OpenModalButton
           buttonText="Sign Up"
           modalComponent={<SignupFormModal />}
+          css={css}
         />
         {/* <NavLink to="/signup">Sign Up</NavLink> */}
       </li>

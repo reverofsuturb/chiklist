@@ -8,7 +8,7 @@ import SignupFormModal from "../SignupFormModal";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
-
+  const css = "omb-login-signup-button";
   return (
     <nav>
       <div className="nav-logo">
@@ -20,7 +20,7 @@ function Navigation({ isLoaded }) {
           />
         </NavLink>
         <div className="nav-titlebox">
-          <h1 className="nav-title">The Chiklist</h1>
+          <h1 className="nav-title">The <span className="nav-chik">Chik</span>list</h1>
           {sessionUser && (
             <h4>
               Hey, {sessionUser.firstName}. A bricklayer lays bricks. I'm an
@@ -37,15 +37,17 @@ function Navigation({ isLoaded }) {
                 <OpenModalButton
                   buttonText="Log In"
                   modalComponent={<LoginFormModal />}
+                  css={css}
                 />
                 <OpenModalButton
                   buttonText="Sign Up"
                   modalComponent={<SignupFormModal />}
+                  css={css}
                 />
               </div>
             ) : (
               <div className="nav-loaded">
-                <NavLink to="/groups/new">Create a Group</NavLink>
+                <NavLink className="nav-create-link" to="/groups/new"><button className="nav-create-button">Create a Group</button></NavLink>
                 <ProfileButton user={sessionUser} />
               </div>
             )}

@@ -23,6 +23,12 @@
   justify-content: center;
   margin: 0px
 }
+
+.la-bottomtitle > h2 {
+  font-size: 2rem;
+  margin: 0px;
+}
+
 .la-topbanner {
   display: flex;
   justify-content: space-around;
@@ -63,10 +69,18 @@
   justify-content: center;
 }
 .la-pic-container:hover {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #FFA384;
 }
 
 .la-link {
   text-decoration: none;
   color: black;
+}
+
+.la-chik {
+  border-bottom: 2px solid black;
+}
+
+.la-middletitle {
+  border-bottom: 2px solid #FFA384;
 }

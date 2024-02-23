@@ -8,17 +8,21 @@ import "./Landing.css";
 export function Landing() {
   const { closeMenu } = useModal();
   const { user } = useSelector((state) => state.session);
+  const css = "omb-signup-button-big";
   console.log(user);
   return (
     <div>
       <div className="la-topbanner">
         <div className="la-introtext">
-          <h1>The Chiklist</h1>
+          <h1>
+            The <span className="la-chik">Chik</span>list
+          </h1>
           <p>
             Do you wake up in the morning breathing Michael? Do you find
             yourself writing down Chikpeas instead of chickpeas on your grocery
-            list? It's about time your joined The Chiklist, the world's best
-            resource for Michael Chiklis fandom and group activities.
+            list? It's about time you joined The{" "}
+            <span className="la-chik">Chik</span>list, the world's best resource
+            for Michael Chiklis fandom and group activities.
           </p>
         </div>
         <div>
@@ -32,7 +36,7 @@ export function Landing() {
       </div>
       <div className="la-bottombanner">
         <div className="la-bottomtitle">
-          <h1>Chik off your List!</h1>
+          <h2 className="la-middletitle">Let's get down to Chiklis</h2>
           <p>Find millions of others who enjoy Chiklis as much as you</p>
         </div>
         <div className="la-bottomintro">
@@ -70,11 +74,14 @@ export function Landing() {
             </Link>
           </div>
         </div>
-      { user === null && <OpenModalButton
-          buttonText="GET CHIK'D"
-          onItemClick={closeMenu}
-          modalComponent={<SignupFormModal />}
-        />}
+        {user === null && (
+          <OpenModalButton
+            buttonText="Join Today"
+            onItemClick={closeMenu}
+            modalComponent={<SignupFormModal />}
+            css={css}
+          />
+        )}
       </div>
     </div>
   );

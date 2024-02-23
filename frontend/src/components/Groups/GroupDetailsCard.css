@@ -8,6 +8,9 @@
   padding: 20px;
   border-radius: 15px;
 }
+.gdc-name {
+  font-size: 1.2rem;
+}
 .gdc-img-info {
   display: flex;
   background-color: aquamarine;
@@ -20,7 +23,27 @@
 }
 
 .gdc-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-left: 10px;
+}
+
+.gdc-dot {
+  background-color: aquamarine;
+  font-size: 0.8rem;
+}
+
+.gdc-eventcount {
+  margin: 2px;
+}
+
+.gdc-name {
+  margin: 2px;
+}
+.gdc-location {
+  color: grey;
+  margin: 2px;
 }
 
 .gdc-description,

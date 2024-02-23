@@ -44,6 +44,7 @@ router.get("/", async (req, res) => {
       "createdAt",
       "updatedAt",
     ],
+    include: {model: Event}
   });
 
   const response = [];
@@ -156,6 +157,7 @@ router.get("/:groupId/events", async (req, res) => {
       "startDate",
       "endDate",
     ],
+// order: [["startDate", "DESC"]]
   });
 
   const response = [];

@@ -9,15 +9,18 @@ export function EventsListPage() {
   const dispatch = useDispatch();
   const eventsObj = useSelector((state) => state.events);
   const events = Object.values(eventsObj);
+  const sorted = events.sort((a, b) => {
+    return new Date(b.startDate) - new Date(a.startDate);
+  });
 
-  console.log(events);
+  console.log(sorted);
 
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
   return (
     <div className="el-container">
-      {events.map((event) => (
+      {sorted.map((event) => (
         <Link key={event.id} className="el-link" to={`/events/${event.id}`}>
           <EventDetailsCard event={event} />
         </Link>
