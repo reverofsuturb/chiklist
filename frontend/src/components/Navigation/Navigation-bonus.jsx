@@ -20,11 +20,13 @@ function Navigation({ isLoaded }) {
           />
         </NavLink>
         <div className="nav-titlebox">
-          <h1 className="nav-title">The <span className="nav-chik">Chik</span>list</h1>
+          <h1 className="nav-title">
+            The <span className="nav-chik">Chik</span>list
+          </h1>
           {sessionUser && (
             <h4>
-              Hey, {sessionUser.firstName}. A bricklayer lays bricks. I'm an
-              actor, that's what I do.{" "}
+              Hey, {sessionUser.firstName}. A bricklayer lays bricks. I&apos;m
+              an actor, that&apos;s what I do.{" "}
             </h4>
           )}
         </div>
@@ -47,7 +49,9 @@ function Navigation({ isLoaded }) {
               </div>
             ) : (
               <div className="nav-loaded">
-                <NavLink className="nav-create-link" to="/groups/new"><button className="nav-create-button">Create a Group</button></NavLink>
+                <NavLink className="nav-create-link" to="/groups/new">
+                  <button className="nav-create-button">Create a Group</button>
+                </NavLink>
                 <ProfileButton user={sessionUser} />
               </div>
             )}

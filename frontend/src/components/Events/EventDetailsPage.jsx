@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEvent } from "../../store/events";
 import { fetchGroup } from "../../store/groups";
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import OpenModalButton from "../OpenModalButton/";
 import { DeleteModal } from "../DeleteModal";
 import { FaRegClock } from "react-icons/fa6";
@@ -19,7 +19,6 @@ export function EventDetailsPage() {
   const { user } = useSelector((state) => state.session);
   const event = useSelector((state) => state.events[eventId]);
   const group = useSelector((state) => state.groups[event?.groupId]);
-  const [showButton, setShowButton] = useState(false);
   const startDate = new Date(event?.startDate).toDateString();
   const startTime = new Date(event?.startDate).toLocaleTimeString();
   const endDate = new Date(event?.endDate).toDateString();

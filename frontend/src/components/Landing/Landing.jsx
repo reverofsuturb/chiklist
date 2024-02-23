@@ -20,9 +20,9 @@ export function Landing() {
           <p>
             Do you wake up in the morning breathing Michael? Do you find
             yourself writing down Chikpeas instead of chickpeas on your grocery
-            list? It's about time you joined The{" "}
-            <span className="la-chik">Chik</span>list, the world's best resource
-            for Michael Chiklis fandom and group activities.
+            list? It&apos;s about time you joined The{" "}
+            <span className="la-chik">Chik</span>list, the world&apos;s best
+            resource for Michael Chiklis fandom and group activities.
           </p>
         </div>
         <div>
@@ -36,7 +36,7 @@ export function Landing() {
       </div>
       <div className="la-bottombanner">
         <div className="la-bottomtitle">
-          <h2 className="la-middletitle">Let's get down to Chiklis</h2>
+          <h2 className="la-middletitle">Let&apos;s get down to Chiklis</h2>
           <p>Find millions of others who enjoy Chiklis as much as you</p>
         </div>
         <div className="la-bottomintro">
@@ -70,7 +70,7 @@ export function Landing() {
                 alt="Michael Chiklis writing in a cafe, he is sporting a robust hairstyle with dreadlocks"
               />
               <p className="la-caption-title">Create a Group</p>
-              <p className="la-caption">Become a Chiklis' ambassador</p>
+              <p className="la-caption">Become a Chiklis&apos; ambassador</p>
             </Link>
           </div>
         </div>

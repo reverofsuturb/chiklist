@@ -26,7 +26,6 @@ import {
   UserEventsListPage,
 } from "./components/Events";
 
-
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -64,7 +63,7 @@ const router = createBrowserRouter([
       // }
       {
         path: "/groups",
-        element: [<DisplayLists />, <GroupsListPage />],
+        element: [<DisplayLists key="key" />, <GroupsListPage key="key" />],
       },
       { path: "/groups/current", element: <UserGroupsListPage /> },
       { path: "/groups/new", element: <CreateGroup /> },
@@ -73,7 +72,10 @@ const router = createBrowserRouter([
       { path: "/groups/:groupId/edit", element: <EditGroup /> },
       { path: "/groups/:groupId", element: <GroupDetailsPage /> },
       { path: "/events/current", element: <UserEventsListPage /> },
-      { path: "/events", element: [<DisplayLists/>, <EventsListPage />] },
+      {
+        path: "/events",
+        element: [<DisplayLists key="key" />, <EventsListPage key="key" />],
+      },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
     ],
   },

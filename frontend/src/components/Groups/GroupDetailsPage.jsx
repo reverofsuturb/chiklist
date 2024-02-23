@@ -121,7 +121,11 @@ export function GroupDetailsPage() {
           <h3 className="gd-upcoming">Upcoming Events:</h3>
           {sortedFuture.length ? (
             sortedFuture.map((event) => (
-              <Link className="gd-link" to={`/events/${event.id}`}>
+              <Link
+                key={event.id}
+                className="gd-link"
+                to={`/events/${event.id}`}
+              >
                 <EventDetailsCard event={event} />
               </Link>
             ))
@@ -131,7 +135,11 @@ export function GroupDetailsPage() {
           <h3 className="gd-past">Past Events:</h3>
           {sortedPast.length ? (
             sortedPast.map((event) => (
-              <Link className="gd-link" to={`/events/${event.id}`}>
+              <Link
+                key={event.id}
+                className="gd-link"
+                to={`/events/${event.id}`}
+              >
                 <EventDetailsCard event={event} />
               </Link>
             ))
