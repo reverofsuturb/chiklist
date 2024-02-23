@@ -24,7 +24,6 @@ function Navigation({ isLoaded }) {
   ) : (
     <>
       <li>
-        aaaa
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}

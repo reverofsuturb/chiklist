@@ -49,7 +49,9 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="profile-button" onClick={toggleMenu}>
-        <FaHouseChimneyWindow className={showMenu ? "profile-icon-salmon" : "profile-icon-black"}/>
+        <FaHouseChimneyWindow
+          className={showMenu ? "profile-icon-salmon" : "profile-icon-black"}
+        />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -61,21 +63,27 @@ function ProfileButton({ user }) {
             </li>
             <li>{user.email}</li>
             <br />
-            <li>
-              <NavLink className="profile-link" to="/groups/current">Your groups</NavLink>
+            {/*<li>
+              <NavLink className="profile-link " to="/groups/current" disabled={true} >Your groups</NavLink>
             </li>
             <li>
-              <NavLink className="profile-link" to="/events/current">Your events</NavLink>
+              <NavLink className="profile-link" to="/events/current" disabled={true}>Your events</NavLink>
+            </li> */}
+            <li>
+              <NavLink className="profile-link" to="/groups">
+                View groups
+              </NavLink>
             </li>
             <li>
-              <NavLink className="profile-link" to="/groups">View groups</NavLink>
-            </li>
-            <li>
-              <NavLink className="profile-link" to="/events">View events</NavLink>
+              <NavLink className="profile-link" to="/events">
+                View events
+              </NavLink>
             </li>
             <br />
             <li>
-              <button className="profile-logout-button" onClick={logout}>Log Out</button>
+              <button className="profile-logout-button" onClick={logout}>
+                Log Out
+              </button>
             </li>
           </>
         ) : (

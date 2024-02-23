@@ -9,7 +9,7 @@ export function EventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const [venueId, setVenueId] = useState(null);
+  // const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [capacity, setCapacity] = useState(0);
@@ -17,7 +17,7 @@ export function EventForm() {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [privateGroup, setPrivateGroup] = useState("");
+  // const [privateGroup, setPrivateGroup] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
   const group = useSelector((state) => state.groups[groupId]);
@@ -34,8 +34,10 @@ export function EventForm() {
       description,
       startDate,
       endDate,
-      privateGroup,
+      // privateGroup,
+      imageUrl,
     };
+
     const newEvent = await dispatch(makeEvent(event));
     if (newEvent && newEvent.errors) {
       console.log(newEvent.errors);
@@ -72,7 +74,7 @@ export function EventForm() {
           />
           {errors.name && <p className="ef-errors">{errors.name}</p>}
         </label>
-        <label className="ef-label">
+        {/* <label className="ef-label">
           Where is this event being hosted?
           <input
             className="ef-input"
@@ -82,7 +84,7 @@ export function EventForm() {
             placeholder="Venue"
             disabled={true}
           />
-        </label>
+        </label> */}
         <label className="ef-label">
           Is this an in person or online event?
           <select
@@ -95,7 +97,7 @@ export function EventForm() {
           </select>
           {errors.type && <p className="ef-errors">{errors.type}</p>}
         </label>
-        <label className="ef-label">
+        {/* <label className="ef-label">
           Is this event private or public?
           <select
             className="ef-select"
@@ -105,7 +107,7 @@ export function EventForm() {
             <option value={false}>Public</option>
             <option value={true}>Private</option>
           </select>
-        </label>
+        </label> */}
         <label className="ef-label ef-borderbottom">
           What is the price for your event?
           <input
@@ -157,6 +159,7 @@ export function EventForm() {
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="Image url"
           />
+          {errors.imageUrl && <p className="ef-errors">{errors.imageUrl}</p>}
         </label>
         <label className="ef-label">
           Please describe your event

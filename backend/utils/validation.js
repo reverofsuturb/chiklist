@@ -35,13 +35,10 @@ const validateEvent = [
     .isIn(["Online", "In person"])
     .withMessage("Type must be Online or In person"),
   check("capacity")
-    .exists({ checkFalsy: true })
-    .isInt({ min: 1 })
+    .exists()
+    .isInt({ min: 0 })
     .withMessage("Capacity must be an integer"),
-  check("price")
-    .exists({ checkFalsy: true })
-    .isFloat({ min: 0.01 })
-    .withMessage("Price is invalid"),
+  check("price").exists().isFloat({ min: 0 }).withMessage("Price is invalid"),
   check("description")
     .exists({ checkFalsy: true })
     .isLength({ min: 30 })
@@ -63,6 +60,21 @@ const validateEvent = [
         return true;
       }
     }),
+  check("imageUrl")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .custom((val) => {
+      if (
+        val.slice(val.length - 4, val.length) === ".jpg" ||
+        val.slice(val.length - 5, val.length) === ".jpeg" ||
+        val.slice(val.length - 4, val.length) === ".png"
+      ) {
+        return true;
+      } else {
+        throw new Error("Image URL must end in .png, .jpg, or .jpeg");
+      }
+    })
+    .withMessage("Image URL must end in .png, .jpg, or .jpeg"),
   handleValidationErrors,
 ];
 
@@ -117,6 +129,21 @@ const validateGroup = [
     .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage("State is required"),
+  check("imageUrl")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .custom((val) => {
+      if (
+        val.slice(val.length - 4, val.length) === ".jpg" ||
+        val.slice(val.length - 4, val.length) === "jpeg" ||
+        val.slice(val.length - 4, val.length) === ".png"
+      ) {
+        return true;
+      } else {
+        throw new Error("Image URL must end in .png, .jpg, or .jpeg");
+      }
+    })
+    .withMessage("Image URL must end in .png, .jpg, or .jpeg"),
   handleValidationErrors,
 ];
 

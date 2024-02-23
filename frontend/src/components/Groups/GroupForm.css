@@ -32,9 +32,18 @@
   border-bottom: 1px solid black;
 }
 .gf-input {
+  margin: 3px;
+  font-size: 0.9rem;
   width: 40%;
-  background-color: darkgrey;
+  border: 2px solid #74bdcb;
+  background-color: #efe7bc;
+  border-radius: 10px;
 }
+
+.gf-input:focus {
+  outline: 2px solid #ffa384;
+}
+
 .gf-label {
   display: flex;
   flex-direction: column;
@@ -50,17 +59,29 @@
 .gf-select {
   display: flex;
   flex: column;
-  background-color: darkgrey;
+  background-color: #efe7bc;
+  border: 2px solid #74bdcb;
+}
+
+.gf-select:focus {
+  outline: 2px solid #ffa384;
 }
 
 .gf-select > option {
-  background-color: darkgrey;
+  background-color: #efe7bc;
 }
 .gf-span {
   font-size: 0.75rem;
 }
 .gf-textarea {
-  background-color: darkgrey;
-  height: 300px;
-  width: 200px;
+  background-color: #efe7bc;
+  height: 200px;
+  width: 300px;
+  border: 2px solid #74bdcb;
+  background-color: #efe7bc;
+  border-radius: 10px;
+}
+
+.gf-textarea:focus {
+  outline: 2px solid #ffa384;
 }

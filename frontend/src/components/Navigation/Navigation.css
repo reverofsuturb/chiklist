@@ -8,6 +8,10 @@
   color: black;
 }
 
+.profile-link:disabled {
+  text-decoration: line-through;
+}
+
 .profile-items {
   width: fit-content;
   padding: 10px;

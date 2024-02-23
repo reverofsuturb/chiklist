@@ -1,12 +1,17 @@
 .ef-button {
-  color: white;
-  background-color: blueviolet;
-  margin: 5px;
-  width: 20%;
+  font-size: 0.9rem;
+  background-color: #74bdcb;
+  width: 150px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  margin: 10px;
+  color: whitesmoke;
+  cursor: pointer;
 }
 
 .ef-borderbottom {
-border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .ef-caption {
@@ -31,8 +36,15 @@ border-bottom: 1px solid black;
   border-bottom: 1px solid black;
 }
 .ef-input {
+  margin: 3px;
+  font-size: 0.9rem;
   width: 40%;
-  background-color: darkgrey;
+  border: 2px solid #74bdcb;
+  background-color: #efe7bc;
+  border-radius: 10px;
+}
+.ef-input:focus {
+  outline: 2px solid #ffa384;
 }
 .ef-label {
   display: flex;
@@ -42,19 +54,33 @@ border-bottom: 1px solid black;
 }
 .ef-select {
   display: flex;
-  width: 20%;
   flex: column;
-  background-color: darkgrey;
+  background-color: #efe7bc;
+  border: 2px solid #74bdcb;
+  width: 40%;
+}
+
+.ef-select:focus {
+  outline: 2px solid #ffa384;
 }
 
 .ef-select > option {
-  background-color: darkgrey;
+  background-color: #efe7bc;
 }
+
 .ef-span {
   font-size: 0.75rem;
 }
+
 .ef-textarea {
-  background-color: darkgrey;
+  background-color: #efe7bc;
   height: 200px;
   width: 300px;
+  border: 2px solid #74bdcb;
+  background-color: #efe7bc;
+  border-radius: 10px;
+}
+
+.ef-textarea:focus {
+  outline: 2px solid #ffa384;
 }

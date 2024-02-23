@@ -14,9 +14,11 @@ export function GroupForm({ group, formType }) {
   const [about, setAbout] = useState(group?.about ? group.about : "");
   const [type, setType] = useState(group?.type ? group.type : "");
   const [privateGroup, setPrivateGroup] = useState(
-    group?.private ? group.private : ""
+    group?.private === false || group?.private === true ? group.private : ""
   );
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(
+    group?.GroupImages[0]?.id ? group.GroupImages[0].url : ""
+  );
   const [errors, setErrors] = useState({});
 
   const onSubmit = async (e) => {
@@ -31,6 +33,7 @@ export function GroupForm({ group, formType }) {
         private: privateGroup,
         city: cityArr[0],
         state: cityArr[1],
+        imageUrl,
       };
       const madeGroup = await dispatch(makeGroup(newGroup));
       if (madeGroup && madeGroup.errors) {
@@ -57,6 +60,7 @@ export function GroupForm({ group, formType }) {
         private: privateGroup,
         city: cityArr[0],
         state: cityArr[1],
+        imageUrl,
       };
       const editedGroup = await dispatch(putGroup(editGroup));
       if (editedGroup && editedGroup.errors) {
@@ -76,10 +80,10 @@ export function GroupForm({ group, formType }) {
       </h2>
       <form className="gf-form" onSubmit={onSubmit}>
         <label className="gf-label">
-          First, set your group&apos;s location.
+          Set your group&apos;s location.
           <span className="gf-span">
-            Meetup groups meet locally, in person and online we&apos;ll connect
-            you with people in your area, and more can join you online.
+            Meetup groups meet locally, in person, and online. We&apos;ll
+            connect you with people in your area.
           </span>
           <input
             className="gf-input"
@@ -108,7 +112,7 @@ export function GroupForm({ group, formType }) {
           {errors.name && <p className="gf-errors">{errors.name}</p>}
         </label>
         <label className="gf-label">
-          Now describe what your group will be about
+          Describe the purpose of your group.
           <span className="gf-span">
             People will see this when we promote your group, but you&apos;ll be
             able to add to it later, too.
@@ -166,6 +170,7 @@ export function GroupForm({ group, formType }) {
             disabled={group ? true : false}
             placeholder="Image url"
           />
+          {errors.imageUrl && <p className="gf-errors">{errors.imageUrl}</p>}
         </label>
         <button className="gf-button">
           {formType === "Edit Group" ? "Edit Group" : "Create Group"}
