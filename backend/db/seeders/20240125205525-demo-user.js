@@ -13,7 +13,7 @@ module.exports = {
     await User.bulkCreate(
       [
         {
-          firstName: "Brad",
+          firstName: "Montgomery",
           lastName: "Jenkins",
           email: "usera1@user.io",
           username: "FakeUser1",

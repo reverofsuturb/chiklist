@@ -48,9 +48,9 @@ router.get("/", validateSearch, async (req, res) => {
   const numAttending = await Attendance.findAll({
     order: [["eventId", "ASC"]],
   });
-  const getAllEventImages = await EventImage.findAll({
-    order: [["eventId", "ASC"]],
-  });
+  // const getAllEventImages = await EventImage.findAll({
+  //   order: [["eventId", "ASC"]],
+  // });
   const getAllEventsGroupVenue = await Event.findAll({
     include: [
       { model: Group, attributes: ["id", "name", "city", "state"] },
@@ -69,7 +69,7 @@ router.get("/", validateSearch, async (req, res) => {
       "startDate",
       "endDate",
     ],
-
+include: {model: EventImage },
     ...pagination,
   });
   const response = [];
@@ -83,9 +83,9 @@ router.get("/", validateSearch, async (req, res) => {
   let i = 0;
   while (i < response.length) {
     response[i].numAttending = num[i].length;
-    if (getAllEventImages[i].url) {
-      response[i].previewImage = getAllEventImages[i].url;
-    }
+    // if (getAllEventImages[i].url) {
+    //   response[i].previewImage = getAllEventImages[i].url;
+    // }
     response[i].Group = getAllEventsGroupVenue[i].Group;
     if (getAllEventsGroupVenue[i].Venue) {
       response[i].Venue = getAllEventsGroupVenue[i].Venue;

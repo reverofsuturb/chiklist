@@ -14,26 +14,51 @@ module.exports = {
         {
           userId: 1,
           groupId: 1,
-          status: "co-host",
+          status: "organizer",
         },
         {
           userId: 2,
-          groupId: 3,
+          groupId: 2,
           status: "organizer",
         },
         {
           userId: 3,
-          groupId: 2,
-          status: "member",
+          groupId: 3,
+          status: "organizer",
         },
         {
           userId: 4,
-          groupId: 5,
-          status: "pending",
+          groupId: 4,
+          status: "organizer",
         },
         {
           userId: 5,
-          groupId: 4,
+          groupId: 5,
+          status: "organizer",
+        },
+        {
+          userId: 1,
+          groupId: 6,
+          status: "organizer",
+        },
+        {
+          userId: 2,
+          groupId: 7,
+          status: "organizer",
+        },
+        {
+          userId: 3,
+          groupId: 8,
+          status: "organizer",
+        },
+        {
+          userId: 4,
+          groupId: 9,
+          status: "organizer",
+        },
+        {
+          userId: 5,
+          groupId: 10,
           status: "organizer",
         },
       ],

@@ -18,22 +18,52 @@ module.exports = {
         },
         {
           eventId: 2,
-          userId: 3,
+          userId: 2,
           status: "waitlist",
         },
         {
           eventId: 3,
-          userId: 2,
+          userId: 3,
           status: "pending",
         },
         {
           eventId: 4,
-          userId: 5,
+          userId: 4,
           status: "waitlist",
         },
         {
           eventId: 5,
+          userId: 5,
+          status: "attending",
+        },
+        {
+          eventId: 6,
+          userId: 1,
+          status: "attending",
+        },
+        {
+          eventId: 7,
+          userId: 2,
+          status: "waitlist",
+        },
+        {
+          eventId: 8,
+          userId: 3,
+          status: "pending",
+        },
+        {
+          eventId: 9,
           userId: 4,
+          status: "waitlist",
+        },
+        {
+          eventId: 10,
+          userId: 5,
+          status: "attending",
+        },
+        {
+          eventId: 11,
+          userId: 1,
           status: "attending",
         },
       ], options,
