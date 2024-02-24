@@ -4,12 +4,12 @@ import "./EventDetailsCard.css";
 export function EventDetailsCard({ event }) {
   const startDate = new Date(event?.startDate).toDateString();
   const startTime = new Date(event?.startDate).toLocaleTimeString();
-
+  const image = event?.EventImages[0]?.url
   return (
     <div className="edc-card">
       <div className="edc-img-info">
         <div className="edc-img-container">
-          <img className="edc-img" src={event.previewImage} />
+          <img className="edc-img" src={image} />
         </div>
         <div className="edc-info-container">
           <p className="edc-time">
