@@ -13,7 +13,7 @@ export function DeleteModal({ type, id }) {
   return (
     <div className="delete-modal">
       {type === "event" && (
-        <div>
+        <div className="delete-modal">
           <h2 className="delete-h2">Confirm Delete</h2>
           <p>Are you sure you want to remove this event?</p>
           <button
