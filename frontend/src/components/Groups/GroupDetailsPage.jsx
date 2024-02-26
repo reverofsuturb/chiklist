@@ -63,7 +63,7 @@ export function GroupDetailsPage() {
           <div className="gd-info">
             <h2>{group?.name}</h2>
             <p>
-              {group?.city} {group?.state}
+              {group?.city}, {group?.state}
             </p>
             <label>
               Organized by: {group?.Organizer && group?.Organizer.firstName}{" "}
