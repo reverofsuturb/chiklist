@@ -132,9 +132,9 @@ module.exports = {
           endDate: "2024-04-29 02:00:00",
         },
         {
-          venueId: 1,
+          venueId: null,
           groupId: 1,
-          name: "Noodles for Streudels hosted by Sherbert Enthusiasts Club",
+          name: "Noodles for Streudels",
           description:
             "Noodles, all day, every day, you heard it here, this is a once a year exclusive held by the Sherbert Enthusiasts Club where we veer off and go for the gold, noodle-style",
           type: "Online",

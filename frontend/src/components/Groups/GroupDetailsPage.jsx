@@ -116,7 +116,8 @@ export function GroupDetailsPage() {
         <div className="gd-events-container">
           <h2 className="gd-events">
             Events ({groupEventsArr.length}){" "}
-            <FaCodeCommit className="gd-icon" /> {group?.type}
+            <FaCodeCommit className="gd-icon" />{" "}
+            {group.private === true ? "Private" : "Public"}
           </h2>
           <h3 className="gd-upcoming">Upcoming Events:</h3>
           {sortedFuture.length ? (

@@ -77,7 +77,7 @@ export function EventDetailsPage() {
             </div>
             <div className="ed-price">
               <FaSackDollar className="ed-moneyicon" />
-              {event?.price && event?.price > 0 ? `${event?.price}` : "FREE"}
+              {event?.price && event?.price > 0 ? `$${event?.price}` : "FREE"}
             </div>
             <div className="ed-type">
               <FaLocationDot className="ed-locdot" />

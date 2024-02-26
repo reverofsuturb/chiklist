@@ -72,6 +72,28 @@
   border-bottom: 2px solid #FFA384;
 }
 
+.la-pic-container-disabled:hover {
+border-bottom: none;
+}
+
+.la-caption-title-disabled {
+  font-size: 1.1rem;
+  color: grey
+}
+
+.la-caption-disabled {
+  width: 250px;
+  font-size: 0.9rem;
+  color:grey
+}
+
+.la-link-disabled {
+  text-decoration: none;
+  color: grey;
+  cursor: default
+}
+
+
 .la-link {
   text-decoration: none;
   color: black;

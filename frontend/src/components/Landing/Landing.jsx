@@ -62,15 +62,34 @@ export function Landing() {
               <p className="la-caption">Feelin like a bear in the woods?</p>
             </Link>
           </div>
-          <div className="la-pic-container">
-            <Link className="la-link" to={user === null ? "/" : "/groups/new"}>
+          <div
+            className={
+              user === null ? "la-pic-container-disabled" : "la-pic-container"
+            }
+          >
+            <Link
+              className={user === null ? "la-link-disabled" : "la-link"}
+              to={user === null ? "/" : "/groups/new"}
+            >
               <img
                 className="la-writingpic"
                 src="https://res.cloudinary.com/drozfc2tz/image/upload/v1708502038/Chiklist/openart-image_r-6amR74_1708500320132_raw_wdjtxq.jpg"
                 alt="Michael Chiklis writing in a cafe, he is sporting a robust hairstyle with dreadlocks"
               />
-              <p className="la-caption-title">Create a Group</p>
-              <p className="la-caption">Become a Chiklis&apos; ambassador</p>
+              <p
+                className={
+                  user === null
+                    ? "la-caption-title-disabled"
+                    : "la-caption-title"
+                }
+              >
+                Start a Group
+              </p>
+              <p
+                className={user === null ? "la-caption-disabled" : "la-caption"}
+              >
+                Become a Chiklis&apos; ambassador
+              </p>
             </Link>
           </div>
         </div>
