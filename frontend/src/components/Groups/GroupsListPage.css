@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   margin: auto;
-  width: 75%;
+  width: 45rem;
 }
 
 .gl-link {
@@ -14,4 +14,10 @@
   color: black;
   text-decoration: none;
   border-top: 1px solid black;
+}
+
+
+.gl-link:hover {
+  border-left: 1px solid black;
+  border-right: 1px solid black
 }

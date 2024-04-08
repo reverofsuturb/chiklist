@@ -53,7 +53,7 @@
 .gd-events-container {
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 100%;
   background-color: #efe7bc;
 }
 
@@ -110,6 +110,16 @@
   align-items: center;
   gap: 20px;
   background-color: #efe7bc;
+}
+
+.gd-events-upcoming,
+.gd-events-past {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #efe7bc;
+  align-items: center;
+  justify-content: center;
 }
 
 .gd-upcoming {

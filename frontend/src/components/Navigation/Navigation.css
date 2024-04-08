@@ -28,6 +28,7 @@
   text-decoration: underline;
   text-decoration-color: #ffa384;
   text-decoration-thickness: 2px;
+  cursor: pointer;
 }
 
 .profile-icon-salmon {
@@ -38,6 +39,11 @@
 .profile-icon-black {
   color: black;
   font-size: 2rem;
+}
+
+.profile-icon-salmon:hover,
+.profile-icon-black:hover {
+  cursor: pointer;
 }
 
 .profile-logout-button {

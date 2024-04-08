@@ -16,15 +16,25 @@
 .dl-link {
   font-size: 1.5rem;
   text-decoration: none;
-  color: black
+  color: black;
 }
 
 .dl-link-e {
   text-decoration: underline;
-  text-decoration-color: #FFA384;
+  text-decoration-color: #ffa384;
+}
+
+.dl-link-f:hover {
+  text-decoration: underline;
+  text-decoration-color: #ffa384;
 }
 
 .dl-link-g {
   text-decoration: underline;
-  text-decoration-color: #74BDCB
+  text-decoration-color: #74bdcb;
+}
+
+.dl-link-h:hover {
+  text-decoration: underline;
+  text-decoration-color: #74bdcb;
 }
