@@ -38,7 +38,7 @@ The Chiklist is a meetup.com clone with it's own special twist as a dedicated fa
 
 ## Build Instructions
 
-- Clone Githhub Repository
+- Clone Github Repository
 - npm install in both the frontend and backend directories
 - You will have create a .env file in the backend directory where you will need five variables
 
