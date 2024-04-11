@@ -67,6 +67,7 @@
   margin: 25px;
   align-items: center;
   justify-content: center;
+  border-bottom: 2px solid #e7f2f8;
 }
 .la-pic-container:hover {
   border-bottom: 2px solid #FFA384;

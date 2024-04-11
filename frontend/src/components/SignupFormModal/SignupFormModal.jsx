@@ -134,6 +134,7 @@ function SignupFormModal() {
           Sign Up
         </button>
       </form>
+      <a href={`${window.origin}/api/users/googleOauthLogin`}><button className="signup-button">Or continue with Google OAUTH</button></a>
     </div>
   );
 }

@@ -120,6 +120,7 @@ export function GroupDetailsPage() {
             {group.private === true ? "Private" : "Public"}
           </h2>
           <h3 className="gd-upcoming">Upcoming Events:</h3>
+          <div className="gd-events-upcoming">
           {sortedFuture.length ? (
             sortedFuture.map((event) => (
               <Link
@@ -133,7 +134,9 @@ export function GroupDetailsPage() {
           ) : (
             <h2 className="gd-no-events">No Upcoming Events</h2>
           )}
+          </div>
           <h3 className="gd-past">Past Events:</h3>
+          <div className="gd-events-past">
           {sortedPast.length ? (
             sortedPast.map((event) => (
               <Link
@@ -147,6 +150,7 @@ export function GroupDetailsPage() {
           ) : (
             <h2 className="gd-no-events">No Past Events</h2>
           )}
+          </div>
         </div>
       </div>
     </div>

@@ -72,6 +72,7 @@ function LoginFormModal() {
           Demo User
         </button>
       </form>
+        <a href={`${window.origin}/api/users/googleOauthLogin`}><button className="login-button">OAUTH</button></a>
     </div>
   );
 }

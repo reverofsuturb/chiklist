@@ -14,13 +14,17 @@ export function DisplayLists() {
     <div className="dl-container">
       <div className="dl-link-container">
         <Link
-          className={message === "events" ? "dl-link-e dl-link" : "dl-link"}
+          className={
+            message === "events" ? "dl-link-e dl-link" : "dl-link dl-link-f"
+          }
           to="/events"
         >
           Events
         </Link>
         <Link
-          className={message === "groups" ? "dl-link-g dl-link" : "dl-link"}
+          className={
+            message === "groups" ? "dl-link-g dl-link" : "dl-link dl-link-h"
+          }
           to="/groups"
         >
           Groups

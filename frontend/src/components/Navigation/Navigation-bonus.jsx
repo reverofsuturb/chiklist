@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton-bonus";
 import "./Navigation.css";
@@ -8,6 +8,7 @@ import SignupFormModal from "../SignupFormModal";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const navigate = useNavigate()
   const css = "omb-login-signup-button";
   return (
     <nav>
@@ -49,9 +50,9 @@ function Navigation({ isLoaded }) {
               </div>
             ) : (
               <div className="nav-loaded">
-                <NavLink className="nav-create-link" to="/groups/new">
-                  <button className="nav-create-button">Create a Group</button>
-                </NavLink>
+
+                  <button className="nav-create-button" onClick={()=>navigate('/groups/new')}>Create a Group</button>
+
                 <ProfileButton user={sessionUser} />
               </div>
             )}
