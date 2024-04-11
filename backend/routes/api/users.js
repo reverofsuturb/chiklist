@@ -179,7 +179,8 @@ router.get("/googleOauthCallback", async (req, res) => {
 
   await setTokenCookie(res, safeUser);
 
-  return res.redirect("http://localhost:5173/"); // Back to the browser!
+  if (isProduction) return res.redirect("https://sam-auth-me.onrender.com/");
+  else return res.redirect("http://localhost:5173/"); // Back to the browser!
 });
 
 //Sign up route -- takes in username, email, password, hashes with bcrypt, awaits successful create, uses setTokenCookie() to create JWT cookie with the non-sensitive information as the payload
