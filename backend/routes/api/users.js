@@ -3,7 +3,10 @@ const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { Op } = require("sequelize")
+const { environment } = require("../../config");
+const isProduction = environment === "production";
+
+const { Op } = require("sequelize");
 const { check } = require("express-validator");
 const {
   handleValidationErrors,
@@ -47,7 +50,9 @@ const router = express.Router();
 
 router.get("/googleOauthLogin", async (req, res) => {
   // Your redirect URI will look different!
-  const redirectUri = "http://localhost:8000/api/users/googleOauthCallback";
+  const redirectUri = isProduction
+    ? "https://sam-auth-me.onrender.com/api/users/googleOauthCallback"
+    : "http://localhost:8000/api/users/googleOauthCallback";
 
   // Configure our Client class
   const oAuth2Client = new OAuth2Client(oauthClient, oauthSecret, redirectUri);
@@ -87,7 +92,9 @@ router.get("/googleOauthCallback", async (req, res) => {
   }
 
   try {
-    const redirectUrl = "http://localhost:8000/api/users/googleOauthCallback";
+    const redirectUrl = isProduction
+      ? "https://sam-auth-me.onrender.com/api/users/googleOauthCallback"
+      : "http://localhost:8000/api/users/googleOauthCallback";
 
     const oAuth2Client = new OAuth2Client(
       oauthClient,
@@ -128,8 +135,8 @@ router.get("/googleOauthCallback", async (req, res) => {
   }
 
   const gmail = claims.email; // Extract the user's email from the ID Token claims!
-  const firstName = claims.given_name //Extract the user's first name
-  const lastName = claims.family_name // Extract the user's last name
+  const firstName = claims.given_name; //Extract the user's first name
+  const lastName = claims.family_name; // Extract the user's last name
   // Check to see if a user with this email address already exists
   let user = await User.unscoped().findOne({
     where: {
@@ -149,7 +156,12 @@ router.get("/googleOauthCallback", async (req, res) => {
     };
   } else {
     // If no user exists, we shall create a new one!
-    user = await User.create({ email: gmail, username: claims.name, firstName, lastName }); // Note: No password!!!
+    user = await User.create({
+      email: gmail,
+      username: claims.name,
+      firstName,
+      lastName,
+    }); // Note: No password!!!
 
     safeUser = {
       id: user.id,
