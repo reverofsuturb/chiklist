@@ -6,10 +6,13 @@ import "./Footer.css";
 export const Footer = () => {
   return (
     <div className="footer-bar">
-      <Link className="footer-link" to="/">
+      <Link className="footer-link" to="https://github.com/reverofsuturb">
         <FaGithubSquare className="icon-b" /> GitHub
       </Link>
-      <Link className="footer-link" to="/">
+      <Link
+        className="footer-link"
+        to="https://www.linkedin.com/in/samuel-friedman-451a4b269/"
+      >
         <FaLinkedin className="icon-o" /> Linked-In
       </Link>
     </div>
