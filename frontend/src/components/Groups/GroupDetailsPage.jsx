@@ -121,35 +121,35 @@ export function GroupDetailsPage() {
           </h2>
           <h3 className="gd-upcoming">Upcoming Events:</h3>
           <div className="gd-events-upcoming">
-          {sortedFuture.length ? (
-            sortedFuture.map((event) => (
-              <Link
-                key={event.id}
-                className="gd-link"
-                to={`/events/${event.id}`}
-              >
-                <EventDetailsCard event={event} />
-              </Link>
-            ))
-          ) : (
-            <h2 className="gd-no-events">No Upcoming Events</h2>
-          )}
+            {sortedFuture.length ? (
+              sortedFuture.map((event) => (
+                <Link
+                  key={event.id}
+                  className="gd-link"
+                  to={`/events/${event.id}`}
+                >
+                  <EventDetailsCard event={event} />
+                </Link>
+              ))
+            ) : (
+              <h2 className="gd-no-events">No Upcoming Events</h2>
+            )}
           </div>
           <h3 className="gd-past">Past Events:</h3>
           <div className="gd-events-past">
-          {sortedPast.length ? (
-            sortedPast.map((event) => (
-              <Link
-                key={event.id}
-                className="gd-link"
-                to={`/events/${event.id}`}
-              >
-                <EventDetailsCard event={event} />
-              </Link>
-            ))
-          ) : (
-            <h2 className="gd-no-events">No Past Events</h2>
-          )}
+            {sortedPast.length ? (
+              sortedPast.map((event) => (
+                <Link
+                  key={event.id}
+                  className="gd-link"
+                  to={`/events/${event.id}`}
+                >
+                  <EventDetailsCard event={event} />
+                </Link>
+              ))
+            ) : (
+              <h2 className="gd-no-events">No Past Events</h2>
+            )}
           </div>
         </div>
       </div>
