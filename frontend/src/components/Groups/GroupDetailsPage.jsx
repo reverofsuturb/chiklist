@@ -118,7 +118,7 @@ export function GroupDetailsPage() {
           <h2 className="gd-events">
             Events ({groupEventsArr.length}){" "}
             <FaCodeCommit className="gd-icon" />{" "}
-            {group.private === true ? "Private" : "Public"}
+            {group?.private === true ? "Private" : "Public"}
           </h2>
           <h3 className="gd-upcoming">Upcoming Events:</h3>
           <div className="gd-events-upcoming">
