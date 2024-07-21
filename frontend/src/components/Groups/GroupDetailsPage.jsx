@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroup, fetchGroupEvents } from "../../store/groups";
-import { requestMembership } from "../../store/memberships";
+import { fetchMembers, requestMembership } from "../../store/memberships";
 import { useParams, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaAnglesLeft } from "react-icons/fa6";
 import { FaCodeCommit } from "react-icons/fa6";
 import OpenModalButton from "../OpenModalButton";
@@ -11,15 +11,18 @@ import { EventDetailsCard } from "../Events/EventDetailsCard";
 import "./GroupDetailsPage.css";
 
 export function GroupDetailsPage() {
+  const [isMember, setIsMember] = useState(false);
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.session);
   const group = useSelector((state) => state.groups[groupId]);
   const groupEvents = useSelector((state) => state.groups.events);
+  const members = useSelector((state) => state.memberships.Members);
   const css = "omb-delete-button";
   let groupEventsArr = [];
   let groupEventsFuture = [];
   let groupEventsPast = [];
+
   const newDate = new Date();
   if (groupEvents) {
     groupEventsArr = Object.values(groupEvents);
@@ -30,6 +33,7 @@ export function GroupDetailsPage() {
         : groupEventsPast.push(event)
     );
   }
+
   const sortedFuture = groupEventsFuture.sort((a, b) => {
     return new Date(b.startDate) - new Date(a.startDate);
   });
@@ -39,10 +43,25 @@ export function GroupDetailsPage() {
   });
   const type = "group";
 
+  let userId;
+  if (user) userId = user.id;
+
+  const checkMember = (userId) => {
+    if (members?.includes(userId)) {
+      setIsMember(true);
+    }
+  };
+
+  if (members?.length) checkMember(userId);
+
+  console.log(isMember);
+
   useEffect(() => {
     dispatch(fetchGroup(groupId));
     dispatch(fetchGroupEvents(groupId));
-  }, [dispatch, groupId]);
+    dispatch(fetchMembers(groupId));
+    checkMember(userId);
+  }, [dispatch, groupId, userId, isMember]);
 
   return (
     <div className="gd-container">
@@ -92,11 +111,12 @@ export function GroupDetailsPage() {
               />
             </div>
           )}
-          {user?.id != group?.organizerId && user !== null ? (
+          {user?.id != group?.organizerId && user !== null && !isMember ? (
             <div className="gd-buttons">
               <button
                 className="gd-join-button"
-                onClick={async () => await dispatch(requestMembership(group?.id))}
+                // onClick={async () => await dispatch(requestMembership(groupId))}
+                onClick={() => alert("Coming Soon")}
               >
                 Join This Group
               </button>
@@ -109,7 +129,7 @@ export function GroupDetailsPage() {
       <div className="gd-splash">
         <h2 className="gd-organizer">Organizer</h2>
         <p className="gd-orgname">
-          {group?.Organizer && group?.Organizer.firstName}{" "}
+          {group?.Organizer && group?.Organizer.firstName}
           {group?.Organizer && group?.Organizer.lastName}
         </p>
         <h2 className="gd-about-title">What we&apos;re about</h2>

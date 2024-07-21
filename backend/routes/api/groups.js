@@ -301,7 +301,7 @@ router.get("/:groupId/members", async (req, res) => {
         model: Membership,
         where: {
           groupId: groupCheck.id,
-          status: ["co-host", "member", "organizer"],
+          status: ["co-host", "member", "organizer", "pending"],
         },
         attributes: ["status"],
       },
