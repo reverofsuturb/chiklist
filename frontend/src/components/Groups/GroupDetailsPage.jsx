@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGroup, fetchGroupEvents } from "../../store/groups";
+import { requestMembership } from "../../store/memberships";
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { FaAnglesLeft } from "react-icons/fa6";
@@ -95,7 +96,7 @@ export function GroupDetailsPage() {
             <div className="gd-buttons">
               <button
                 className="gd-join-button"
-                onClick={() => alert("Feature coming soon")}
+                onClick={async () => await dispatch(requestMembership(group?.id))}
               >
                 Join This Group
               </button>

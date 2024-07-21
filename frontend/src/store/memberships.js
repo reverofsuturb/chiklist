@@ -11,10 +11,12 @@ export const requestMembership = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/${groupId}/membership`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(groupId),
   });
   if (response.status !== 200) return console.log(response);
-  dispatch(joinGroup);
+  const newMember = await dispatch(joinGroup);
+  console.log(newMember)
+  return newMember;
 };
 
 export const membershipsReducer = (state = {}, action) => {
