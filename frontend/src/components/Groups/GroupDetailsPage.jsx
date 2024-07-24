@@ -103,22 +103,20 @@ export function GroupDetailsPage() {
               />
             </div>
           )}
-          {user?.id != group?.organizerId &&
-            user !== null &&
-            !isMember &&
-            !members.includes(user.id.toString()) && (
-              <div className="gd-buttons">
-                <button
-                  className="gd-join-button"
-                  // onClick={async () =>
-                  // await dispatch(requestMembership(groupId))
-                  // }
-                  onClick={() => alert("Coming Soon")}
-                >
-                  Join This Group
-                </button>
-              </div>
-            )}
+          {user?.id != group?.organizerId && user !== null && !isMember && (
+            // !members.includes(user.id.toString()) &&
+            <div className="gd-buttons">
+              <button
+                className="gd-join-button"
+                // onClick={async () =>
+                // await dispatch(requestMembership(groupId))
+                // }
+                onClick={() => alert("Coming Soon")}
+              >
+                Join This Group
+              </button>
+            </div>
+          )}
           {/* {members.includes(user.id.toString()) && (
             <div>
               Your membership is {memberships[userId]?.Memberships[0]?.status}
