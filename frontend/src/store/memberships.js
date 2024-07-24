@@ -25,7 +25,7 @@ export const requestMembership = (groupId) => async (dispatch) => {
   });
   const member = await response.json();
   if (response.status !== 200) return console.log(member);
-  const newMember = await dispatch(member);
+  const newMember = await dispatch(joinGroup(member));
   console.log(newMember);
   return newMember;
 };

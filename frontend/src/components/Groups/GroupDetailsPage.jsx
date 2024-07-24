@@ -17,7 +17,8 @@ export function GroupDetailsPage() {
   const { user } = useSelector((state) => state.session);
   const group = useSelector((state) => state.groups[groupId]);
   const groupEvents = useSelector((state) => state.groups.events);
-  const members = useSelector((state) => state.memberships.Members);
+  const memberships = useSelector((state) => state.memberships);
+  const members = useSelector((state) => Object.keys(state.memberships));
   const css = "omb-delete-button";
   let groupEventsArr = [];
   let groupEventsFuture = [];
@@ -46,22 +47,13 @@ export function GroupDetailsPage() {
   let userId;
   if (user) userId = user.id;
 
-  const checkMember = (userId) => {
-    if (members?.includes(userId)) {
-      setIsMember(true);
-    }
-  };
-
-  if (members?.length) checkMember(userId);
-
-  console.log(isMember);
-
   useEffect(() => {
     dispatch(fetchGroup(groupId));
     dispatch(fetchGroupEvents(groupId));
     dispatch(fetchMembers(groupId));
-    checkMember(userId);
-  }, [dispatch, groupId, userId, isMember]);
+  }, [dispatch, groupId, userId]);
+
+  console.log(memberships);
 
   return (
     <div className="gd-container">
@@ -111,19 +103,27 @@ export function GroupDetailsPage() {
               />
             </div>
           )}
-          {user?.id != group?.organizerId && user !== null && !isMember ? (
-            <div className="gd-buttons">
-              <button
-                className="gd-join-button"
-                // onClick={async () => await dispatch(requestMembership(groupId))}
-                onClick={() => alert("Coming Soon")}
-              >
-                Join This Group
-              </button>
+          {user?.id != group?.organizerId &&
+            user !== null &&
+            !isMember &&
+            !members.includes(user.id.toString()) && (
+              <div className="gd-buttons">
+                <button
+                  className="gd-join-button"
+                  // onClick={async () =>
+                  // await dispatch(requestMembership(groupId))
+                  // }
+                  onClick={() => alert("Coming Soon")}
+                >
+                  Join This Group
+                </button>
+              </div>
+            )}
+          {/* {members.includes(user.id.toString()) && (
+            <div>
+              Your membership is {memberships[userId]?.Memberships[0]?.status}
             </div>
-          ) : (
-            ""
-          )}
+          )} */}
         </div>
       </div>
       <div className="gd-splash">

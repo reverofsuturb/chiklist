@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
       "createdAt",
       "updatedAt",
     ],
-    include: {model: Event}
+    include: { model: Event },
   });
 
   const response = [];
@@ -157,8 +157,8 @@ router.get("/:groupId/events", async (req, res) => {
       "startDate",
       "endDate",
     ],
-    include: { model: EventImage }
-// order: [["startDate", "DESC"]]
+    include: { model: EventImage },
+    // order: [["startDate", "DESC"]]
   });
 
   const response = [];
