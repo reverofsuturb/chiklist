@@ -79,6 +79,7 @@ const router = createBrowserRouter([
         element: [<DisplayLists key="key" />, <EventsListPage key="key" />],
       },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
+      { path: "/events/:eventId/edit", element: <EventForm /> },
     ],
   },
 ]);

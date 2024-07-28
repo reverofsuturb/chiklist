@@ -5,18 +5,24 @@ import { makeEvent, makeEventImage } from "../../store/events";
 import { fetchGroup } from "../../store/groups";
 import "./EventForm.css";
 
-export function EventForm() {
+export function EventForm({ event, formType }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { groupId } = useParams();
   // const [venueId, setVenueId] = useState(null);
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [capacity, setCapacity] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [name, setName] = useState(event?.name ? event.name : "");
+  const [type, setType] = useState(event?.type ? event.type : "");
+  const [capacity, setCapacity] = useState(
+    event?.capacity ? event.capacity : 0
+  );
+  const [price, setPrice] = useState(event?.price ? event.price : 0);
+  const [description, setDescription] = useState(
+    event?.description ? event.description : ""
+  );
+  const [startDate, setStartDate] = useState(
+    event?.startDate ? event.startDate : ""
+  );
+  const [endDate, setEndDate] = useState(event?.endDate ? event.endDate : "");
   // const [privateGroup, setPrivateGroup] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
@@ -174,7 +180,9 @@ export function EventForm() {
             <p className="ef-errors">{errors.description}</p>
           )}
         </label>
-        <button className="ef-button">Create Event</button>
+        <button className="ef-button">
+          {formType === "edit" ? "Edit Event" : "Create Event"}
+        </button>
       </form>
     </div>
   );
