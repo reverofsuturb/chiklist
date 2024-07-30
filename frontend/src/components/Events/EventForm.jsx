@@ -90,12 +90,11 @@ export function EventForm({ event, formType }) {
         imageUrl,
       };
 
-    const editEvent = await dispatch(editEvent(event))
+      const editEvent = await dispatch(editEvent(event));
       if (editEvent && editEvent.errors) {
         return setErrors(editEvent.errors);
       }
       navigate(`/events/${newEvent.id}`);
-    }
     }
   };
 
