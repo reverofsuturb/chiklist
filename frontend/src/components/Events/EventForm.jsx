@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { makeEvent, makeEventImage } from "../../store/events";
+import { editEvent, makeEvent, makeEventImage } from "../../store/events";
 import { fetchGroup } from "../../store/groups";
 import "./EventForm.css";
 
@@ -44,21 +44,59 @@ export function EventForm({ event, formType }) {
       imageUrl,
     };
 
-    const newEvent = await dispatch(makeEvent(event));
-    if (newEvent && newEvent.errors) {
-      console.log(newEvent.errors);
-      return setErrors(newEvent.errors);
+    if (formType === "Create Event") {
+      const event = {
+        groupId,
+        venueId: null,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+        // privateGroup,
+        imageUrl,
+      };
+
+      const newEvent = await dispatch(makeEvent(event));
+      if (newEvent && newEvent.errors) {
+        console.log(newEvent.errors);
+        return setErrors(newEvent.errors);
+      }
+      console.log(newEvent);
+      const preview = imageUrl ? true : false;
+      const eventImage = {
+        eventId: newEvent.id,
+        url: imageUrl,
+        preview,
+      };
+      console.log(eventImage);
+      dispatch(makeEventImage(eventImage));
+      navigate(`/events/${newEvent.id}`);
     }
-    console.log(newEvent);
-    const preview = imageUrl ? true : false;
-    const eventImage = {
-      eventId: newEvent.id,
-      url: imageUrl,
-      preview,
-    };
-    console.log(eventImage);
-    dispatch(makeEventImage(eventImage));
-    navigate(`/events/${newEvent.id}`);
+    if (formType === "Edit Event") {
+      const event = {
+        id: event.id,
+        groupId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+        // privateGroup,
+        imageUrl,
+      };
+
+    const editEvent = await dispatch(editEvent(event))
+      if (editEvent && editEvent.errors) {
+        return setErrors(editEvent.errors);
+      }
+      navigate(`/events/${newEvent.id}`);
+    }
+    }
   };
 
   useEffect(() => {

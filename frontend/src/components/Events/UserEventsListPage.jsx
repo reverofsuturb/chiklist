@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserEvents } from "../../store/events";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { EventDetailsCard } from "./EventDetailsCard";
 
 export function UserEventsListPage() {
   const dispatch = useDispatch();
@@ -19,11 +20,8 @@ export function UserEventsListPage() {
         {events.map((event) => (
           <>
             <Link to={`/events/${event.id}`}>
-              <h1>{event.name}</h1>
+              <EventDetailsCard event={event} />
             </Link>
-            <li>{event.type}</li>
-            <li>{event.startDate}</li>
-            <li>{event.endDate}</li>
           </>
         ))}
       </ul>
