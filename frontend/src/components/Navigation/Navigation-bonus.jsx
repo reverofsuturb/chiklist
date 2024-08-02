@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
               <div className="nav-loaded">
 
                   <button className="nav-create-button" onClick={()=>navigate('/groups/new')}>Create a Group</button>
-                  <button className="nav-create-button" onClick={()=>navigate('/events/new')}>Create a Event</button>
+                  {/* <button className="nav-create-button" onClick={()=>navigate('/events/new')}>Create a Event</button> */}
 
                 <ProfileButton user={sessionUser} />
               </div>
