@@ -6,7 +6,7 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
 import Navigation from "./components/Navigation/Navigation-bonus";
-import { Footer } from "../src/components/Footer"
+import { Footer } from "../src/components/Footer";
 import { Modal } from "./context/Modal";
 import { Landing } from "./components/Landing/";
 import { DisplayLists } from "./components/DisplayLists";
@@ -25,6 +25,8 @@ import {
   EventsListPage,
   EventForm,
   UserEventsListPage,
+  EditEvent,
+  CreateEvent,
 } from "./components/Events";
 
 function Layout() {
@@ -79,7 +81,8 @@ const router = createBrowserRouter([
         element: [<DisplayLists key="key" />, <EventsListPage key="key" />],
       },
       { path: "/events/:eventId", element: <EventDetailsPage /> },
-      { path: "/events/:eventId/edit", element: <EventForm /> },
+      { path: "/events/new", element: <CreateEvent /> },
+      { path: "/events/:eventId/edit", element: <EditEvent /> },
     ],
   },
 ]);
