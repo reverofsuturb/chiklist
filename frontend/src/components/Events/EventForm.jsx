@@ -2,13 +2,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editEvent, makeEvent, makeEventImage } from "../../store/events";
-import { fetchGroup } from "../../store/groups";
+import { fetchUserGroups } from "../../store/groups";
 import "./EventForm.css";
 
 export function EventForm({ event, formType }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { groupId } = useParams();
+  // const { groupId } = useParams();
   // const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState(event?.name ? event.name : "");
   const [type, setType] = useState(event?.type ? event.type : "");
@@ -26,8 +26,12 @@ export function EventForm({ event, formType }) {
   // const [privateGroup, setPrivateGroup] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
-  const group = useSelector((state) => state.groups[groupId]);
-
+  const groupSelect = useSelector((state) => state.groups.Groups);
+  let groups;
+  if (groupSelect) {
+    groups = Object.values(groupSelect);
+  }
+  console.log(groups);
   const onSubmit = async (e) => {
     e.preventDefault();
     const event = {
@@ -99,13 +103,22 @@ export function EventForm({ event, formType }) {
   };
 
   useEffect(() => {
-    dispatch(fetchGroup(groupId));
-  }, [dispatch, groupId]);
+    dispatch(fetchUserGroups());
+  }, [dispatch]);
 
   return (
     <div className="ef-container">
       <form className="ef-form" onSubmit={onSubmit}>
-        <h2>Create an event for {group?.name}</h2>
+        <h2>Which group would you like to make an event for?</h2>
+        {groups?.length && (
+          <select onChange={() => setGroup(e.target.value)}>
+            {groups?.map((group) => (
+              <option key={group} value={group.id}>
+                {group}
+              </option>
+            ))}
+          </select>
+        )}
         <label className="ef-label ef-borderbottom">
           What is the name of your event?
           <input
