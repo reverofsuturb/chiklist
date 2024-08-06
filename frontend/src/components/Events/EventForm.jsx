@@ -6,12 +6,15 @@ import { fetchUserGroups } from "../../store/groups";
 import "./EventForm.css";
 
 export function EventForm({ event, formType }) {
+  const { user } = useSelector((state) => state.session);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  if (!user) navigate("/");
   // const { groupId } = useParams();
   // const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState(event?.name ? event.name : "");
   const [type, setType] = useState(event?.type ? event.type : "");
+  const [groupId, setGroupId] = useState(event?.groupId ? event.groupId : "");
   const [capacity, setCapacity] = useState(
     event?.capacity ? event.capacity : 0
   );
@@ -26,12 +29,10 @@ export function EventForm({ event, formType }) {
   // const [privateGroup, setPrivateGroup] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState({});
-  const groupSelect = useSelector((state) => state.groups.Groups);
-  let groups;
-  if (groupSelect) {
-    groups = Object.values(groupSelect);
-  }
-  console.log(groups);
+  const groups = useSelector((state) => state.groups);
+  let groupSelect;
+  if (groups) groupSelect = Object.values(groups);
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const event = {
@@ -109,16 +110,21 @@ export function EventForm({ event, formType }) {
   return (
     <div className="ef-container">
       <form className="ef-form" onSubmit={onSubmit}>
-        <h2>Which group would you like to make an event for?</h2>
-        {groups?.length && (
-          <select onChange={() => setGroup(e.target.value)}>
-            {groups?.map((group) => (
-              <option key={group} value={group.id}>
-                {group}
-              </option>
-            ))}
-          </select>
-        )}
+        <label className="ef-label ef-borderbottom">
+          Which group would you like to make an event for?
+          {groupSelect?.length && (
+            <select
+              className="ef-select"
+              onChange={() => setGroup(e.target.value)}
+            >
+              {groupSelect?.map((group) => (
+                <option key={group} value={group.id}>
+                  {group.name}
+                </option>
+              ))}
+            </select>
+          )}
+        </label>
         <label className="ef-label ef-borderbottom">
           What is the name of your event?
           <input

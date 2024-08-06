@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { makeGroup, makeGroupImage, putGroup } from "../../store/groups";
 import "./GroupForm.css";
 
 export function GroupForm({ group, formType }) {
+  const { user } = useSelector((state) => state.session)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+if (!user) navigate('/')
   const [cityState, setCityState] = useState(
     group?.city ? group.city + ", " + group.state : ""
   );
