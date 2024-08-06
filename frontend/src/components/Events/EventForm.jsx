@@ -115,10 +115,10 @@ export function EventForm({ event, formType }) {
           {groupSelect?.length && (
             <select
               className="ef-select"
-              onChange={() => setGroup(e.target.value)}
+              onChange={(e) => setGroupId(e.target.value)}
             >
               {groupSelect?.map((group) => (
-                <option key={group} value={group.id}>
+                <option key={group.id} value={group.id}>
                   {group.name}
                 </option>
               ))}
