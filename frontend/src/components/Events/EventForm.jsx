@@ -32,25 +32,12 @@ export function EventForm({ event, formType }) {
   const groups = useSelector((state) => state.groups);
   let groupSelect;
   if (groups) groupSelect = Object.values(groups);
-
+  console.log(type);
   const onSubmit = async (e) => {
     e.preventDefault();
-    const event = {
-      groupId,
-      venueId: null,
-      name,
-      type,
-      capacity,
-      price,
-      description,
-      startDate,
-      endDate,
-      // privateGroup,
-      imageUrl,
-    };
 
     if (formType === "Create Event") {
-      const event = {
+      const newEvent = {
         groupId,
         venueId: null,
         name,
@@ -64,10 +51,10 @@ export function EventForm({ event, formType }) {
         imageUrl,
       };
 
-      const newEvent = await dispatch(makeEvent(event));
-      if (newEvent && newEvent.errors) {
-        console.log(newEvent.errors);
-        return setErrors(newEvent.errors);
+      const makeNewEvent = await dispatch(makeEvent(makeNewEvent));
+      if (makeNewEvent && makeNewEvent.errors) {
+        console.log(makeNewEvent.errors);
+        return setErrors(makeNewEvent.errors);
       }
       console.log(newEvent);
       const preview = imageUrl ? true : false;
@@ -81,7 +68,7 @@ export function EventForm({ event, formType }) {
       navigate(`/events/${newEvent.id}`);
     }
     if (formType === "Edit Event") {
-      const event = {
+      const updatedEvent = {
         id: event.id,
         groupId,
         name,
@@ -95,18 +82,19 @@ export function EventForm({ event, formType }) {
         imageUrl,
       };
 
-      const editEvent = await dispatch(editEvent(event));
-      if (editEvent && editEvent.errors) {
-        return setErrors(editEvent.errors);
+      const editedEvent = await dispatch(editEvent(updatedEvent));
+      if (editedEvent && editedEvent.errors) {
+        return setErrors(editedEvent.errors);
       }
-      navigate(`/events/${newEvent.id}`);
+      console.log(editedEvent)
+      navigate(`/events/${event.id}`);
     }
   };
 
   useEffect(() => {
     dispatch(fetchUserGroups());
   }, [dispatch]);
-
+  console.log(startDate);
   return (
     <div className="ef-container">
       <form className="ef-form" onSubmit={onSubmit}>
@@ -153,7 +141,7 @@ export function EventForm({ event, formType }) {
             className="ef-select"
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="">(select one)</option>
+            <option value="">{type ? `${type}` : "(select one)"}</option>
             <option value="In person">In person</option>
             <option value="Online">Online</option>
           </select>
@@ -192,23 +180,27 @@ export function EventForm({ event, formType }) {
         </label>
         <label className="ef-label">
           When does your event start?
+          {event?.startDate && (
+            <p>Current: {new Date(event.startDate).toDateString()}</p>
+          )}
           <input
             className="ef-input"
             type="datetime-local"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            placeholder="MM/DD/YYYY HH:mm:AM"
           />
           {errors.startDate && <p className="ef-errors">{errors.startDate}</p>}
         </label>
         <label className="ef-label ef-borderbottom">
           When does your event end?
+          {event?.endDate && (
+            <p>Current: {new Date(event.endDate).toDateString()}</p>
+          )}
           <input
             className="ef-input"
             type="datetime-local"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            placeholder="MM/DD/YYYY HH:mm:PM"
           />
           {errors.endDate && <p className="ef-errors">{errors.endDate}</p>}
         </label>
@@ -237,7 +229,7 @@ export function EventForm({ event, formType }) {
           )}
         </label>
         <button className="ef-button">
-          {formType === "edit" ? "Edit Event" : "Create Event"}
+          {formType === "Edit Event" ? "Edit Event" : "Create Event"}
         </button>
       </form>
     </div>

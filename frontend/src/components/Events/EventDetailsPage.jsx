@@ -86,14 +86,14 @@ export function EventDetailsPage() {
           </div>
           {user?.id == group?.organizerId && (
             <div className="ed-buttons">
-              {/* <Link className="ed-link" to={`/events/${event?.id}/edit`}> */}
+              <Link className="ed-link" to={`/events/${event?.id}/edit`} event={event} >
               <button
                 className="ed-updatebutton"
-                onClick={() => alert("Feature coming soon")}
+                // onClick={() => alert("Feature coming soon")}
               >
                 Update Event
               </button>
-              {/* </Link> */}
+              </Link>
               <OpenModalButton
                 css={css}
                 buttonText="Delete Event"
