@@ -62,7 +62,7 @@ const validateEvent = [
     }),
   check("imageUrl")
     .exists({ checkFalsy: true })
-    .notEmpty()
+    .optional({ checkFalsy: true })
     .custom((val) => {
       if (
         val.slice(val.length - 4, val.length) === ".jpg" ||
@@ -130,7 +130,7 @@ const validateGroup = [
     .withMessage("State is required"),
   check("imageUrl")
     .exists({ checkFalsy: true })
-    .notEmpty()
+    .optional({ checkFalsy: true })
     .custom((val) => {
       if (
         val.slice(val.length - 4, val.length) === ".jpg" ||

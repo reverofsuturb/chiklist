@@ -86,7 +86,7 @@ export function EventDetailsPage() {
           </div>
           {user?.id == group?.organizerId && (
             <div className="ed-buttons">
-              <Link className="ed-link" to={`/events/${event?.id}/edit`} event={event} >
+              <Link className="ed-link" to={`/events/${event?.id}/edit`}>
               <button
                 className="ed-updatebutton"
                 // onClick={() => alert("Feature coming soon")}
