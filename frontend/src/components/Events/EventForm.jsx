@@ -1,12 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editEvent, makeEvent, makeEventImage } from "../../store/events";
+import { updateEvent, makeEvent, makeEventImage } from "../../store/events";
 import { fetchUserGroups } from "../../store/groups";
 import "./EventForm.css";
 
 export function EventForm({ event, formType }) {
   const { user } = useSelector((state) => state.session);
+  const { eventId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if (!user) navigate("/");
@@ -32,7 +33,7 @@ export function EventForm({ event, formType }) {
   const groups = useSelector((state) => state.groups);
   let groupSelect;
   if (groups) groupSelect = Object.values(groups);
-  console.log(type);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,25 +52,24 @@ export function EventForm({ event, formType }) {
         imageUrl,
       };
 
-      const makeNewEvent = await dispatch(makeEvent(makeNewEvent));
+      const makeNewEvent = await dispatch(makeEvent(newEvent));
       if (makeNewEvent && makeNewEvent.errors) {
         console.log(makeNewEvent.errors);
         return setErrors(makeNewEvent.errors);
       }
-      console.log(newEvent);
+      console.log(makeNewEvent);
       const preview = imageUrl ? true : false;
       const eventImage = {
         eventId: newEvent.id,
         url: imageUrl,
         preview,
       };
-      console.log(eventImage);
       dispatch(makeEventImage(eventImage));
-      navigate(`/events/${newEvent.id}`);
+      navigate(`/events/${makeNewEvent.id}`);
     }
     if (formType === "Edit Event") {
       const updatedEvent = {
-        id: event.id,
+        id: eventId,
         groupId,
         name,
         type,
@@ -82,11 +82,11 @@ export function EventForm({ event, formType }) {
         imageUrl,
       };
 
-      const editedEvent = await dispatch(editEvent(updatedEvent));
+      const editedEvent = await dispatch(updateEvent(updatedEvent));
       if (editedEvent && editedEvent.errors) {
         return setErrors(editedEvent.errors);
       }
-      console.log(editedEvent)
+      console.log(editedEvent);
       navigate(`/events/${event.id}`);
     }
   };
@@ -94,7 +94,7 @@ export function EventForm({ event, formType }) {
   useEffect(() => {
     dispatch(fetchUserGroups());
   }, [dispatch]);
-  console.log(startDate);
+
   return (
     <div className="ef-container">
       <form className="ef-form" onSubmit={onSubmit}>

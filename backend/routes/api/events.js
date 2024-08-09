@@ -388,7 +388,7 @@ router.put("/:eventId", [requireAuth, validateEvent], async (req, res) => {
     startDate,
     endDate,
   } = req.body;
-
+console.log("THIS IS THE ROUTE PUT 12")
   const editEvent = await Event.findByPk(req.params.eventId);
   if (!editEvent) {
     return res.status(404).json({ message: "Event couldn't be found" });

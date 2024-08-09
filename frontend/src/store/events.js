@@ -44,8 +44,8 @@ export const fetchEvents = () => async (dispatch) => {
   const response = await csrfFetch("/api/events");
   const events = await response.json();
   if (response.status !== 200) return console.log(response);
-  console.log(response);
-  console.log(events);
+  // console.log(response);
+  // console.log(events);
   dispatch(loadEvents(events));
 };
 
@@ -53,8 +53,8 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`);
   const event = await response.json();
   if (response.status !== 200) return console.log(response);
-  console.log(response);
-  console.log(event);
+  // console.log(response);
+  // console.log(event);
   dispatch(singleEvent(event));
 };
 
@@ -62,8 +62,8 @@ export const fetchUserEvents = () => async (dispatch) => {
   const response = await csrfFetch("/api/events/current");
   const events = await response.json();
   if (response.status !== 200) return console.log(response);
-  console.log(response);
-  console.log(events);
+  // console.log(response);
+  // console.log(events);
   dispatch(loadUserEvents(events));
 };
 
@@ -99,15 +99,21 @@ export const makeEventImage = (payload) => async (dispatch) => {
 };
 
 export const updateEvent = (payload) => async (dispatch) => {
-  const response = await csrfFetch(`/api/events/${payload.eventId}/`, {
+  console.log(payload);
+  const response = await csrfFetch(`/api/events/${payload.id}/`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   const updatedEvent = await response.json();
-  if (response.status !== 200) return console.log(response);
+  if (response.status !== 200) {
+    console.log(updatedEvent);
+    return updatedEvent;
+  }
   console.log(response);
+  console.log("UPDATED ==================", updatedEvent);
   dispatch(editEvent(updatedEvent));
+  return updatedEvent
 };
 
 export const removeEvent = (eventId) => async (dispatch) => {
