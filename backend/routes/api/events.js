@@ -393,10 +393,10 @@ console.log("THIS IS THE ROUTE PUT 12")
   if (!editEvent) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
-  const venueCheck = await Venue.findByPk(venueId);
-  if (!venueCheck) {
-    return res.status(404).json({ message: "Venue couldn't be found" });
-  }
+  // const venueCheck = await Venue.findByPk(venueId);
+  // if (!venueCheck) {
+  //   return res.status(404).json({ message: "Venue couldn't be found" });
+  // }
 
   const memberCheck = await Membership.findOne({
     where: { userId: user.id, groupId: editEvent.groupId },

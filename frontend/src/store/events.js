@@ -30,7 +30,7 @@ export const createEventImage = (eventImage) => ({
   type: CREATE_EVENT_IMAGE,
   eventImage,
 });
-export const editEvent = (eventId) => ({
+export const editEvent = (event) => ({
   type: EDIT_EVENT,
   event,
 });
@@ -100,7 +100,7 @@ export const makeEventImage = (payload) => async (dispatch) => {
 
 export const updateEvent = (payload) => async (dispatch) => {
   console.log(payload);
-  const response = await csrfFetch(`/api/events/${payload.id}/`, {
+  const response = await csrfFetch(`/api/events/${payload.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
