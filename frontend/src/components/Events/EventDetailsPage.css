@@ -13,6 +13,8 @@
 }
 
 .ed-container {
+  display: flex;
+  flex-direction: column;
   margin: auto;
   margin-top: 50px;
   width: 75%;
@@ -180,4 +182,12 @@ p > p {
 .ed-description-text,
 .ed-description {
   background-color: #efe7bc;
+}
+
+@media screen and (max-width: 1050px) {
+  .ed-banner {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
