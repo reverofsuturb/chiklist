@@ -70,3 +70,17 @@
   font-size: 0.8rem;
   background-color: #74bdcb;
 }
+
+@media screen and (max-width: 850px) {
+  .edc-card {
+    width: 300px;
+  }
+  .edc-img-info {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .edc-description {
+    display: none;
+  }
+}
