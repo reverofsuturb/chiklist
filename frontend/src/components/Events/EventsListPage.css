@@ -21,9 +21,11 @@
   border-right: 1px solid black;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 850px) {
   .el-container {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr auto;
     justify-content: center;
     align-items: center;
   }

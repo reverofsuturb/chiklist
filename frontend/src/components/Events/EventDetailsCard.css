@@ -30,6 +30,7 @@
 .edc-name {
   margin: 0px;
   font-size: 1.5rem;
+  white-space: nowrap;
 }
 
 .edc-location {
@@ -82,5 +83,13 @@
   }
   .edc-description {
     display: none;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .edc-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
   }
 }

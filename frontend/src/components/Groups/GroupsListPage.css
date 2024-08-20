@@ -21,3 +21,14 @@
   border-left: 1px solid black;
   border-right: 1px solid black
 }
+
+
+@media screen and (max-width: 850px) {
+  .gl-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr auto;
+    justify-content: center;
+    align-items: center;
+  }
+}
