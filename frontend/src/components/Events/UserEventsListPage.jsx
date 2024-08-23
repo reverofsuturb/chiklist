@@ -16,15 +16,16 @@ export function UserEventsListPage() {
   }, [dispatch]);
   return (
     <>
-      <ul>
+      <div className="uel-header">
+        <h2>Manage Events</h2>
+      </div>
+      <div className="uel-container">
         {events.map((event) => (
-          <>
-            <Link to={`/events/${event.id}`}>
-              <EventDetailsCard event={event} />
-            </Link>
-          </>
+          <Link key={event.id} className="uel-link" to={`/events/${event.id}`}>
+            <EventDetailsCard event={event} />
+          </Link>
         ))}
-      </ul>
+      </div>
     </>
   );
 }

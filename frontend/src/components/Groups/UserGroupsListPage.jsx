@@ -18,11 +18,9 @@ export function UserGroupsListPage() {
   return (
     <>
       <div className="ugl-header">
-      <h2>Manage Groups</h2>
-      <p style={{ color: "darkgrey" }}>You groups in Meetup</p>
+        <h2>Manage Groups</h2>
       </div>
       <div className="ugl-container">
-
         {groups?.map((group) => (
           <Link key={group.id} className="ugl-link" to={`/groups/${group.id}`}>
             <GroupDetailsCard group={group} />
