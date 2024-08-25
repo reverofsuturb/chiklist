@@ -190,4 +190,7 @@ p > p {
     justify-content: center;
     align-items: center;
   }
+  .ed-splash {
+    min-width: 380px;
+  }
 }
