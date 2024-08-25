@@ -107,3 +107,18 @@ border-bottom: none;
 .la-middletitle {
   border-bottom: 2px solid #FFA384;
 }
+
+@media screen and (max-width: 900px) {
+  .la-topbanner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .la-introtext {
+    min-width: 380px;
+  }
+  .la-bottomintro {
+    flex-direction: column;
+  }
+
+}
