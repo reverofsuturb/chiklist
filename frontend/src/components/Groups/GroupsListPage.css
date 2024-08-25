@@ -16,19 +16,30 @@
   border-top: 1px solid black;
 }
 
-
 .gl-link:hover {
   border-left: 1px solid black;
-  border-right: 1px solid black
+  border-right: 1px solid black;
 }
-
 
 @media screen and (max-width: 850px) {
   .gl-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .gl-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+  }
+  .gl-link {
+    width: auto;
   }
 }
